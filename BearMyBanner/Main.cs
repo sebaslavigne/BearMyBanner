@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
+using ModLib;
 
 namespace BearMyBanner
 {
     public class Main : MBSubModuleBase
     {
+
+        public const string ModuleFolderName = "BearMyBanner";
+
         private bool enteredMission = false;
 
         /* TROOP BY OCCUPATION */
@@ -41,7 +44,27 @@ namespace BearMyBanner
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
+            try
+            {
+                FileDatabase.Initialise(ModuleFolderName);
+                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID);
+                if (settings == null) settings = new BMBSettings();
+                SettingsDatabase.RegisterSettings(settings);
+            }
+            catch (Exception ex)
+            {
+                InformationManager.DisplayMessage(new InformationMessage("Error: " + ex.Message));
+            }
         }
+
+        /* This seems like an excellent point to give the banners, but agent's haven't been initialized yet
+         * Might need to overwrite or hook onto a MissionBehaviour instead in a future version
+        public override void OnMissionBehaviourInitialize(Mission mission)
+        {
+            base.OnMissionBehaviourInitialize(mission);
+            InformationManager.DisplayMessage(new InformationMessage("OnMissionBehaviourInitialize"));
+        }
+        */
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
@@ -84,13 +107,13 @@ namespace BearMyBanner
         {
             InformationManager.DisplayMessage(new InformationMessage("Assigning banners..."));
 
-            List<CharacterObject> allowedBearerTypes = filterAllowedBearerTypes();
+            List<CharacterObject> allowedBearerTypes = FilterAllowedBearerTypes();
 
-            giveBannersInTeam(Mission.Current.AttackerTeam, allowedBearerTypes);
-            giveBannersInTeam(Mission.Current.DefenderTeam, allowedBearerTypes);
+            GiveBannersInTeam(Mission.Current.AttackerTeam, allowedBearerTypes);
+            GiveBannersInTeam(Mission.Current.DefenderTeam, allowedBearerTypes);
         }
 
-        private List<CharacterObject> filterAllowedBearerTypes()
+        private List<CharacterObject> FilterAllowedBearerTypes()
         {
             //Must use soldier types (IsSoldier)
             //Useful Occupations: Soldier, Bandit, Mercenary
@@ -130,7 +153,7 @@ namespace BearMyBanner
             return allowedBearerTypes;
         }
 
-        private void giveBannersInTeam(Team team, List<CharacterObject> allowedBearerTypes)
+        private void GiveBannersInTeam(Team team, List<CharacterObject> allowedBearerTypes)
         {
             Dictionary<CharacterObject, List<Agent>> teamTroopMap = team.TeamAgents
                 .GroupBy(ta => (CharacterObject)ta.Character)
