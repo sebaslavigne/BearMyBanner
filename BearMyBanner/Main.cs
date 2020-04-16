@@ -16,31 +16,6 @@ namespace BearMyBanner
 
         private bool enteredMission = false;
 
-        /* TROOP BY OCCUPATION */
-        private bool allowSoldiers = true;
-        private bool allowCaravanGuards = false;
-        private bool allowMercenaries = false;
-        private bool allowBandits = false;
-
-        /* TROOP BY FORMATION */
-        private bool allowInfantry = true;
-        private bool allowMounted = true;
-        private bool allowRanged = false;
-        private bool allowMountedRanged = false;
-
-        /* TROOP BY TIER */
-        private bool filterTiers = true;
-        private List<int> allowedTiers = new List<int>() { 4, 5, 6, 7 };
-
-        /* HEROES */
-        private bool allowPlayer = false;
-        private bool allowCompanions = false;
-        private bool allowNobles = false;
-
-        /* RATIOS */
-        private int bearerToTroopRatio = 7;
-        private int minTroopTypeAmount = 5;
-
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
@@ -124,31 +99,39 @@ namespace BearMyBanner
             List<CharacterObject> allowedBearerTypes = new List<CharacterObject>();
 
             /* Add troops */
-            if (allowBandits) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit)); }
-            if (allowSoldiers) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Soldier)); }
-            if (allowCaravanGuards) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.CaravanGuard)); }
-            if (allowMercenaries) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Mercenary)); }
+            if (BMBSettings.Instance.AllowSoldiers) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Soldier)); }
+            if (BMBSettings.Instance.AllowCaravanGuards) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.CaravanGuard)); }
+            if (BMBSettings.Instance.AllowMercenaries) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Mercenary)); }
+            if (BMBSettings.Instance.AllowBandits) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit)); }
 
             /* Filter by formation */
             allowedBearerTypes = allowedBearerTypes
-                .Where(t => (allowInfantry && !t.IsArcher && !t.IsMounted)
-                    || (allowMounted && !t.IsArcher && t.IsMounted)
-                    || (allowRanged && t.IsArcher && !t.IsMounted)
-                    || (allowMountedRanged && t.IsArcher && t.IsMounted))
+                .Where(t => (BMBSettings.Instance.AllowInfantry && !t.IsArcher && !t.IsMounted)
+                    || (BMBSettings.Instance.AllowMounted && !t.IsArcher && t.IsMounted)
+                    || (BMBSettings.Instance.AllowRanged && t.IsArcher && !t.IsMounted)
+                    || (BMBSettings.Instance.AllowMountedRanged && t.IsArcher && t.IsMounted))
                 .ToList();
 
             /* Filter by tier */
-            if (filterTiers)
+            if (BMBSettings.Instance.FilterTiers)
             {
+                List<int> allowedTiers = new List<int>();
+                if (BMBSettings.Instance.AllowTier1) allowedTiers.Add(1);
+                if (BMBSettings.Instance.AllowTier2) allowedTiers.Add(2);
+                if (BMBSettings.Instance.AllowTier3) allowedTiers.Add(3);
+                if (BMBSettings.Instance.AllowTier4) allowedTiers.Add(4);
+                if (BMBSettings.Instance.AllowTier5) allowedTiers.Add(5);
+                if (BMBSettings.Instance.AllowTier6) allowedTiers.Add(6);
+                if (BMBSettings.Instance.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
                 allowedBearerTypes = allowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();
             }
 
             /* Add heroes */
-            if (allowPlayer) { allowedBearerTypes.Add(characterTypes.Find(character => character.IsPlayerCharacter)); }
-            if (allowCompanions) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.IsHero && character.Occupation == Occupation.Wanderer)); }
-            if (allowNobles) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
+            if (BMBSettings.Instance.AllowPlayer) { allowedBearerTypes.Add(characterTypes.Find(character => character.IsPlayerCharacter)); }
+            if (BMBSettings.Instance.AllowCompanions) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.IsHero && character.Occupation == Occupation.Wanderer)); }
+            if (BMBSettings.Instance.AllowNobles) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
 
             return allowedBearerTypes;
         }
@@ -169,12 +152,12 @@ namespace BearMyBanner
             foreach (KeyValuePair<CharacterObject, List<Agent>> entry in eligibleTroopMap)
             {
 
-                if (entry.Key.IsHero || entry.Value.Count >= minTroopTypeAmount)
+                if (entry.Key.IsHero || entry.Value.Count >= BMBSettings.Instance.MinTroopTypeAmount)
                 {
                     int ratioCount = 0;
                     foreach (Agent agent in entry.Value)
                     {
-                        if (ratioCount % bearerToTroopRatio == 0)
+                        if (ratioCount % BMBSettings.Instance.BearerToTroopRatio == 0)
                         {
                             MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Team.Banner);
                             agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
