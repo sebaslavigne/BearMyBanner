@@ -5,6 +5,7 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Engine;
 using ModLib;
 
 namespace BearMyBanner
@@ -159,7 +160,12 @@ namespace BearMyBanner
                     {
                         if (ratioCount % BMBSettings.Instance.BearerToTroopRatio == 0)
                         {
-                            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Team.Banner);
+                            if (((CharacterObject)agent.Character).IsArcher)
+                            {
+                                StripWeaponsFromArcher(agent);
+                            }
+
+                            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Origin.Banner);
                             agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
                             bannersGiven++;
                         }
@@ -170,5 +176,42 @@ namespace BearMyBanner
             InformationManager.DisplayMessage(new InformationMessage(bannersGiven + " banners given to " + team.Leader.Name + "'s party"));
         }
 
+        private static void StripWeaponsFromArcher(Agent agent)
+        {
+            EquipmentElement weaponElement0 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0);
+            EquipmentElement weaponElement1 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1);
+            EquipmentElement weaponElement2 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2);
+            EquipmentElement weaponElement3 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3);
+            //Clones the equipment without weapons. Apparently arrows are not a weapon, but it doesn't matter
+            Equipment clonedEquipment = agent.SpawnEquipment.Clone(true);
+
+            HashSet<ItemObject.ItemTypeEnum> forbiddenItemTypes = new HashSet<ItemObject.ItemTypeEnum>()
+                                {
+                                    ItemObject.ItemTypeEnum.Arrows,
+                                    ItemObject.ItemTypeEnum.Bolts,
+                                    ItemObject.ItemTypeEnum.Bow,
+                                    ItemObject.ItemTypeEnum.Crossbow
+                                };
+
+            if (weaponElement0.Item != null && !forbiddenItemTypes.Contains(weaponElement0.Item.Type))
+            {
+                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
+            }
+            if (weaponElement1.Item != null && !forbiddenItemTypes.Contains(weaponElement1.Item.Type))
+            {
+                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);
+            }
+            if (weaponElement2.Item != null && !forbiddenItemTypes.Contains(weaponElement2.Item.Type))
+            {
+                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
+            }
+            if (weaponElement3.Item != null && !forbiddenItemTypes.Contains(weaponElement3.Item.Type))
+            {
+                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
+            }
+
+            agent.ClearEquipment();
+            agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
+        }
     }
 }

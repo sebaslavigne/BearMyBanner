@@ -64,11 +64,11 @@ namespace BearMyBanner
         [SettingPropertyGroup(subGroupFormation)]
         public bool AllowMounted { get; set; } = true;
         [XmlElement]
-        [SettingProperty("Allow archers and crossbowmen", "Allows ranged troops to bear banners.")]
+        [SettingProperty("Allow archers and crossbowmen", "Allows ranged troops to bear banners. NOTE: Bearers won't have bows or crossbows and will rush the enemy if ordered to charge.")]
         [SettingPropertyGroup(subGroupFormation)]
         public bool AllowRanged { get; set; } = false;
         [XmlElement]
-        [SettingProperty("Allow horse archers", "Allows mounted archer troops to bear banners.")]
+        [SettingProperty("Allow horse archers", "Allows mounted archer troops to bear banners. NOTE: Bearers won't have bows and will rush the enemy if ordered to charge.")]
         [SettingPropertyGroup(subGroupFormation)]
         public bool AllowMountedRanged { get; set; } = false;
 
@@ -108,7 +108,7 @@ namespace BearMyBanner
 
         /* HEROES */
         [XmlElement]
-        [SettingProperty("Allow player", "Equip player with a banner at the start of a battle. (NOTE: Equip shields with numpad instead of scroll wheel)")]
+        [SettingProperty("Allow player", "Equip player with a banner at the start of a battle. NOTE: Equipping a shield with the scroll wheel stops working for some reason. Use Numpad (or your configured hotkey in game settings) instead.")]
         [SettingPropertyGroup(groupHeroes)]
         public bool AllowPlayer { get; set; } = false;
         [XmlElement]
@@ -116,7 +116,7 @@ namespace BearMyBanner
         [SettingPropertyGroup(groupHeroes)]
         public bool AllowCompanions { get; set; } = false;
         [XmlElement]
-        [SettingProperty("Allow nobles", "Equips all nobles with a banner at the start of a battle (Might confuse archer nobles).")]
+        [SettingProperty("Allow nobles", "Equips all nobles with a banner at the start of a battle NOTE: Nobles with bows might be confused.")]
         [SettingPropertyGroup(groupHeroes)]
         public bool AllowNobles { get; set; } = false;
 
