@@ -13,18 +13,126 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
 
-        private List<CharacterObject> allowedBearerTypes;
+        private List<CharacterObject> AllowedBearerTypes;
+
+        private enum TroopSpecialization
+        {
+            Infantry,
+            Archer,
+            Cavalry,
+            HorseArcher
+        }
+
+        private Dictionary<PartyBase, Dictionary<CharacterObject, List<Agent>>> ProcessedTroopsByType;
+        private Dictionary<PartyBase, Dictionary<TroopSpecialization, List<Agent>>> ProcessedTroopsBySpec;
+        private Dictionary<PartyBase, int> EquippedBannersByParty;
+
+        private bool FirstSpawnInitialized = false;
+
+        public override void OnCreated()
+        {
+            base.OnCreated();
+
+            try
+            {
+                FilterAllowedBearerTypes();
+                ProcessedTroopsByType = new Dictionary<PartyBase, Dictionary<CharacterObject, List<Agent>>>();
+                ProcessedTroopsBySpec = new Dictionary<PartyBase, Dictionary<TroopSpecialization, List<Agent>>>();
+                EquippedBannersByParty = new Dictionary<PartyBase, int>();
+            }
+            catch (Exception ex)
+            {
+                Main.LogInMessageLog("BMB Error: " + ex.Message);
+            }
+        }
+
+        public override void OnAgentBuild(Agent agent, Banner banner)
+        {
+            base.OnAgentBuild(agent, banner);
+            try
+            {
+                if (AllowedBearerTypes.Contains((CharacterObject)agent.Character))
+                {
+                    AddAgentToMaps(agent, banner);
+                }
+            }
+            catch (Exception ex)
+            {
+                Main.LogInMessageLog("BMB Error: " + ex.Message);
+            }
+        }
+
+        private void AddAgentToMaps(Agent agent, Banner banner)
+        {
+            PartyBase agentParty = ((PartyGroupAgentOrigin)agent.Origin).Party;
+            CharacterObject agentCharacter = (CharacterObject)agent.Character;
+            TroopSpecialization agentSpec = DetermineAgentSpec(agentCharacter);
+
+            /* Add to maps */
+            if (!ProcessedTroopsByType.ContainsKey(agentParty))
+            {
+                ProcessedTroopsByType.Add(agentParty, new Dictionary<CharacterObject, List<Agent>>());
+            }
+            if (!ProcessedTroopsByType[agentParty].ContainsKey((CharacterObject)agent.Character))
+            {
+                ProcessedTroopsByType[agentParty].Add(agentCharacter, new List<Agent>());
+            }
+
+            if (!ProcessedTroopsBySpec.ContainsKey(agentParty))
+            {
+                ProcessedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<Agent>>());
+            }
+            if (!ProcessedTroopsBySpec[agentParty].ContainsKey(agentSpec)) {
+                ProcessedTroopsBySpec[agentParty].Add(agentSpec, new List<Agent>());
+            }
+
+            ProcessedTroopsByType[agentParty][agentCharacter].Add(agent);
+            ProcessedTroopsBySpec[agentParty][agentSpec].Add(agent);
+
+            /* Give banner or skip */
+
+            int processedTroops = BMBSettings.Instance.UseTroopSpecs ? ProcessedTroopsBySpec[agentParty][agentSpec].Count : ProcessedTroopsByType[agentParty][agentCharacter].Count;
+
+            if (agentCharacter.IsHero || processedTroops % BMBSettings.Instance.BearerToTroopRatio == 0)
+            {
+                EquipAgentWithBanner(agent, banner);
+                EquippedBannersByParty.TryGetValue(agentParty, out var count);
+                EquippedBannersByParty[agentParty] = count + 1;
+            }
+        }
+
+        private void EquipAgentWithBanner(Agent agent, Banner banner)
+        {
+            if (((CharacterObject)agent.Character).IsArcher)
+            {
+                StripWeaponsFromArcher(agent);
+            }
+
+            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Origin.Banner);
+            agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
+        }
+
+        private TroopSpecialization DetermineAgentSpec(CharacterObject character)
+        {
+            if (!character.IsArcher && !character.IsMounted) return TroopSpecialization.Infantry;
+            if (character.IsArcher && !character.IsMounted) return TroopSpecialization.Archer;
+            if (!character.IsArcher && character.IsMounted) return TroopSpecialization.Cavalry;
+            return TroopSpecialization.HorseArcher;
+        }
 
         public override void OnFormationUnitsSpawned(Team team)
         {
             base.OnFormationUnitsSpawned(team);
             try
             {
-                if (allowedBearerTypes == null || allowedBearerTypes.IsEmpty<CharacterObject>())
+                if (!FirstSpawnInitialized)
                 {
-                    FilterAllowedBearerTypes();
+                    FirstSpawnInitialized = true;
+                    foreach (KeyValuePair<PartyBase, int> entry in EquippedBannersByParty)
+                    {
+                        Main.LogInMessageLog(entry.Key.Name + " received " + entry.Value + " banners");
+                    } 
                 }
-                GiveBannersInTeam(team);
             }
             catch (Exception ex)
             {
@@ -38,16 +146,16 @@ namespace BearMyBanner
             MBObjectManager.Instance.GetAllInstancesOfObjectType<CharacterObject>(ref characterTypes);
 
             /* Add types to a list of allowed troops to carry a banner */
-            allowedBearerTypes = new List<CharacterObject>();
+            AllowedBearerTypes = new List<CharacterObject>();
 
             /* Add troops */
-            if (BMBSettings.Instance.AllowSoldiers) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Soldier)); }
-            if (BMBSettings.Instance.AllowCaravanGuards) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.CaravanGuard)); }
-            if (BMBSettings.Instance.AllowMercenaries) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Mercenary)); }
-            if (BMBSettings.Instance.AllowBandits) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit)); }
+            if (BMBSettings.Instance.AllowSoldiers) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Soldier)); }
+            if (BMBSettings.Instance.AllowCaravanGuards) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.CaravanGuard)); }
+            if (BMBSettings.Instance.AllowMercenaries) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Mercenary)); }
+            if (BMBSettings.Instance.AllowBandits) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit)); }
 
             /* Filter by formation */
-            allowedBearerTypes = allowedBearerTypes
+            AllowedBearerTypes = AllowedBearerTypes
                 .Where(t => (BMBSettings.Instance.AllowInfantry && !t.IsArcher && !t.IsMounted)
                     || (BMBSettings.Instance.AllowMounted && !t.IsArcher && t.IsMounted)
                     || (BMBSettings.Instance.AllowRanged && t.IsArcher && !t.IsMounted)
@@ -65,54 +173,15 @@ namespace BearMyBanner
                 if (BMBSettings.Instance.AllowTier5) allowedTiers.Add(5);
                 if (BMBSettings.Instance.AllowTier6) allowedTiers.Add(6);
                 if (BMBSettings.Instance.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
-                allowedBearerTypes = allowedBearerTypes
+                AllowedBearerTypes = AllowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();
             }
 
             /* Add heroes */
-            if (BMBSettings.Instance.AllowPlayer) { allowedBearerTypes.Add(characterTypes.Find(character => character.IsPlayerCharacter)); }
-            if (BMBSettings.Instance.AllowCompanions) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => character.IsHero && character.Occupation == Occupation.Wanderer)); }
-            if (BMBSettings.Instance.AllowNobles) { allowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
-        }
-
-        private void GiveBannersInTeam(Team team)
-        {
-            Dictionary<CharacterObject, List<Agent>> teamTroopMap = team.TeamAgents
-                .GroupBy(ta => (CharacterObject)ta.Character)
-                .ToDictionary(gdc => gdc.Key, gdc => gdc.ToList());
-
-            HashSet<CharacterObject> presentAllowedTypes = allowedBearerTypes.Where(type => teamTroopMap.ContainsKey(type)).ToHashSet();
-
-            Dictionary<CharacterObject, List<Agent>> eligibleTroopMap = teamTroopMap
-                .Where(kv => presentAllowedTypes.Contains(kv.Key))
-                .ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            int bannersGiven = 0;
-            foreach (KeyValuePair<CharacterObject, List<Agent>> entry in eligibleTroopMap)
-            {
-
-                if (entry.Key.IsHero || entry.Value.Count >= BMBSettings.Instance.MinTroopTypeAmount)
-                {
-                    int ratioCount = 0;
-                    foreach (Agent agent in entry.Value)
-                    {
-                        if (ratioCount % BMBSettings.Instance.BearerToTroopRatio == 0)
-                        {
-                            if (((CharacterObject)agent.Character).IsArcher)
-                            {
-                                StripWeaponsFromArcher(agent);
-                            }
-
-                            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Origin.Banner);
-                            agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
-                            bannersGiven++;
-                        }
-                        ratioCount++;
-                    }
-                }
-            }
-            Main.LogInMessageLog(bannersGiven + " banners given to " + team.Leader.Name + "'s party");
+            if (BMBSettings.Instance.AllowPlayer) { AllowedBearerTypes.Add(characterTypes.Find(character => character.IsPlayerCharacter)); }
+            if (BMBSettings.Instance.AllowCompanions) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.IsHero && character.Occupation == Occupation.Wanderer)); }
+            if (BMBSettings.Instance.AllowNobles) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
         }
 
         private static void StripWeaponsFromArcher(Agent agent)
@@ -149,9 +218,8 @@ namespace BearMyBanner
                 clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
             }
 
-            agent.ClearEquipment();
+            agent.ClearEquipment();//Maybe this is not needed
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
         }
-
     }
 }

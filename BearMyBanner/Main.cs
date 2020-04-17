@@ -43,7 +43,10 @@ namespace BearMyBanner
             {
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    mission.AddMissionBehaviour(new BattleBannerAssignBehaviour());
+                    if (mission.SceneName.Contains("battle"))
+                    {
+                        mission.AddMissionBehaviour(new BattleBannerAssignBehaviour());
+                    }
                 }
             }
             catch (Exception ex)

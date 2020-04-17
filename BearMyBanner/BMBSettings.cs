@@ -15,10 +15,11 @@ namespace BearMyBanner
         public const string InstanceID = "BMBSettings";
         public const string groupTroopFilters = "1. Troop filters";
         public const string subGroupOccupation = groupTroopFilters + "/1.1 Enable troops by occupation";
-        public const string subGroupFormation = groupTroopFilters + "/1.2 Enable troops by formation";
+        public const string subGroupSpec = groupTroopFilters + "/1.2 Enable troops by specialization";
         public const string subGroupTier = groupTroopFilters + "/1.3 Allow only select tiers";
         public const string groupHeroes = "2. Enable heroes";
         public const string groupRatios = "3. Bearer ratios";
+        public const string groupMisc = "4. Misc";
 
         public override string ModName => "Bear my Banner";
 
@@ -54,22 +55,22 @@ namespace BearMyBanner
         [SettingPropertyGroup(subGroupOccupation)]
         public bool AllowBandits { get; set; } = false;
 
-        /* TROOP BY FORMATION */
+        /* TROOP BY SPECIALIZATION */
         [XmlElement]
         [SettingProperty("Allow infantry", "Allows infantry troops to bear banners.")]
-        [SettingPropertyGroup(subGroupFormation)]
+        [SettingPropertyGroup(subGroupSpec)]
         public bool AllowInfantry { get; set; } = true;
         [XmlElement]
         [SettingProperty("Allow cavalry", "Allows mounted troops to bear banners.")]
-        [SettingPropertyGroup(subGroupFormation)]
+        [SettingPropertyGroup(subGroupSpec)]
         public bool AllowMounted { get; set; } = true;
         [XmlElement]
         [SettingProperty("Allow archers and crossbowmen", "Allows ranged troops to bear banners. NOTE: Bearers won't have bows or crossbows and will rush the enemy if ordered to charge.")]
-        [SettingPropertyGroup(subGroupFormation)]
+        [SettingPropertyGroup(subGroupSpec)]
         public bool AllowRanged { get; set; } = false;
         [XmlElement]
         [SettingProperty("Allow horse archers", "Allows mounted archer troops to bear banners. NOTE: Bearers won't have bows and will rush the enemy if ordered to charge.")]
-        [SettingPropertyGroup(subGroupFormation)]
+        [SettingPropertyGroup(subGroupSpec)]
         public bool AllowMountedRanged { get; set; } = false;
 
         /* TROOP BY TIER */
@@ -122,18 +123,18 @@ namespace BearMyBanner
 
         /* RATIOS */
         [XmlElement]
-        [SettingProperty("Banner bearers ratio", 1, 100, "Gives a banner to every 1 in X troops of the same type.")]
+        [SettingProperty("Banner bearers to troops ratio", 1, 100, "Gives a banner to every 1 in X troops of the same type.")]
         [SettingPropertyGroup(groupRatios)]
         public int BearerToTroopRatio { get; set; } = 7;
         [XmlElement]
-        [SettingProperty("Minimum type amount", 0, 100, "Will only give banners to a troop type when there are at least X of them.")]
+        [SettingProperty("Ignore troop types", "Uses specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners. Useful if you have diverse armies, but which units get banners is more random.")]
         [SettingPropertyGroup(groupRatios)]
-        public int MinTroopTypeAmount { get; set; } = 5;
+        public bool UseTroopSpecs { get; set; } = false;
 
         /* MISC */
         [XmlElement]
         [SettingProperty("Show messages", "Shows mod messages in Message Log.")]
-        [SettingPropertyGroup(groupHeroes)]
+        [SettingPropertyGroup(groupMisc)]
         public bool ShowMessages { get; set; } = true;
     }
 }
