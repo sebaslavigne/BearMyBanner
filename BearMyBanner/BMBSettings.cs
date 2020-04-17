@@ -129,5 +129,11 @@ namespace BearMyBanner
         [SettingProperty("Minimum type amount", 0, 100, "Will only give banners to a troop type when there are at least X of them.")]
         [SettingPropertyGroup(groupRatios)]
         public int MinTroopTypeAmount { get; set; } = 5;
+
+        /* MISC */
+        [XmlElement]
+        [SettingProperty("Show messages", "Shows mod messages in Message Log.")]
+        [SettingPropertyGroup(groupHeroes)]
+        public bool ShowMessages { get; set; } = true;
     }
 }
