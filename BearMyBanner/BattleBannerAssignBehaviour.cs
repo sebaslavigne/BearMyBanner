@@ -26,7 +26,11 @@ namespace BearMyBanner
             try
             {
                 Mission mission = Mission;
-                _bannerAssignmentController.FilterAllowedBearerTypes(mission.IsHideout());
+
+                List<CharacterObject> characterTypes = new List<CharacterObject>();
+                MBObjectManager.Instance.GetAllInstancesOfObjectType(ref characterTypes);
+                var wrappedCharacters = characterTypes.Select(t => new MbCharacter(t)).ToList();
+                _bannerAssignmentController.FilterAllowedBearerTypes(wrappedCharacters, mission.IsHideout());
             }
             catch (Exception ex)
             {
@@ -103,9 +107,10 @@ namespace BearMyBanner
             {
                 var agents = _bannerAssignmentController.AgentsThatShouldReceiveBanners
                     .OfType<MbAgent>()
-                    .Select(a => a.WrappedAgent);
+                    .Select(a => a.WrappedAgent)
+                    .Where(a => a.Team == team);
 
-                foreach (var agent in agents.Where(a => a.Team == team))
+                foreach (var agent in agents)
                 {
                     EquipAgentWithBanner(agent);
                 }
