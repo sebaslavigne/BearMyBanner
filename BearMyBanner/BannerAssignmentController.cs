@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BearMyBanner.wrappers;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
-using TaleWorlds.MountAndBlade;
-using IAgent = BearMyBanner.wrappers.IAgent;
 
 namespace BearMyBanner
 {
@@ -12,10 +8,10 @@ namespace BearMyBanner
     {
         private readonly IBMBSettings _settings;
         private List<ICharacter> AllowedBearerTypes;
-        private Dictionary<PartyBase, int> EquippedBannersByParty;
+        private Dictionary<IParty, int> EquippedBannersByParty;
         private bool FirstSpawnInitialized = false;
-        private Dictionary<PartyBase, Dictionary<ICharacter, List<IAgent>>> _processedTroopsByType;
-        private Dictionary<PartyBase, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
+        private Dictionary<IParty, Dictionary<ICharacter, List<IAgent>>> _processedTroopsByType;
+        private Dictionary<IParty, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
 
         private List<IAgent> _agentsThatShouldReceiveBanners;
         public IEnumerable<IAgent> AgentsThatShouldReceiveBanners => _agentsThatShouldReceiveBanners;
@@ -25,15 +21,15 @@ namespace BearMyBanner
             _settings = settings;
         }
 
-        public void ProcessAgentOnBuild(IAgent agent, Mission mission)
+        public void ProcessAgentOnBuild(IAgent agent, BattleType battleType)
         {
             if (AllowedBearerTypes.Contains(agent.Character))
             {
-                if (mission.IsFieldBattle)
+                if (battleType == BattleType.FieldBattle)
                 {
                     ProcessAgent(agent);
                 }
-                else if (_settings.AllowSieges && mission.IsSiege())
+                else if (_settings.AllowSieges && battleType == BattleType.Siege)
                 {
                     if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
                         || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
@@ -41,7 +37,7 @@ namespace BearMyBanner
                         ProcessAgent(agent);
                     }
                 }
-                else if (_settings.AllowHideouts && mission.IsHideout())
+                else if (_settings.AllowHideouts && battleType == BattleType.Hideout)
                 {
                     if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
                         || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
@@ -54,8 +50,8 @@ namespace BearMyBanner
 
         private void ProcessAgent(IAgent agent)
         {
-            PartyBase agentParty = agent.Party;
-            ICharacter agentCharacter = (ICharacter)agent.Character;
+            IParty agentParty = agent.Party;
+            ICharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
 
             /* Add to maps */
@@ -84,7 +80,7 @@ namespace BearMyBanner
             if (!FirstSpawnInitialized)
             {
                 FirstSpawnInitialized = true;
-                foreach (KeyValuePair<PartyBase, int> entry in EquippedBannersByParty)
+                foreach (KeyValuePair<IParty, int> entry in EquippedBannersByParty)
                 {
                     Main.LogInMessageLog(entry.Key.Name + " received " + entry.Value + " banners");
                 }
@@ -94,9 +90,9 @@ namespace BearMyBanner
         public void FilterAllowedBearerTypes(IReadOnlyList<ICharacter> characterTypes, bool isHideout)
         {
             _agentsThatShouldReceiveBanners = new List<IAgent>();
-            _processedTroopsByType = new Dictionary<PartyBase, Dictionary<ICharacter, List<IAgent>>>();
-            _processedTroopsBySpec = new Dictionary<PartyBase, Dictionary<TroopSpecialization, List<IAgent>>>();
-            EquippedBannersByParty = new Dictionary<PartyBase, int>();
+            _processedTroopsByType = new Dictionary<IParty, Dictionary<ICharacter, List<IAgent>>>();
+            _processedTroopsBySpec = new Dictionary<IParty, Dictionary<TroopSpecialization, List<IAgent>>>();
+            EquippedBannersByParty = new Dictionary<IParty, int>();
 
             /* Add types to a list of allowed troops to carry a banner */
             AllowedBearerTypes = new List<ICharacter>();

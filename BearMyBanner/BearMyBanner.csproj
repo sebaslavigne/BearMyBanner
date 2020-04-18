@@ -250,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannerAssignmentController.cs" />
+    <Compile Include="BattleType.cs" />
     <Compile Include="settings\BMBSettings.cs" />
     <Compile Include="BattleBannerAssignBehaviour.cs" />
     <Compile Include="settings\IBMBSettings.cs" />
@@ -260,8 +261,10 @@
     <Compile Include="TroopSpecialization.cs" />
     <Compile Include="wrappers\IAgent.cs" />
     <Compile Include="wrappers\ICharacter.cs" />
+    <Compile Include="wrappers\IParty.cs" />
     <Compile Include="wrappers\MbAgent.cs" />
     <Compile Include="wrappers\MbCharacter.cs" />
+    <Compile Include="wrappers\MbParty.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -43,12 +43,24 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                _bannerAssignmentController.ProcessAgentOnBuild(new MbAgent(agent), this.Mission);
+                _bannerAssignmentController.ProcessAgentOnBuild(new MbAgent(agent), GetBattleType(Mission));
             }
             catch (Exception ex)
             {
                 Main.LogInMessageLog("BMB Error: " + ex.Message);
             }
+        }
+
+        private BattleType GetBattleType(Mission mission)
+        {
+            if (mission.IsFieldBattle)
+                return BattleType.FieldBattle;
+            if (mission.IsSiege())
+                return BattleType.Siege;
+            if (mission.IsHideout())
+                return BattleType.Hideout;
+
+            return BattleType.FieldBattle;
         }
 
         private void EquipAgentWithBanner(Agent agent)

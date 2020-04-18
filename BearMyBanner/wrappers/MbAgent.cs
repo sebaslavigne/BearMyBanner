@@ -9,12 +9,15 @@ namespace BearMyBanner.wrappers
         {
             WrappedAgent = wrappedAgent;
             Character = new MbCharacter((CharacterObject)WrappedAgent.Character);
+            var partyToWrap = ((PartyGroupAgentOrigin) WrappedAgent.Origin)?.Party;
+            if (partyToWrap != null)
+                Party = new MbParty(partyToWrap);
         }
 
         public Agent WrappedAgent { get; }
         public bool IsAttacker => WrappedAgent.Team.IsAttacker;
         public bool IsDefender => WrappedAgent.Team.IsDefender;
         public ICharacter Character { get; }
-        public PartyBase Party => ((PartyGroupAgentOrigin) WrappedAgent.Origin).Party;
+        public IParty Party { get; }
     }
 }
