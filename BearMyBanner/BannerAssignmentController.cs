@@ -111,7 +111,7 @@ namespace BearMyBanner
         {
             EquippedBannersByParty = new Dictionary<PartyBase, int>();
             List<CharacterObject> characterTypes = new List<CharacterObject>();
-            MBObjectManager.Instance.GetAllInstancesOfObjectType<CharacterObject>(ref characterTypes);
+            MBObjectManager.Instance.GetAllInstancesOfObjectType(ref characterTypes);
 
             /* Add types to a list of allowed troops to carry a banner */
             AllowedBearerTypes = new List<CharacterObject>();
@@ -152,7 +152,7 @@ namespace BearMyBanner
             if (BMBSettings.Instance.AllowNobles) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
 
             /* Add bandits for hideout missions */
-            if (BMBSettings.Instance.AllowHideouts && BMBSettings.Instance.HideoutBanditsUseBanners && MissionUtils.IsHideout(mission))
+            if (BMBSettings.Instance.AllowHideouts && BMBSettings.Instance.HideoutBanditsUseBanners && mission.IsHideout())
             {
                 AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit));
             }
