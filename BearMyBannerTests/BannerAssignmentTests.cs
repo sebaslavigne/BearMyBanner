@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using BearMyBanner;
-using BearMyBanner.wrappers;
+using BearMyBanner.Wrappers;
+using BearMyBanner.Settings;
 using Moq;
 using Xunit;
 

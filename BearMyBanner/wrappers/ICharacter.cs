@@ -1,4 +1,4 @@
-﻿namespace BearMyBanner.wrappers
+﻿namespace BearMyBanner.Wrappers
 {
     public interface ICharacter
     {
@@ -7,10 +7,5 @@
         CharacterOccupation Occupation { get; }
         int Tier { get; }
         bool IsPlayerCharacter { get; }
-    }
-
-    public enum CharacterOccupation
-    {
-        Soldier, CaravanGuard, Mercenary, Bandit, Lord, Lady, Wanderer
     }
 }

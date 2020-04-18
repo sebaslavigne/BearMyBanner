@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
-using TaleWorlds.Engine;
 using ModLib;
+using BearMyBanner.Settings;
 
 namespace BearMyBanner
 {
@@ -23,11 +20,8 @@ namespace BearMyBanner
             try
             {
                 FileDatabase.Initialise(ModuleFolderName);
-                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID);
-                if (settings == null)
-                {
-                    settings = (BMBSettings)new BMBSettings().SetDefaults();
-                }
+                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID) ??
+                                       (BMBSettings)new BMBSettings().SetDefaults();
 
                 _settings = settings;
                 SettingsDatabase.RegisterSettings(settings);

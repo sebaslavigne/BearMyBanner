@@ -1,4 +1,4 @@
-﻿namespace BearMyBanner
+﻿namespace BearMyBanner.Settings
 {
     public static class IBMBSettingsExtension
     {

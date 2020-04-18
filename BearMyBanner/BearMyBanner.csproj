@@ -250,21 +250,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannerAssignmentController.cs" />
-    <Compile Include="BattleType.cs" />
-    <Compile Include="settings\BMBSettings.cs" />
+    <Compile Include="Wrappers\BattleType.cs" />
+    <Compile Include="Settings\BMBSettings.cs" />
     <Compile Include="BattleBannerAssignBehaviour.cs" />
-    <Compile Include="settings\IBMBSettings.cs" />
+    <Compile Include="Settings\IBMBSettings.cs" />
     <Compile Include="MissionUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="settings\IBMBSettingsExtension.cs" />
-    <Compile Include="TroopSpecialization.cs" />
-    <Compile Include="wrappers\IAgent.cs" />
-    <Compile Include="wrappers\ICharacter.cs" />
-    <Compile Include="wrappers\IParty.cs" />
-    <Compile Include="wrappers\MbAgent.cs" />
-    <Compile Include="wrappers\MbCharacter.cs" />
-    <Compile Include="wrappers\MbParty.cs" />
+    <Compile Include="Settings\IBMBSettingsExtension.cs" />
+    <Compile Include="Wrappers\TroopSpecialization.cs" />
+    <Compile Include="Wrappers\CharacterOccupation.cs" />
+    <Compile Include="Wrappers\IAgent.cs" />
+    <Compile Include="Wrappers\ICharacter.cs" />
+    <Compile Include="Wrappers\MbAgent.cs" />
+    <Compile Include="Wrappers\MbCharacter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

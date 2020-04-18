@@ -1,4 +1,4 @@
-﻿using BearMyBanner;
+﻿using BearMyBanner.Settings;
 
 namespace BearMyBannerTests
 {

@@ -1,4 +1,4 @@
-﻿namespace BearMyBanner
+﻿namespace BearMyBanner.Wrappers
 {
     public enum BattleType
     {

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BearMyBanner.wrappers;
+using BearMyBanner.Wrappers;
+using BearMyBanner.Settings;
 
 namespace BearMyBanner
 {
     public class BannerAssignmentController
     {
         private readonly IBMBSettings _settings;
-        private List<ICharacter> AllowedBearerTypes;
+        private List<ICharacter> _allowedBearerTypes;
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<ICharacter, List<IAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
@@ -23,7 +24,7 @@ namespace BearMyBanner
 
         public void ProcessAgentOnBuild(IAgent agent, BattleType battleType)
         {
-            if (AllowedBearerTypes.Contains(agent.Character))
+            if (_allowedBearerTypes.Contains(agent.Character))
             {
                 if (battleType == BattleType.FieldBattle)
                 {
@@ -83,16 +84,16 @@ namespace BearMyBanner
             _equippedBannersByParty = new Dictionary<string, int>();
 
             /* Add types to a list of allowed troops to carry a banner */
-            AllowedBearerTypes = new List<ICharacter>();
+            _allowedBearerTypes = new List<ICharacter>();
 
             /* Add troops */
-            if (_settings.AllowSoldiers) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
-            if (_settings.AllowCaravanGuards) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
-            if (_settings.AllowMercenaries) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
-            if (_settings.AllowBandits) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
+            if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
+            if (_settings.AllowCaravanGuards) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
+            if (_settings.AllowMercenaries) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
+            if (_settings.AllowBandits) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
 
             /* Filter by formation */
-            AllowedBearerTypes = AllowedBearerTypes
+            _allowedBearerTypes = _allowedBearerTypes
                 .Where(t => (_settings.AllowInfantry && t.Type == TroopSpecialization.Infantry)
                             || (_settings.AllowMounted && t.Type == TroopSpecialization.Cavalry)
                             || (_settings.AllowRanged && t.Type == TroopSpecialization.Archer)
@@ -110,20 +111,20 @@ namespace BearMyBanner
                 if (_settings.AllowTier5) allowedTiers.Add(5);
                 if (_settings.AllowTier6) allowedTiers.Add(6);
                 if (_settings.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
-                AllowedBearerTypes = AllowedBearerTypes
+                _allowedBearerTypes = _allowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();
             }
 
             /* Add heroes */
-            if (_settings.AllowPlayer) { AllowedBearerTypes.Add(characterTypes.First(character => character.IsPlayerCharacter)); }
-            if (_settings.AllowCompanions) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.IsHero && character.Occupation == CharacterOccupation.Wanderer)); }
-            if (_settings.AllowNobles) { AllowedBearerTypes.AddRange(characterTypes.Where(character => !character.IsPlayerCharacter && (character.Occupation == CharacterOccupation.Lord || character.Occupation == CharacterOccupation.Lady))); }
+            if (_settings.AllowPlayer) { _allowedBearerTypes.Add(characterTypes.First(character => character.IsPlayerCharacter)); }
+            if (_settings.AllowCompanions) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.IsHero && character.Occupation == CharacterOccupation.Wanderer)); }
+            if (_settings.AllowNobles) { _allowedBearerTypes.AddRange(characterTypes.Where(character => !character.IsPlayerCharacter && (character.Occupation == CharacterOccupation.Lord || character.Occupation == CharacterOccupation.Lady))); }
 
             /* Add bandits for hideout missions */
             if (_settings.AllowHideouts && _settings.HideoutBanditsUseBanners && isHideout)
             {
-                AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
+                _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
             }
         }
     }

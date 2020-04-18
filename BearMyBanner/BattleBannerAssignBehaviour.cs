@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BearMyBanner.wrappers;
+using BearMyBanner.Wrappers;
+using BearMyBanner.Settings;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -13,7 +12,7 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BannerAssignmentController _bannerAssignmentController;
-        private bool FirstSpawnInitialized = false;
+        private bool _firstSpawnInitialized;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
@@ -128,9 +127,9 @@ namespace BearMyBanner
                     EquipAgentWithBanner(agent);
                 }
 
-                if (!FirstSpawnInitialized)
+                if (!_firstSpawnInitialized)
                 {
-                    FirstSpawnInitialized = true;
+                    _firstSpawnInitialized = true;
                     foreach (KeyValuePair<string, int> entry in _bannerAssignmentController.EquippedBannersByParty)
                     {
                         Main.LogInMessageLog(entry.Key + " received " + entry.Value + " banners");

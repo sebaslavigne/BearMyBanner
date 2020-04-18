@@ -1,7 +1,4 @@
-﻿using TaleWorlds.CampaignSystem;
-using TaleWorlds.MountAndBlade;
-
-namespace BearMyBanner.wrappers
+﻿namespace BearMyBanner.Wrappers
 {
     public interface IAgent
     {

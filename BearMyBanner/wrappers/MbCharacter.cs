@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.CampaignSystem;
 
-namespace BearMyBanner.wrappers
+namespace BearMyBanner.Wrappers
 {
     public class MbCharacter : ICharacter
     {

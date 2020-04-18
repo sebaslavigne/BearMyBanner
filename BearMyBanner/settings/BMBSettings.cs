@@ -1,9 +1,8 @@
 ﻿using System.Xml.Serialization;
-
 using ModLib;
 using ModLib.Attributes;
 
-namespace BearMyBanner
+namespace BearMyBanner.Settings
 {
     public class BMBSettings : SettingsBase, IBMBSettings
     {
