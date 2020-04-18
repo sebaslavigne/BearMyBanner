@@ -253,21 +253,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BannerAssignmentController.cs" />
-    <Compile Include="Wrappers\BattleType.cs" />
+    <Compile Include="Controller\BannerAssignmentController.cs" />
+    <Compile Include="Editor\GameObjectEditor.cs" />
+    <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
-    <Compile Include="BattleBannerAssignBehaviour.cs" />
+    <Compile Include="Behaviour\BattleBannerAssignBehaviour.cs" />
     <Compile Include="Settings\IBMBSettings.cs" />
-    <Compile Include="MissionUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\IBMBSettingsExtension.cs" />
-    <Compile Include="Wrappers\TroopSpecialization.cs" />
-    <Compile Include="Wrappers\CharacterOccupation.cs" />
-    <Compile Include="Wrappers\IAgent.cs" />
-    <Compile Include="Wrappers\ICharacter.cs" />
-    <Compile Include="Wrappers\MbAgent.cs" />
-    <Compile Include="Wrappers\MbCharacter.cs" />
+    <Compile Include="Wrapper\Enum\TroopSpecialization.cs" />
+    <Compile Include="Wrapper\Enum\CharacterOccupation.cs" />
+    <Compile Include="Wrapper\Implementation\TypedMission.cs" />
+    <Compile Include="Wrapper\Interface\IBmbAgent.cs" />
+    <Compile Include="Wrapper\Interface\IBmbCharacter.cs" />
+    <Compile Include="Wrapper\Implementation\CampaignAgent.cs" />
+    <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
+    <Compile Include="Wrapper\Interface\IBmbMission.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

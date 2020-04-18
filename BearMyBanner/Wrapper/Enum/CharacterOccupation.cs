@@ -1,4 +1,4 @@
-﻿namespace BearMyBanner.Wrappers
+﻿namespace BearMyBanner.Wrapper
 {
     public enum CharacterOccupation
     {

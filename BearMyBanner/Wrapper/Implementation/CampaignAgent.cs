@@ -1,14 +1,14 @@
 ﻿using TaleWorlds.CampaignSystem;
 using TaleWorlds.MountAndBlade;
 
-namespace BearMyBanner.Wrappers
+namespace BearMyBanner.Wrapper
 {
-    public class MbAgent : IAgent
+    public class CampaignAgent : IBmbAgent
     {
-        public MbAgent(Agent wrappedAgent)
+        public CampaignAgent(Agent wrappedAgent)
         {
             WrappedAgent = wrappedAgent;
-            Character = new MbCharacter((CharacterObject)WrappedAgent.Character);
+            Character = new CampaignCharacter((CharacterObject)WrappedAgent.Character);
             var partyToWrap = ((PartyGroupAgentOrigin) WrappedAgent.Origin)?.Party;
             if (partyToWrap != null)
                 PartyName = partyToWrap.Name.ToString();
@@ -17,7 +17,7 @@ namespace BearMyBanner.Wrappers
         public Agent WrappedAgent { get; }
         public bool IsAttacker => WrappedAgent.Team.IsAttacker;
         public bool IsDefender => WrappedAgent.Team.IsDefender;
-        public ICharacter Character { get; }
+        public IBmbCharacter Character { get; }
         public string PartyName { get; }
     }
 }

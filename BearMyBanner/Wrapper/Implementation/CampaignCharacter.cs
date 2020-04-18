@@ -1,12 +1,12 @@
 ﻿using TaleWorlds.CampaignSystem;
 
-namespace BearMyBanner.Wrappers
+namespace BearMyBanner.Wrapper
 {
-    public class MbCharacter : ICharacter
+    public class CampaignCharacter : IBmbCharacter
     {
         private readonly CharacterObject _wrappedCharacter;
 
-        public MbCharacter(CharacterObject wrappedCharacter)
+        public CampaignCharacter(CharacterObject wrappedCharacter)
         {
             _wrappedCharacter = wrappedCharacter;
         }
@@ -52,7 +52,7 @@ namespace BearMyBanner.Wrappers
 
         public override bool Equals(object obj)
         {
-            if (obj is MbCharacter other)
+            if (obj is CampaignCharacter other)
             {
                 return _wrappedCharacter.Equals(other._wrappedCharacter);
             }

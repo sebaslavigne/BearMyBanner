@@ -4,6 +4,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.Library;
 using ModLib;
 using BearMyBanner.Settings;
+using BearMyBanner.Wrapper;
 
 namespace BearMyBanner
 {
@@ -47,11 +48,19 @@ namespace BearMyBanner
                     throw new InvalidOperationException("Settings were not initialized");
                 }
 
+                TypedMission typedMission = new TypedMission(mission);
+
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    if (mission.IsFieldBattle || mission.IsSiege() || mission.IsHideout()/*TODO custom battle mode || mission.IsCustomBattle()*/)
+                    switch (typedMission.MissionType)
                     {
-                        mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                        case MissionType.FieldBattle:
+                        case MissionType.Siege:
+                        case MissionType.Hideout:
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
