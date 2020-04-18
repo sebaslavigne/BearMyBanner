@@ -3,6 +3,7 @@ using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using IAgent = BearMyBanner.wrappers.IAgent;
 
 namespace BearMyBanner
 {
@@ -12,8 +13,8 @@ namespace BearMyBanner
         private List<CharacterObject> AllowedBearerTypes;
         private Dictionary<PartyBase, int> EquippedBannersByParty;
         private bool FirstSpawnInitialized = false;
-        private Dictionary<PartyBase, Dictionary<CharacterObject, List<Agent>>> _processedTroopsByType;
-        private Dictionary<PartyBase, Dictionary<TroopSpecialization, List<Agent>>> _processedTroopsBySpec;
+        private Dictionary<PartyBase, Dictionary<CharacterObject, List<IAgent>>> _processedTroopsByType;
+        private Dictionary<PartyBase, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
 
         private enum TroopSpecialization
         {
@@ -23,53 +24,53 @@ namespace BearMyBanner
             HorseArcher
         }
 
-        private List<Agent> _agentsThatShouldReceiveBanners;
-        public IEnumerable<Agent> AgentsThatShouldReceiveBanners => _agentsThatShouldReceiveBanners;
+        private List<IAgent> _agentsThatShouldReceiveBanners;
+        public IEnumerable<IAgent> AgentsThatShouldReceiveBanners => _agentsThatShouldReceiveBanners;
 
         public BannerAssignmentController(IBMBSettings settings)
         {
             _settings = settings;
         }
 
-        public void ProcessAgentOnBuild(Agent agent, Banner banner, Mission mission)
+        public void ProcessAgentOnBuild(IAgent agent, Mission mission)
         {
             if (AllowedBearerTypes.Contains((CharacterObject) agent.Character))
             {
                 if (mission.IsFieldBattle)
                 {
-                    ProcessAgent(agent, banner);
+                    ProcessAgent(agent);
                 }
                 else if (_settings.AllowSieges && mission.IsSiege())
                 {
-                    if ((_settings.SiegeAttackersUseBanners && agent.Team.IsAttacker)
-                        || (_settings.SiegeDefendersUseBanners && agent.Team.IsDefender))
+                    if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
+                        || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
                     {
-                        ProcessAgent(agent, banner);
+                        ProcessAgent(agent);
                     }
                 }
                 else if (_settings.AllowHideouts && mission.IsHideout())
                 {
-                    if ((_settings.HideoutAttackersUseBanners && agent.Team.IsAttacker)
-                        || (_settings.HideoutBanditsUseBanners && agent.Team.IsDefender))
+                    if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
+                        || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
                     {
-                        ProcessAgent(agent, banner);
+                        ProcessAgent(agent);
                     }
                 }
             }
         }
 
-        private void ProcessAgent(Agent agent, Banner banner)
+        private void ProcessAgent(IAgent agent)
         {
-            PartyBase agentParty = ((PartyGroupAgentOrigin)agent.Origin).Party;
+            PartyBase agentParty = agent.Party;
             CharacterObject agentCharacter = (CharacterObject)agent.Character;
             TroopSpecialization agentSpec = DetermineAgentSpec(agentCharacter);
 
             /* Add to maps */
-            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<CharacterObject, List<Agent>>());
-            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<Agent>());
+            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<CharacterObject, List<IAgent>>());
+            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IAgent>());
 
-            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<Agent>>());
-            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<Agent>());
+            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IAgent>>());
+            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<IAgent>());
 
             _processedTroopsByType[agentParty][agentCharacter].Add(agent);
             _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
@@ -107,9 +108,9 @@ namespace BearMyBanner
 
         public void FilterAllowedBearerTypes(bool isHideout)
         {
-            _agentsThatShouldReceiveBanners = new List<Agent>();
-            _processedTroopsByType = new Dictionary<PartyBase, Dictionary<CharacterObject, List<Agent>>>();
-            _processedTroopsBySpec = new Dictionary<PartyBase, Dictionary<TroopSpecialization, List<Agent>>>();
+            _agentsThatShouldReceiveBanners = new List<IAgent>();
+            _processedTroopsByType = new Dictionary<PartyBase, Dictionary<CharacterObject, List<IAgent>>>();
+            _processedTroopsBySpec = new Dictionary<PartyBase, Dictionary<TroopSpecialization, List<IAgent>>>();
             EquippedBannersByParty = new Dictionary<PartyBase, int>();
             List<CharacterObject> characterTypes = new List<CharacterObject>();
             MBObjectManager.Instance.GetAllInstancesOfObjectType(ref characterTypes);

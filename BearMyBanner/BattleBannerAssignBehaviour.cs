@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BearMyBanner.wrappers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -39,7 +39,7 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                _bannerAssignmentController.ProcessAgentOnBuild(agent, banner, this.Mission);
+                _bannerAssignmentController.ProcessAgentOnBuild(new MbAgent(agent), this.Mission);
             }
             catch (Exception ex)
             {
@@ -101,7 +101,11 @@ namespace BearMyBanner
             base.OnFormationUnitsSpawned(team);//Use LINQ for team parties
             try
             {
-                foreach (var agent in _bannerAssignmentController.AgentsThatShouldReceiveBanners.Where(a => a.Team == team))
+                var agents = _bannerAssignmentController.AgentsThatShouldReceiveBanners
+                    .OfType<MbAgent>()
+                    .Select(a => a.WrappedAgent);
+
+                foreach (var agent in agents.Where(a => a.Team == team))
                 {
                     EquipAgentWithBanner(agent);
                 }

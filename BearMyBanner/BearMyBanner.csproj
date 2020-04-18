@@ -257,6 +257,8 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="settings\IBMBSettingsExtension.cs" />
+    <Compile Include="wrappers\IAgent.cs" />
+    <Compile Include="wrappers\MbAgent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
