@@ -10,15 +10,15 @@ using SandBox.Source.Missions;
 
 namespace BearMyBanner
 {
-    public class MissionUtils
+    public static class MissionUtils
     {
 
-        public static bool IsSiege(Mission mission)
+        public static bool IsSiege(this Mission mission)
         {
             return mission.MissionLogics.OfType<SiegeMissionController>().Any();
         }
         
-        public static bool IsHideout(Mission mission)
+        public static bool IsHideout(this Mission mission)
         {
             return mission.MissionLogics.OfType<HideoutMissionController>().Any();
         }

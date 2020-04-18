@@ -57,7 +57,7 @@ namespace BearMyBanner
                     {
                         ProcessAgent(agent, banner);
                     }
-                    else if (BMBSettings.Instance.AllowSieges && MissionUtils.IsSiege(this.Mission))
+                    else if (BMBSettings.Instance.AllowSieges && this.Mission.IsSiege())
                     {
                         if ((BMBSettings.Instance.SiegeAttackersUseBanners && agent.Team.IsAttacker)
                             || (BMBSettings.Instance.SiegeDefendersUseBanners && agent.Team.IsDefender))
@@ -65,7 +65,7 @@ namespace BearMyBanner
                             ProcessAgent(agent, banner);
                         }
                     }
-                    else if (BMBSettings.Instance.AllowHideouts && MissionUtils.IsHideout(this.Mission))
+                    else if (BMBSettings.Instance.AllowHideouts && this.Mission.IsHideout())
                     {
                         if ((BMBSettings.Instance.HideoutAttackersUseBanners && agent.Team.IsAttacker)
                             || (BMBSettings.Instance.HideoutBanditsUseBanners && agent.Team.IsDefender))
