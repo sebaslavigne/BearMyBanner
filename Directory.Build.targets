@@ -1,0 +1,7 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="CheckIfGamePathIsSet" BeforeTargets="BeforeBuild">
+    <Error
+      Text="The default game directory was not found. Currently it is set to $(GameDir). Make sure it is correct"
+      Condition="!Exists($(GameDir))" />
+  </Target>
+</Project>

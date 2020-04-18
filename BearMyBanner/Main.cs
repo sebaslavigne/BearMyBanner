@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
-using TaleWorlds.Engine;
 using ModLib;
+using BearMyBanner.Settings;
 
 namespace BearMyBanner
 {
@@ -15,14 +12,18 @@ namespace BearMyBanner
 
         public const string ModuleFolderName = "BearMyBanner";
 
+        private IBMBSettings _settings;
+
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             try
             {
                 FileDatabase.Initialise(ModuleFolderName);
-                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID);
-                if (settings == null) settings = new BMBSettings();
+                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID) ??
+                                       (BMBSettings)new BMBSettings().SetDefaults();
+
+                _settings = settings;
                 SettingsDatabase.RegisterSettings(settings);
             }
             catch (Exception ex)
@@ -41,14 +42,16 @@ namespace BearMyBanner
             base.OnMissionBehaviourInitialize(mission);
             try
             {
-                LogInMessageLog(mission.SceneName);
+                if (_settings == null)
+                {
+                    throw new InvalidOperationException("Settings were not initialized");
+                }
+
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    if (mission.IsFieldBattle
-                        || (MissionUtils.IsSiege(mission))
-                        || (MissionUtils.IsHideout(mission)))
+                    if (mission.IsFieldBattle || mission.IsSiege() || mission.IsHideout()/*TODO custom battle mode || mission.IsCustomBattle()*/)
                     {
-                        mission.AddMissionBehaviour(new BattleBannerAssignBehaviour());
+                        mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
                     }
                 }
             }
