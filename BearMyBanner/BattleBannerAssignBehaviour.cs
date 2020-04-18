@@ -29,6 +29,8 @@ namespace BearMyBanner
 
         private bool FirstSpawnInitialized = false;
 
+        public const string CampaignBannerID = "campaign_banner_small";
+
         public override void OnCreated()
         {
             base.OnCreated();
@@ -102,21 +104,10 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % BMBSettings.Instance.BearerToTroopRatio == 0)
             {
-                EquipAgentWithBanner(agent, banner);
+                AddBannerToSpawnEquipment(agent);
                 EquippedBannersByParty.TryGetValue(agentParty, out var count);
                 EquippedBannersByParty[agentParty] = count + 1;
             }
-        }
-
-        private void EquipAgentWithBanner(Agent agent, Banner banner)
-        {
-            if (((CharacterObject)agent.Character).IsArcher)
-            {
-                StripWeaponsFromArcher(agent);
-            }
-
-            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small"), agent.Origin.Banner);
-            agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
         }
 
         private TroopSpecialization DetermineAgentSpec(CharacterObject character)
@@ -197,7 +188,7 @@ namespace BearMyBanner
             }
         }
 
-        private static void StripWeaponsFromArcher(Agent agent)
+        private static void AddBannerToSpawnEquipment(Agent agent)
         {
             EquipmentElement weaponElement0 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0);
             EquipmentElement weaponElement1 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1);
@@ -214,24 +205,14 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Crossbow
             };
 
-            if (weaponElement0.Item != null && !forbiddenItemTypes.Contains(weaponElement0.Item.Type))
-            {
-                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
-            }
-            if (weaponElement1.Item != null && !forbiddenItemTypes.Contains(weaponElement1.Item.Type))
-            {
-                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);
-            }
-            if (weaponElement2.Item != null && !forbiddenItemTypes.Contains(weaponElement2.Item.Type))
-            {
-                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
-            }
-            if (weaponElement3.Item != null && !forbiddenItemTypes.Contains(weaponElement3.Item.Type))
-            {
-                clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
-            }
+            if (weaponElement0.Item != null && !forbiddenItemTypes.Contains(weaponElement0.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
+            if (weaponElement1.Item != null && !forbiddenItemTypes.Contains(weaponElement1.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);
+            if (weaponElement2.Item != null && !forbiddenItemTypes.Contains(weaponElement2.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
+            if (weaponElement3.Item != null && !forbiddenItemTypes.Contains(weaponElement3.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
 
-            agent.ClearEquipment();//Maybe this is not needed
+            EquipmentElement bannerElement = new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
+            clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon4, bannerElement);
+
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
         }
     }
