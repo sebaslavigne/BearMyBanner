@@ -131,9 +131,9 @@ namespace BearMyBanner
                 if (!FirstSpawnInitialized)
                 {
                     FirstSpawnInitialized = true;
-                    foreach (KeyValuePair<IParty, int> entry in _bannerAssignmentController.EquippedBannersByParty)
+                    foreach (KeyValuePair<string, int> entry in _bannerAssignmentController.EquippedBannersByParty)
                     {
-                        Main.LogInMessageLog(entry.Key.Name + " received " + entry.Value + " banners");
+                        Main.LogInMessageLog(entry.Key + " received " + entry.Value + " banners");
                     }
                 }
             }

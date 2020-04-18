@@ -1,4 +1,7 @@
-﻿using BearMyBanner;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BearMyBanner;
+using BearMyBanner.wrappers;
 using Moq;
 using Xunit;
 
@@ -7,18 +10,42 @@ namespace BearMyBannerTests
     public class BannerAssignmentTests
     {
         private readonly BannerAssignmentController _sut;
-        private Mock<IBMBSettings> _settings;
+        private IBMBSettings _settings;
 
         public BannerAssignmentTests()
         {
             SetupSettings();
-            _sut = new BannerAssignmentController(_settings.Object);
+            _sut = new BannerAssignmentController(_settings);
         }
 
         private void SetupSettings()
         {
-            _settings = new Mock<IBMBSettings>();
-            _settings.Object.SetDefaults();
+            _settings = new TestSettings();
+            _settings.SetDefaults();
+        }
+
+        private ICharacter GetBasicInfantry()
+        {
+            var mock = new Mock<ICharacter>();
+            mock.Setup(m => m.Occupation)
+                .Returns(CharacterOccupation.Soldier);
+            mock.Setup(m => m.Type)
+                .Returns(TroopSpecialization.Infantry);
+            mock.Setup(m => m.Tier)
+                .Returns(5);
+
+            return mock.Object;
+        }
+
+        private IAgent InfantryAgent(ICharacter character)
+        {
+            var mock = new Mock<IAgent>();
+            mock.Setup(m => m.Character)
+                .Returns(character);
+            mock.Setup(m => m.PartyName)
+                .Returns("testParty");
+
+            return mock.Object;
         }
 
         [Fact]
@@ -30,7 +57,16 @@ namespace BearMyBannerTests
         [Fact]
         public void TestBasicBattleWithDefaultSettings()
         {
-            _sut
+            var basicInfantry = GetBasicInfantry();
+            var characters = Enumerable.Repeat(basicInfantry, 1).ToList();
+            _sut.FilterAllowedBearerTypes(characters, false);
+
+            foreach (var agent in Enumerable.Repeat(InfantryAgent(basicInfantry), 21))
+            {
+                _sut.ProcessAgentOnBuild(agent, BattleType.FieldBattle);
+            }
+
+            Assert.Equal(3, _sut.AgentsThatShouldReceiveBanners.Count());
         }
     }
 }

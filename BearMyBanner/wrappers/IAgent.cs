@@ -8,6 +8,6 @@ namespace BearMyBanner.wrappers
         bool IsAttacker { get; }
         bool IsDefender { get; }
         ICharacter Character { get; }
-        IParty Party { get; }
+        string PartyName { get; }
     }
 }

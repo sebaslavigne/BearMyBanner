@@ -8,13 +8,13 @@ namespace BearMyBanner
     {
         private readonly IBMBSettings _settings;
         private List<ICharacter> AllowedBearerTypes;
-        private Dictionary<IParty, int> _equippedBannersByParty;
-        private Dictionary<IParty, Dictionary<ICharacter, List<IAgent>>> _processedTroopsByType;
-        private Dictionary<IParty, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
+        private Dictionary<string, int> _equippedBannersByParty;
+        private Dictionary<string, Dictionary<ICharacter, List<IAgent>>> _processedTroopsByType;
+        private Dictionary<string, Dictionary<TroopSpecialization, List<IAgent>>> _processedTroopsBySpec;
 
         private List<IAgent> _agentsThatShouldReceiveBanners;
         public IEnumerable<IAgent> AgentsThatShouldReceiveBanners => _agentsThatShouldReceiveBanners;
-        public IReadOnlyDictionary<IParty, int> EquippedBannersByParty => _equippedBannersByParty;
+        public IReadOnlyDictionary<string, int> EquippedBannersByParty => _equippedBannersByParty;
 
         public BannerAssignmentController(IBMBSettings settings)
         {
@@ -50,7 +50,7 @@ namespace BearMyBanner
 
         private void ProcessAgent(IAgent agent)
         {
-            IParty agentParty = agent.Party;
+            string agentParty = agent.PartyName;
             ICharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
 
@@ -78,9 +78,9 @@ namespace BearMyBanner
         public void FilterAllowedBearerTypes(IReadOnlyList<ICharacter> characterTypes, bool isHideout)
         {
             _agentsThatShouldReceiveBanners = new List<IAgent>();
-            _processedTroopsByType = new Dictionary<IParty, Dictionary<ICharacter, List<IAgent>>>();
-            _processedTroopsBySpec = new Dictionary<IParty, Dictionary<TroopSpecialization, List<IAgent>>>();
-            _equippedBannersByParty = new Dictionary<IParty, int>();
+            _processedTroopsByType = new Dictionary<string, Dictionary<ICharacter, List<IAgent>>>();
+            _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IAgent>>>();
+            _equippedBannersByParty = new Dictionary<string, int>();
 
             /* Add types to a list of allowed troops to carry a banner */
             AllowedBearerTypes = new List<ICharacter>();

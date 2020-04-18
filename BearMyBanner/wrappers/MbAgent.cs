@@ -11,13 +11,13 @@ namespace BearMyBanner.wrappers
             Character = new MbCharacter((CharacterObject)WrappedAgent.Character);
             var partyToWrap = ((PartyGroupAgentOrigin) WrappedAgent.Origin)?.Party;
             if (partyToWrap != null)
-                Party = new MbParty(partyToWrap);
+                PartyName = partyToWrap.Name.ToString();
         }
 
         public Agent WrappedAgent { get; }
         public bool IsAttacker => WrappedAgent.Team.IsAttacker;
         public bool IsDefender => WrappedAgent.Team.IsDefender;
         public ICharacter Character { get; }
-        public IParty Party { get; }
+        public string PartyName { get; }
     }
 }
