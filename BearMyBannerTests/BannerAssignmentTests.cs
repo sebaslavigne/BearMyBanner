@@ -26,5 +26,11 @@ namespace BearMyBannerTests
         {
             Assert.NotNull(_sut);
         }
+
+        [Fact]
+        public void TestBasicBattleWithDefaultSettings()
+        {
+            _sut
+        }
     }
 }

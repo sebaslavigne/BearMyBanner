@@ -13,6 +13,7 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BannerAssignmentController _bannerAssignmentController;
+        private bool FirstSpawnInitialized = false;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
@@ -126,8 +127,15 @@ namespace BearMyBanner
                 {
                     EquipAgentWithBanner(agent);
                 }
-                
-                _bannerAssignmentController.DisplayBannersEquippedMessage();
+
+                if (!FirstSpawnInitialized)
+                {
+                    FirstSpawnInitialized = true;
+                    foreach (KeyValuePair<IParty, int> entry in _bannerAssignmentController.EquippedBannersByParty)
+                    {
+                        Main.LogInMessageLog(entry.Key.Name + " received " + entry.Value + " banners");
+                    }
+                }
             }
             catch (Exception ex)
             {
