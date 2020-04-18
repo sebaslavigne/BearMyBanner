@@ -22,5 +22,10 @@ namespace BearMyBanner
         {
             return mission.MissionLogics.OfType<HideoutMissionController>().Any();
         }
+
+        public static bool IsCustomBattle(this Mission mission)
+        {
+            return mission.MissionLogics.OfType<CustomBattleAgentLogic>().Any();
+        }
     }
 }
