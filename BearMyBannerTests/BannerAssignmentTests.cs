@@ -97,7 +97,23 @@ namespace BearMyBannerTests
         [Fact]
         public void TestWithLowTierInfantry()
         {
+            var lowTierInfantry = CharacterFactory.GetLowTierInfantry();
+            var basicInfantry = CharacterFactory.GetBasicInfantry();
+            var archer = CharacterFactory.GetArcher();
+            _sut.FilterAllowedBearerTypes(new List<ICharacter>(new [] {archer, lowTierInfantry, basicInfantry}), false);
 
+            var party = new PartyBuilder("testParty")
+                .AddTroops(lowTierInfantry, 50)
+                .AddTroops(basicInfantry, 10)
+                .AddTroops(archer, 20)
+                .Build();
+
+            foreach (var agent in party)
+            {
+                _sut.ProcessAgentOnBuild(agent, BattleType.FieldBattle);
+            }
+
+            Assert.Equal(1, _sut.AgentsThatShouldReceiveBanners.Count());
         }
     }
 }
