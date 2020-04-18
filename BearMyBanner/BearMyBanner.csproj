@@ -249,6 +249,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BannerAssignmentController.cs" />
     <Compile Include="BMBSettings.cs" />
     <Compile Include="BattleBannerAssignBehaviour.cs" />
     <Compile Include="MissionUtils.cs" />
