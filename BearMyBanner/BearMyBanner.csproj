@@ -251,6 +251,7 @@
   <ItemGroup>
     <Compile Include="BMBSettings.cs" />
     <Compile Include="BattleBannerAssignBehaviour.cs" />
+    <Compile Include="MissionUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

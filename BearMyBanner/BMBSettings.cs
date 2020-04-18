@@ -17,9 +17,12 @@ namespace BearMyBanner
         public const string subGroupOccupation = groupTroopFilters + "/1.1 Enable troops by occupation";
         public const string subGroupSpec = groupTroopFilters + "/1.2 Enable troops by specialization";
         public const string subGroupTier = groupTroopFilters + "/1.3 Allow only select tiers";
-        public const string groupHeroes = "2. Enable heroes";
-        public const string groupRatios = "3. Bearer ratios";
-        public const string groupMisc = "4. Misc";
+        public const string subGroupHeroes = groupTroopFilters + "/1.4 Enable heroes";
+        public const string groupBanners = "2. Banner settings";
+        public const string subGroupRatios = groupBanners + "/2.1 Ratio";
+        public const string subGroupSieges = groupBanners + "/2.2 Use banners during sieges";
+        public const string subGroupHideouts = groupBanners + "/2.2 Use banners during hideout attacks";
+        public const string groupMisc = "3. Misc";
 
         public override string ModName => "Bear my Banner";
 
@@ -110,26 +113,54 @@ namespace BearMyBanner
         /* HEROES */
         [XmlElement]
         [SettingProperty("Allow player", "Equip player with a banner at the start of a battle. NOTE: Equipping a shield with the scroll wheel stops working for some reason. Use Numpad (or your configured hotkey in game settings) instead.")]
-        [SettingPropertyGroup(groupHeroes)]
+        [SettingPropertyGroup(subGroupHeroes)]
         public bool AllowPlayer { get; set; } = false;
         [XmlElement]
         [SettingProperty("Allow companions", "Equips all companions with a banner at the start of a battle.")]
-        [SettingPropertyGroup(groupHeroes)]
+        [SettingPropertyGroup(subGroupHeroes)]
         public bool AllowCompanions { get; set; } = false;
         [XmlElement]
         [SettingProperty("Allow nobles", "Equips all nobles with a banner at the start of a battle NOTE: Nobles with bows might be confused.")]
-        [SettingPropertyGroup(groupHeroes)]
+        [SettingPropertyGroup(subGroupHeroes)]
         public bool AllowNobles { get; set; } = false;
 
         /* RATIOS */
         [XmlElement]
         [SettingProperty("Banner bearers to troops ratio", 1, 100, "Gives a banner to every 1 in X troops of the same type.")]
-        [SettingPropertyGroup(groupRatios)]
+        [SettingPropertyGroup(subGroupRatios)]
         public int BearerToTroopRatio { get; set; } = 7;
         [XmlElement]
         [SettingProperty("Ignore troop types", "Uses specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners. Useful if you have diverse armies, but which units get banners is more random.")]
-        [SettingPropertyGroup(groupRatios)]
+        [SettingPropertyGroup(subGroupRatios)]
         public bool UseTroopSpecs { get; set; } = false;
+
+        /* SIEGES*/
+        [XmlElement]
+        [SettingProperty("Allow banners during sieges", "Enables the use of banners in sieges.")]
+        [SettingPropertyGroup(subGroupSieges, true)]
+        public bool AllowSieges { get; set; } = true;
+        [XmlElement]
+        [SettingProperty("Attackers use banners", "Gives banners to the attacking side.")]
+        [SettingPropertyGroup(subGroupSieges)]
+        public bool SiegeAttackersUseBanners { get; set; } = true;
+        [XmlElement]
+        [SettingProperty("Defenders use banners", "Gives banners to the defending side.")]
+        [SettingPropertyGroup(subGroupSieges)]
+        public bool SiegeDefendersUseBanners{ get; set; } = false;
+
+        /* HIDEOUTS */
+        [XmlElement]
+        [SettingProperty("Allow banners during hideout attacks", "Enables the use of banners in hideout attacks.")]
+        [SettingPropertyGroup(subGroupHideouts, true)]
+        public bool AllowHideouts { get; set; } = false;
+        [XmlElement]
+        [SettingProperty("Attackers use banners", "Gives banners to the attacking side.")]
+        [SettingPropertyGroup(subGroupHideouts)]
+        public bool HideoutAttackersUseBanners { get; set; } = false;
+        [XmlElement]
+        [SettingProperty("Bandits use banners", "Gives banners to the bandits, regardless of the troop filter settings.")]
+        [SettingPropertyGroup(subGroupHideouts)]
+        public bool HideoutBanditsUseBanners { get; set; } = false;
 
         /* MISC */
         [XmlElement]

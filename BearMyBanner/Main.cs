@@ -41,9 +41,12 @@ namespace BearMyBanner
             base.OnMissionBehaviourInitialize(mission);
             try
             {
+                LogInMessageLog(mission.SceneName);
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    if (mission.SceneName.Contains("battle"))
+                    if (mission.IsFieldBattle
+                        || (MissionUtils.IsSiege(mission))
+                        || (MissionUtils.IsHideout(mission)))
                     {
                         mission.AddMissionBehaviour(new BattleBannerAssignBehaviour());
                     }
@@ -59,7 +62,7 @@ namespace BearMyBanner
         {
             if (BMBSettings.Instance.ShowMessages)
             {
-                InformationManager.DisplayMessage(new InformationMessage(message)); 
+                InformationManager.DisplayMessage(new InformationMessage(message));
             }
         }
     }

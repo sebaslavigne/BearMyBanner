@@ -53,7 +53,26 @@ namespace BearMyBanner
             {
                 if (AllowedBearerTypes.Contains((CharacterObject)agent.Character))
                 {
-                    AddAgentToMaps(agent, banner);
+                    if (this.Mission.IsFieldBattle)
+                    {
+                        ProcessAgent(agent, banner);
+                    }
+                    else if (BMBSettings.Instance.AllowSieges && MissionUtils.IsSiege(this.Mission))
+                    {
+                        if ((BMBSettings.Instance.SiegeAttackersUseBanners && agent.Team.IsAttacker)
+                            || (BMBSettings.Instance.SiegeDefendersUseBanners && agent.Team.IsDefender))
+                        {
+                            ProcessAgent(agent, banner);
+                        }
+                    }
+                    else if (BMBSettings.Instance.AllowHideouts && MissionUtils.IsHideout(this.Mission))
+                    {
+                        if ((BMBSettings.Instance.HideoutAttackersUseBanners && agent.Team.IsAttacker)
+                            || (BMBSettings.Instance.HideoutBanditsUseBanners && agent.Team.IsDefender))
+                        {
+                            ProcessAgent(agent, banner);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -62,35 +81,23 @@ namespace BearMyBanner
             }
         }
 
-        private void AddAgentToMaps(Agent agent, Banner banner)
+        private void ProcessAgent(Agent agent, Banner banner)
         {
             PartyBase agentParty = ((PartyGroupAgentOrigin)agent.Origin).Party;
             CharacterObject agentCharacter = (CharacterObject)agent.Character;
             TroopSpecialization agentSpec = DetermineAgentSpec(agentCharacter);
 
             /* Add to maps */
-            if (!ProcessedTroopsByType.ContainsKey(agentParty))
-            {
-                ProcessedTroopsByType.Add(agentParty, new Dictionary<CharacterObject, List<Agent>>());
-            }
-            if (!ProcessedTroopsByType[agentParty].ContainsKey((CharacterObject)agent.Character))
-            {
-                ProcessedTroopsByType[agentParty].Add(agentCharacter, new List<Agent>());
-            }
+            if (!ProcessedTroopsByType.ContainsKey(agentParty)) ProcessedTroopsByType.Add(agentParty, new Dictionary<CharacterObject, List<Agent>>());
+            if (!ProcessedTroopsByType[agentParty].ContainsKey(agentCharacter)) ProcessedTroopsByType[agentParty].Add(agentCharacter, new List<Agent>());
 
-            if (!ProcessedTroopsBySpec.ContainsKey(agentParty))
-            {
-                ProcessedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<Agent>>());
-            }
-            if (!ProcessedTroopsBySpec[agentParty].ContainsKey(agentSpec)) {
-                ProcessedTroopsBySpec[agentParty].Add(agentSpec, new List<Agent>());
-            }
+            if (!ProcessedTroopsBySpec.ContainsKey(agentParty)) ProcessedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<Agent>>());
+            if (!ProcessedTroopsBySpec[agentParty].ContainsKey(agentSpec)) ProcessedTroopsBySpec[agentParty].Add(agentSpec, new List<Agent>());
 
             ProcessedTroopsByType[agentParty][agentCharacter].Add(agent);
             ProcessedTroopsBySpec[agentParty][agentSpec].Add(agent);
 
             /* Give banner or skip */
-
             int processedTroops = BMBSettings.Instance.UseTroopSpecs ? ProcessedTroopsBySpec[agentParty][agentSpec].Count : ProcessedTroopsByType[agentParty][agentCharacter].Count;
 
             if (agentCharacter.IsHero || processedTroops % BMBSettings.Instance.BearerToTroopRatio == 0)
@@ -122,7 +129,7 @@ namespace BearMyBanner
 
         public override void OnFormationUnitsSpawned(Team team)
         {
-            base.OnFormationUnitsSpawned(team);
+            base.OnFormationUnitsSpawned(team);//Use LINQ for team parties
             try
             {
                 if (!FirstSpawnInitialized)
@@ -131,7 +138,7 @@ namespace BearMyBanner
                     foreach (KeyValuePair<PartyBase, int> entry in EquippedBannersByParty)
                     {
                         Main.LogInMessageLog(entry.Key.Name + " received " + entry.Value + " banners");
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -182,6 +189,12 @@ namespace BearMyBanner
             if (BMBSettings.Instance.AllowPlayer) { AllowedBearerTypes.Add(characterTypes.Find(character => character.IsPlayerCharacter)); }
             if (BMBSettings.Instance.AllowCompanions) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.IsHero && character.Occupation == Occupation.Wanderer)); }
             if (BMBSettings.Instance.AllowNobles) { AllowedBearerTypes.AddRange(characterTypes.FindAll(character => !character.IsPlayerCharacter && (character.Occupation == Occupation.Lord || character.Occupation == Occupation.Lady))); }
+
+            /* Add bandits for hideout missions */
+            if (BMBSettings.Instance.AllowHideouts && BMBSettings.Instance.HideoutBanditsUseBanners && MissionUtils.IsHideout(this.Mission))
+            {
+                AllowedBearerTypes.AddRange(characterTypes.FindAll(character => character.Occupation == Occupation.Bandit));
+            }
         }
 
         private static void StripWeaponsFromArcher(Agent agent)
@@ -194,12 +207,12 @@ namespace BearMyBanner
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(true);
 
             HashSet<ItemObject.ItemTypeEnum> forbiddenItemTypes = new HashSet<ItemObject.ItemTypeEnum>()
-                                {
-                                    ItemObject.ItemTypeEnum.Arrows,
-                                    ItemObject.ItemTypeEnum.Bolts,
-                                    ItemObject.ItemTypeEnum.Bow,
-                                    ItemObject.ItemTypeEnum.Crossbow
-                                };
+            {
+                ItemObject.ItemTypeEnum.Arrows,
+                ItemObject.ItemTypeEnum.Bolts,
+                ItemObject.ItemTypeEnum.Bow,
+                ItemObject.ItemTypeEnum.Crossbow
+            };
 
             if (weaponElement0.Item != null && !forbiddenItemTypes.Contains(weaponElement0.Item.Type))
             {
