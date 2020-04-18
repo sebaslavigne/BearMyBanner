@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannerAssignmentTests.cs" />
+    <Compile Include="CharacterFactory.cs" />
+    <Compile Include="PartyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSettings.cs" />
   </ItemGroup>
