@@ -3,6 +3,8 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 
+using TaleWorlds.Core;
+
 namespace BearMyBanner
 {
     public class BannerAssignmentController
@@ -22,7 +24,7 @@ namespace BearMyBanner
         }
 
         /// <summary>
-        /// Checks if an agent is illegible for a banner and processes them if they are
+        /// Checks if an agent is eligible for a banner and processes them if they are
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="missionType"></param>
@@ -88,10 +90,9 @@ namespace BearMyBanner
         /// Shows a message with each party banner count in the parties color
         /// </summary>
         /// <param name="team"></param>
-        public void ShowBannersEquippedByPartiesInTeam(Team team)
+        public void ShowBannersEquippedByPartiesInTeam(List<CampaignAgent> teamAgents)
         {
-            Dictionary<string, uint> partiesInTeam = team.TeamAgents
-                .Select(ta => new CampaignAgent(ta))
+            Dictionary<string, uint> partiesInTeam = teamAgents
                 .DistinctBy(ca => ca.PartyName)
                 .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
             foreach (KeyValuePair<string, uint> entry in partiesInTeam)

@@ -63,7 +63,8 @@ namespace BearMyBanner
             base.OnFormationUnitsSpawned(team);
             try
             {
-                _bannerAssignmentController.ShowBannersEquippedByPartiesInTeam(team);
+                List<CampaignAgent> teamAgents = team.TeamAgents.Select(ta => new CampaignAgent(ta)).ToList();
+                _bannerAssignmentController.ShowBannersEquippedByPartiesInTeam(teamAgents);
             }
             catch (Exception ex)
             {
