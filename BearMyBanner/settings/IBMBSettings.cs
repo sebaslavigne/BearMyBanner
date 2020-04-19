@@ -30,5 +30,6 @@
         bool HideoutAttackersUseBanners { get; set; }
         bool HideoutBanditsUseBanners { get; set; }
         bool ShowMessages { get; set; }
+        bool WhiteMessages { get; set; }
     }
 }
