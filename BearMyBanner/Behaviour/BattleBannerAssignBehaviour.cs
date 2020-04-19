@@ -60,10 +60,10 @@ namespace BearMyBanner
 
         public override void OnFormationUnitsSpawned(Team team)
         {
-            base.OnFormationUnitsSpawned(team);//TODO Use LINQ for team parties
+            base.OnFormationUnitsSpawned(team);
             try
             {
-                Main.LogInMessageLog("TODO " + team.ActiveAgents.Count);
+                _bannerAssignmentController.ShowBannersEquippedByPartiesInTeam(team);
             }
             catch (Exception ex)
             {
