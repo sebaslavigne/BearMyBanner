@@ -83,6 +83,25 @@ namespace BearMyBanner
                 _equippedBannersByParty[agentParty] = equippedCount + 1;
             }
         }
+      
+        /// <summary>
+        /// Shows a message with each party banner count in the parties color
+        /// </summary>
+        /// <param name="team"></param>
+        public void ShowBannersEquippedByPartiesInTeam(Team team)
+        {
+            Dictionary<string, uint> partiesInTeam = team.TeamAgents
+                .Select(ta => new CampaignAgent(ta))
+                .DistinctBy(ca => ca.PartyName)
+                .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
+            foreach (KeyValuePair<string, uint> entry in partiesInTeam)
+            {
+                if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))
+                {
+                    Main.LogInMessageLog(count + " banners given to " + entry.Key, entry.Value);
+                }
+            }
+        }
 
         /// <summary>
         /// Generates a list of allowed troop types according to settings

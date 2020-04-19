@@ -155,5 +155,9 @@ namespace BearMyBanner.Settings
         [SettingProperty("Show messages", "Shows mod messages in Message Log.")]
         [SettingPropertyGroup(GroupMisc)]
         public bool ShowMessages { get; set; }
+        [XmlElement]
+        [SettingProperty("Messages always in white", "Useful if some messages are hard to read.")]
+        [SettingPropertyGroup(GroupMisc)]
+        public bool WhiteMessages { get; set; }
     }
 }
