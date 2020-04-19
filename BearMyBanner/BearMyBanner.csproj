@@ -256,6 +256,7 @@
     <Compile Include="Behaviour\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="Controller\BannerAssignmentController.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
+    <Compile Include="Editor\IGameObjectEditor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
     <Compile Include="Behaviour\BattleBannerAssignBehaviour.cs" />

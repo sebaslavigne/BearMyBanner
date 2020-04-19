@@ -38,6 +38,7 @@
             settings.HideoutBanditsUseBanners = false;
 
             settings.ShowMessages = true;
+            settings.WhiteMessages = false;
 
             return settings;
         }

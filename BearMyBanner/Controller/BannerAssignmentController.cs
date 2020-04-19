@@ -4,43 +4,39 @@ using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 
 using TaleWorlds.Core;
-using TaleWorlds.MountAndBlade;
-using TaleWorlds.CampaignSystem;
 
 namespace BearMyBanner
 {
     public class BannerAssignmentController
     {
         private readonly IBMBSettings _settings;
-        private readonly GameObjectEditor _gameObjectEditor;
+        private readonly IGameObjectEditor _gameObjectEditor;
 
         private List<IBMBCharacter> _allowedBearerTypes;
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
-        private HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
 
-        public BannerAssignmentController(IBMBSettings settings, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        public BannerAssignmentController(IBMBSettings settings, IGameObjectEditor gameObjectEditor)
         {
             _settings = settings;
-            _forbiddenWeapons = forbiddenWeapons;
-            _gameObjectEditor = new GameObjectEditor(settings);
+            _gameObjectEditor = gameObjectEditor;
         }
 
         /// <summary>
-        /// Checks if an agent is elligible for a banner and processes them if they are
+        /// Checks if an agent is eligible for a banner and processes them if they are
         /// </summary>
         /// <param name="agent"></param>
-        /// <param name="mission"></param>
-        public void ProcessBuiltAgent(IBMBAgent agent, Mission mission)
+        /// <param name="missionType"></param>
+        public void ProcessBuiltAgent(IBMBAgent agent, MissionType missionType)
         {
             if (_allowedBearerTypes.Contains(agent.Character))
             {
-                if (mission.IsFieldBattle)
+                if (missionType == MissionType.FieldBattle)
                 {
                     ProcessAgent(agent);
                 }
-                else if (_settings.AllowSieges && mission.IsSiege())
+                else if (_settings.AllowSieges && missionType == MissionType.Siege)
                 {
                     if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
                         || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
@@ -48,7 +44,7 @@ namespace BearMyBanner
                         ProcessAgent(agent);
                     }
                 }
-                else if (_settings.AllowHideouts && mission.IsHideout())
+                else if (_settings.AllowHideouts && missionType == MissionType.Hideout)
                 {
                     if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
                         || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
@@ -84,27 +80,37 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
-                _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent.WrappedAgent, _forbiddenWeapons);
+                _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent);
                 _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
                 _equippedBannersByParty[agentParty] = equippedCount + 1;
             }
         }
-
-        public void ShowBannersEquippedByPartiesInTeam(Team team)
+      
+        /// <summary>
+        /// Shows a message with each party banner count in the parties color
+        /// </summary>
+        /// <param name="team"></param>
+        public void ShowBannersEquippedByPartiesInTeam(List<CampaignAgent> teamAgents)
         {
-            Main.LogInMessageLog("TODO " + team.ActiveAgents.Count);
+            Dictionary<string, uint> partiesInTeam = teamAgents
+                .DistinctBy(ca => ca.PartyName)
+                .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
+            foreach (KeyValuePair<string, uint> entry in partiesInTeam)
+            {
+                if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))
+                {
+                    Main.LogInMessageLog(count + " banners given to " + entry.Key, entry.Value);
+                }
+            }
         }
 
         /// <summary>
         /// Generates a list of allowed troop types according to settings
         /// </summary>
+        /// <param name="characterTypes"></param>
         /// <param name="isHideout"></param>
-        public void FilterAllowedBearerTypes(bool isHideout)
+        public void FilterAllowedBearerTypes(IReadOnlyList<IBMBCharacter> characterTypes, bool isHideout)
         {
-            var nativeCharacterTypes = new List<CharacterObject>();
-            MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
-            var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
-
             _processedTroopsByType = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
             _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
             _equippedBannersByParty = new Dictionary<string, int>();

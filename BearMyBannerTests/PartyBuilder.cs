@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using BearMyBanner.Wrappers;
+using BearMyBanner.Wrapper;
 using Moq;
 
 namespace BearMyBannerTests
@@ -10,33 +8,39 @@ namespace BearMyBannerTests
     public class PartyBuilder
     {
         private readonly string _name;
-        private readonly List<IAgent> _agents;
+        private readonly bool _isAttacking;
+        private readonly List<IBMBAgent> _agents;
 
-        public PartyBuilder(string name)
+        public PartyBuilder(string name, bool isAttacking = true)
         {
             _name = name;
-            _agents = new List<IAgent>();
+            _agents = new List<IBMBAgent>();
+            _isAttacking = isAttacking;
         }
 
-        public PartyBuilder AddTroops(ICharacter character, int count)
+        public PartyBuilder AddTroops(IBMBCharacter character, int count)
         {
             _agents.AddRange(Enumerable.Repeat(AgentFor(character, _name), count));
 
             return this;
         }
 
-        public IEnumerable<IAgent> Build()
+        public IEnumerable<IBMBAgent> Build()
         {
             return _agents;
         }
 
-        private IAgent AgentFor(ICharacter character, string party = "testParty")
+        private IBMBAgent AgentFor(IBMBCharacter character, string party = "testParty")
         {
-            var mock = new Mock<IAgent>();
+            var mock = new Mock<IBMBAgent>();
             mock.Setup(m => m.Character)
                 .Returns(character);
             mock.Setup(m => m.PartyName)
                 .Returns(party);
+            mock.Setup(m => m.IsDefender)
+                .Returns(!_isAttacking);
+            mock.Setup(m => m.IsAttacker)
+                .Returns(_isAttacking);
 
             return mock.Object;
         }

@@ -11,7 +11,10 @@ namespace BearMyBanner.Wrapper
             Character = new CampaignCharacter((CharacterObject)WrappedAgent.Character);
             var partyToWrap = ((PartyGroupAgentOrigin) WrappedAgent.Origin)?.Party;
             if (partyToWrap != null)
+            {
                 PartyName = partyToWrap.Name.ToString();
+                PartyColor = partyToWrap.PrimaryColorPair.Item1;
+            }
         }
 
         public Agent WrappedAgent { get; }
@@ -19,5 +22,6 @@ namespace BearMyBanner.Wrapper
         public bool IsDefender => WrappedAgent.Team.IsDefender;
         public IBMBCharacter Character { get; }
         public string PartyName { get; }
+        public uint PartyColor { get; }
     }
 }
