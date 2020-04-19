@@ -253,6 +253,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="Controller\BannerAssignmentController.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
