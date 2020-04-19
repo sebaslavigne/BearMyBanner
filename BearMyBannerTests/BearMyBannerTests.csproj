@@ -76,10 +76,7 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BearMyBanner\BearMyBanner.csproj">
-      <Project>{43b77f76-c8be-40a7-b190-c971cad30588}</Project>
-      <Name>BearMyBanner</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\BearMyBanner\BearMyBanner.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

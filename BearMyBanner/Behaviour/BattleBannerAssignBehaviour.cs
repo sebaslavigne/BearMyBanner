@@ -23,7 +23,9 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Bow,
                 ItemObject.ItemTypeEnum.Crossbow
             };
-            _bannerAssignmentController = new BannerAssignmentController(settings, forbiddenWeapons);
+
+            var gameObjectEditor = new GameObjectEditor(settings, forbiddenWeapons);
+            _bannerAssignmentController = new BannerAssignmentController(settings, gameObjectEditor);
         }
 
         public override void OnCreated()
@@ -32,7 +34,10 @@ namespace BearMyBanner
 
             try
             {
-                _bannerAssignmentController.FilterAllowedBearerTypes(this.Mission.IsHideout());
+                var nativeCharacterTypes = new List<CharacterObject>();
+                MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
+                var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
+                _bannerAssignmentController.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
             }
             catch (Exception ex)
             {
@@ -45,7 +50,7 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), Mission);
+                _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), Mission.GetMissionType());
             }
             catch (Exception ex)
             {
@@ -58,7 +63,7 @@ namespace BearMyBanner
             base.OnFormationUnitsSpawned(team);//TODO Use LINQ for team parties
             try
             {
-                _bannerAssignmentController.ShowBannersEquippedByPartiesInTeam(team);
+                Main.LogInMessageLog("TODO " + team.ActiveAgents.Count);
             }
             catch (Exception ex)
             {
