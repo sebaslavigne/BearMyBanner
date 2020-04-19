@@ -81,5 +81,13 @@ namespace BearMyBanner
                 InformationManager.DisplayMessage(new InformationMessage(message));
             }
         }
+
+        public static void LogInMessageLog(string message, uint color)
+        {
+            if (BMBSettings.Instance.ShowMessages)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(message, Color.FromUint(color)));
+            }
+        }
     }
 }

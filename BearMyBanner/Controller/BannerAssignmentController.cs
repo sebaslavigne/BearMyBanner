@@ -90,9 +90,23 @@ namespace BearMyBanner
             }
         }
 
+        /// <summary>
+        /// Shows a message with each party banner count in the parties color
+        /// </summary>
+        /// <param name="team"></param>
         public void ShowBannersEquippedByPartiesInTeam(Team team)
         {
-            Main.LogInMessageLog("TODO " + team.ActiveAgents.Count);
+            Dictionary<string, uint> partiesInTeam = team.TeamAgents
+                .Select(ta => new CampaignAgent(ta))
+                .DistinctBy(ca => ca.PartyName)
+                .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
+            foreach (KeyValuePair<string, uint> entry in partiesInTeam)
+            {
+                if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))
+                {
+                    Main.LogInMessageLog(count + " banners given to " + entry.Key, entry.Value);
+                }
+            }
         }
 
         /// <summary>
