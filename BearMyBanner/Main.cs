@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BearMyBanner.Effects;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.Library;
@@ -50,12 +52,25 @@ namespace BearMyBanner
 
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
+
+                    // For battles, we don't want ranged units dropping banners because they had a bow
+                    var forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
+                    {
+                        ItemObject.ItemTypeEnum.Arrows,
+                        ItemObject.ItemTypeEnum.Bolts,
+                        ItemObject.ItemTypeEnum.Bow,
+                        ItemObject.ItemTypeEnum.Crossbow
+                    };
+
+                    var gameObjectEditor = new GameObjectEditor(_settings, forbiddenWeapons);
+
                     switch (mission.GetMissionType())
                     {
                         case MissionType.FieldBattle:
                         case MissionType.Siege:
                         case MissionType.Hideout:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, gameObjectEditor));
+                            mission.AddMissionBehaviour(new BannerStatusEffectsLogic(_settings, gameObjectEditor));
                             break;
                         case MissionType.Tournament:
                             break;

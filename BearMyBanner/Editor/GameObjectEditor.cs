@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BearMyBanner.Wrapper;
 using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner
 {
@@ -34,10 +35,35 @@ namespace BearMyBanner
             if (weaponElement2.Item != null && !_forbiddenWeapons.Contains(weaponElement2.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
             if (weaponElement3.Item != null && !_forbiddenWeapons.Contains(weaponElement3.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
 
-            EquipmentElement bannerElement = new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
+            var bannerElement = GetBannerElement();
             clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon4, bannerElement);
 
             mbAgent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
+        }
+
+        private static EquipmentElement GetBannerElement()
+        {
+            EquipmentElement bannerElement =
+                new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
+            return bannerElement;
+        }
+
+        public bool CheckIfAgentHasBanner(IBMBAgent agent)
+        {
+            var mbAgent = ((CampaignAgent) agent).WrappedAgent;
+
+            if (!mbAgent.IsHuman)
+            {
+                return false;
+            }
+            var bannerElement = GetBannerElement();
+            var offhandWeapon = mbAgent.WieldedOffhandWeapon;
+            if (offhandWeapon.Equals(MissionWeapon.Invalid))
+            {
+                return false;
+            }
+            var hasBanner = offhandWeapon.PrimaryItem == bannerElement.Item;
+            return hasBanner;
         }
     }
 }

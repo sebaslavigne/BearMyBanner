@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BearMyBanner.Effects;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 using TaleWorlds.CampaignSystem;
@@ -12,20 +13,12 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BannerAssignmentController _bannerAssignmentController;
+        private readonly GameObjectEditor _gameObjectEditor;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings)
+        public BattleBannerAssignBehaviour(IBMBSettings settings, GameObjectEditor gameObjectEditor)
         {
-            // For battles, we don't want ranged units dropping banners because they had a bow
-            var forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
-            {
-                ItemObject.ItemTypeEnum.Arrows,
-                ItemObject.ItemTypeEnum.Bolts,
-                ItemObject.ItemTypeEnum.Bow,
-                ItemObject.ItemTypeEnum.Crossbow
-            };
-
-            var gameObjectEditor = new GameObjectEditor(settings, forbiddenWeapons);
-            _bannerAssignmentController = new BannerAssignmentController(settings, gameObjectEditor);
+            _gameObjectEditor = gameObjectEditor;
+            _bannerAssignmentController = new BannerAssignmentController(settings, _gameObjectEditor);
         }
 
         public override void OnCreated()
@@ -48,6 +41,7 @@ namespace BearMyBanner
         public override void OnAgentBuild(Agent agent, Banner banner)
         {
             base.OnAgentBuild(agent, banner);
+            agent.AddComponent(new BannerStatusEffectsComponent(agent, _gameObjectEditor));
             try
             {
                 _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), Mission.GetMissionType());
