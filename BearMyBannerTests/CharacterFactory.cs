@@ -5,9 +5,9 @@ namespace BearMyBannerTests
 {
     public class CharacterFactory
     {
-        public static IBmbCharacter GetBasicInfantry()
+        public static IBMBCharacter GetBasicInfantry()
         {
-            var mock = new Mock<IBmbCharacter>();
+            var mock = new Mock<IBMBCharacter>();
             mock.Setup(m => m.Occupation)
                 .Returns(CharacterOccupation.Soldier);
             mock.Setup(m => m.Type)
@@ -18,9 +18,9 @@ namespace BearMyBannerTests
             return mock.Object;
         }
 
-        public static IBmbCharacter GetLowTierInfantry()
+        public static IBMBCharacter GetLowTierInfantry()
         {
-            var mock = new Mock<IBmbCharacter>();
+            var mock = new Mock<IBMBCharacter>();
             mock.Setup(m => m.Occupation)
                 .Returns(CharacterOccupation.Soldier);
             mock.Setup(m => m.Type)
@@ -31,9 +31,9 @@ namespace BearMyBannerTests
             return mock.Object;
         }
 
-        public static IBmbCharacter GetArcher()
+        public static IBMBCharacter GetArcher()
         {
-            var mock = new Mock<IBmbCharacter>();
+            var mock = new Mock<IBMBCharacter>();
             mock.Setup(m => m.Occupation)
                 .Returns(CharacterOccupation.Soldier);
             mock.Setup(m => m.Type)

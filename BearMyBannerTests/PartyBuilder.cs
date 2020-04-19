@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using BearMyBanner.Wrapper;
 using Moq;
 
@@ -11,30 +9,30 @@ namespace BearMyBannerTests
     {
         private readonly string _name;
         private readonly bool _isAttacking;
-        private readonly List<IBmbAgent> _agents;
+        private readonly List<IBMBAgent> _agents;
 
         public PartyBuilder(string name, bool isAttacking = true)
         {
             _name = name;
-            _agents = new List<IBmbAgent>();
+            _agents = new List<IBMBAgent>();
             _isAttacking = isAttacking;
         }
 
-        public PartyBuilder AddTroops(IBmbCharacter character, int count)
+        public PartyBuilder AddTroops(IBMBCharacter character, int count)
         {
             _agents.AddRange(Enumerable.Repeat(AgentFor(character, _name), count));
 
             return this;
         }
 
-        public IEnumerable<IBmbAgent> Build()
+        public IEnumerable<IBMBAgent> Build()
         {
             return _agents;
         }
 
-        private IBmbAgent AgentFor(IBmbCharacter character, string party = "testParty")
+        private IBMBAgent AgentFor(IBMBCharacter character, string party = "testParty")
         {
-            var mock = new Mock<IBmbAgent>();
+            var mock = new Mock<IBMBAgent>();
             mock.Setup(m => m.Character)
                 .Returns(character);
             mock.Setup(m => m.PartyName)
