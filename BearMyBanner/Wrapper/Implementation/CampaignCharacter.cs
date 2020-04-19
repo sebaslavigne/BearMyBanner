@@ -2,7 +2,7 @@
 
 namespace BearMyBanner.Wrapper
 {
-    public class CampaignCharacter : IBmbCharacter
+    public class CampaignCharacter : IBMBCharacter
     {
         private readonly CharacterObject _wrappedCharacter;
 

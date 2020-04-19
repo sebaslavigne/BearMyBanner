@@ -2,12 +2,12 @@
 
 namespace BearMyBanner.Wrapper
 {
-    public interface IBmbAgent
+    public interface IBMBAgent
     {
         Agent WrappedAgent { get; }
         bool IsAttacker { get; }
         bool IsDefender { get; }
-        IBmbCharacter Character { get; }
+        IBMBCharacter Character { get; }
         string PartyName { get; }
     }
 }

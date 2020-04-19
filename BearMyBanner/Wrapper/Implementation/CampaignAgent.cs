@@ -3,7 +3,7 @@ using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner.Wrapper
 {
-    public class CampaignAgent : IBmbAgent
+    public class CampaignAgent : IBMBAgent
     {
         public CampaignAgent(Agent wrappedAgent)
         {
@@ -17,7 +17,7 @@ namespace BearMyBanner.Wrapper
         public Agent WrappedAgent { get; }
         public bool IsAttacker => WrappedAgent.Team.IsAttacker;
         public bool IsDefender => WrappedAgent.Team.IsDefender;
-        public IBmbCharacter Character { get; }
+        public IBMBCharacter Character { get; }
         public string PartyName { get; }
     }
 }

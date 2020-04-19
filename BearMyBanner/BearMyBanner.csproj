@@ -264,12 +264,11 @@
     <Compile Include="Settings\IBMBSettingsExtension.cs" />
     <Compile Include="Wrapper\Enum\TroopSpecialization.cs" />
     <Compile Include="Wrapper\Enum\CharacterOccupation.cs" />
-    <Compile Include="Wrapper\Implementation\TypedMission.cs" />
-    <Compile Include="Wrapper\Interface\IBmbAgent.cs" />
-    <Compile Include="Wrapper\Interface\IBmbCharacter.cs" />
+    <Compile Include="Wrapper\Interface\IBMBAgent.cs" />
+    <Compile Include="Wrapper\Interface\IBMBCharacter.cs" />
     <Compile Include="Wrapper\Implementation\CampaignAgent.cs" />
     <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
-    <Compile Include="Wrapper\Interface\IBmbMission.cs" />
+    <Compile Include="Wrapper\Utils\MissionUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

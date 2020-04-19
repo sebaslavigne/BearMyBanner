@@ -48,20 +48,24 @@ namespace BearMyBanner
                     throw new InvalidOperationException("Settings were not initialized");
                 }
 
-                TypedMission typedMission = new TypedMission(mission);
-
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    switch (typedMission.MissionType)
+                    switch (mission.GetMissionType())
                     {
                         case MissionType.FieldBattle:
                         case MissionType.Siege:
                         case MissionType.Hideout:
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
                             break;
+                        case MissionType.Tournament:
+                            break;
                         default:
                             break;
                     }
+                }
+                else if (Mission.Current.CombatType == Mission.MissionCombatType.NoCombat)
+                {
+                    //TODO add behaviour for town and village visits
                 }
             }
             catch (Exception ex)

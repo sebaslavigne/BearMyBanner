@@ -1,6 +1,6 @@
 ﻿namespace BearMyBanner.Wrapper
 {
-    public interface IBmbCharacter
+    public interface IBMBCharacter
     {
         bool IsHero { get; }
         TroopSpecialization Type { get; }

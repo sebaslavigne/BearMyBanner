@@ -12,12 +12,18 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BannerAssignmentController _bannerAssignmentController;
-        private readonly GameObjectEditor _gameObjectEditor;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
-            _bannerAssignmentController = new BannerAssignmentController(settings);
-            _gameObjectEditor = new GameObjectEditor(settings);
+            // For battles, we don't want ranged units dropping banners because they had a bow
+            var forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
+            {
+                ItemObject.ItemTypeEnum.Arrows,
+                ItemObject.ItemTypeEnum.Bolts,
+                ItemObject.ItemTypeEnum.Bow,
+                ItemObject.ItemTypeEnum.Crossbow
+            };
+            _bannerAssignmentController = new BannerAssignmentController(settings, forbiddenWeapons);
         }
 
         public override void OnCreated()
@@ -26,8 +32,7 @@ namespace BearMyBanner
 
             try
             {
-                TypedMission mission = new TypedMission(Mission);
-                _bannerAssignmentController.FilterAllowedBearerTypes(mission.IsHideout);
+                _bannerAssignmentController.FilterAllowedBearerTypes(this.Mission.IsHideout());
             }
             catch (Exception ex)
             {
@@ -40,11 +45,7 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                bool agentGetsBanner = _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), new TypedMission(Mission));
-                if (agentGetsBanner)
-                {
-                    _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent);
-                }
+                _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), Mission);
             }
             catch (Exception ex)
             {
@@ -54,7 +55,7 @@ namespace BearMyBanner
 
         public override void OnFormationUnitsSpawned(Team team)
         {
-            base.OnFormationUnitsSpawned(team);//Use LINQ for team parties
+            base.OnFormationUnitsSpawned(team);//TODO Use LINQ for team parties
             try
             {
                 _bannerAssignmentController.ShowBannersEquippedByPartiesInTeam(team);

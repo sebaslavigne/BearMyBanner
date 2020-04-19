@@ -2,6 +2,6 @@
 {
     public enum MissionType
     {
-        FieldBattle, Siege, Hideout, Tournament, Visit, CustomBattle
+        FieldBattle, Siege, Hideout, Tournament, Visit, CustomBattle, Unknown
     }
 }

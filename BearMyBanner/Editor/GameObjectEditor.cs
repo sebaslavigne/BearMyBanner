@@ -16,7 +16,7 @@ namespace BearMyBanner
             _settings = settings;
         }
 
-        public void AddBannerToAgentSpawnEquipment(Agent agent)
+        public void AddBannerToAgentSpawnEquipment(Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenItemTypes)
         {
             EquipmentElement weaponElement0 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0);
             EquipmentElement weaponElement1 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1);
@@ -24,14 +24,6 @@ namespace BearMyBanner
             EquipmentElement weaponElement3 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3);
             //Clones the equipment without weapons. Apparently arrows are not a weapon, but it doesn't matter
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(true);
-
-            HashSet<ItemObject.ItemTypeEnum> forbiddenItemTypes = new HashSet<ItemObject.ItemTypeEnum>()
-            {
-                ItemObject.ItemTypeEnum.Arrows,
-                ItemObject.ItemTypeEnum.Bolts,
-                ItemObject.ItemTypeEnum.Bow,
-                ItemObject.ItemTypeEnum.Crossbow
-            };
 
             if (weaponElement0.Item != null && !forbiddenItemTypes.Contains(weaponElement0.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
             if (weaponElement1.Item != null && !forbiddenItemTypes.Contains(weaponElement1.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);

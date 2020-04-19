@@ -12,56 +12,69 @@ namespace BearMyBanner
     public class BannerAssignmentController
     {
         private readonly IBMBSettings _settings;
-        private List<IBmbCharacter> _allowedBearerTypes;
-        private Dictionary<string, int> _equippedBannersByParty;
-        private Dictionary<string, Dictionary<IBmbCharacter, List<IBmbAgent>>> _processedTroopsByType;
-        private Dictionary<string, Dictionary<TroopSpecialization, List<IBmbAgent>>> _processedTroopsBySpec;
+        private readonly GameObjectEditor _gameObjectEditor;
 
-        public BannerAssignmentController(IBMBSettings settings)
+        private List<IBMBCharacter> _allowedBearerTypes;
+        private Dictionary<string, int> _equippedBannersByParty;
+        private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
+        private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
+        private HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
+
+        public BannerAssignmentController(IBMBSettings settings, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
         {
             _settings = settings;
+            _forbiddenWeapons = forbiddenWeapons;
+            _gameObjectEditor = new GameObjectEditor(settings);
         }
 
-        public bool ProcessBuiltAgent(IBmbAgent agent, TypedMission mission)
+        /// <summary>
+        /// Checks if an agent is elligible for a banner and processes them if they are
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="mission"></param>
+        public void ProcessBuiltAgent(IBMBAgent agent, Mission mission)
         {
             if (_allowedBearerTypes.Contains(agent.Character))
             {
                 if (mission.IsFieldBattle)
                 {
-                    return ProcessAgent(agent);
+                    ProcessAgent(agent);
                 }
-                else if (_settings.AllowSieges && mission.IsSiege)
+                else if (_settings.AllowSieges && mission.IsSiege())
                 {
                     if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
                         || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
                     {
-                        return ProcessAgent(agent);
+                        ProcessAgent(agent);
                     }
                 }
-                else if (_settings.AllowHideouts && mission.IsHideout)
+                else if (_settings.AllowHideouts && mission.IsHideout())
                 {
                     if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
                         || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
                     {
-                        return ProcessAgent(agent);
+                        ProcessAgent(agent);
                     }
                 }
             }
-            return false;
         }
 
-        private bool ProcessAgent(IBmbAgent agent)
+        /// <summary>
+        /// Keeps track of agents in dictionaries and decides if they get banners
+        /// </summary>
+        /// <param name="agent"></param>
+        private void ProcessAgent(IBMBAgent agent)
         {
             string agentParty = agent.PartyName;
-            IBmbCharacter agentCharacter = agent.Character;
+            IBMBCharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
 
             /* Add to maps */
-            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<IBmbCharacter, List<IBmbAgent>>());
-            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IBmbAgent>());
+            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
+            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IBMBAgent>());
 
-            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBmbAgent>>());
-            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<IBmbAgent>());
+            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBMBAgent>>());
+            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<IBMBAgent>());
 
             _processedTroopsByType[agentParty][agentCharacter].Add(agent);
             _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
@@ -71,13 +84,9 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
+                _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent.WrappedAgent, _forbiddenWeapons);
                 _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
                 _equippedBannersByParty[agentParty] = equippedCount + 1;
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -86,18 +95,22 @@ namespace BearMyBanner
             Main.LogInMessageLog("TODO " + team.ActiveAgents.Count);
         }
 
+        /// <summary>
+        /// Generates a list of allowed troop types according to settings
+        /// </summary>
+        /// <param name="isHideout"></param>
         public void FilterAllowedBearerTypes(bool isHideout)
         {
             var nativeCharacterTypes = new List<CharacterObject>();
             MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
             var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
 
-            _processedTroopsByType = new Dictionary<string, Dictionary<IBmbCharacter, List<IBmbAgent>>>();
-            _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBmbAgent>>>();
+            _processedTroopsByType = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
+            _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
             _equippedBannersByParty = new Dictionary<string, int>();
 
             /* Add types to a list of allowed troops to carry a banner */
-            _allowedBearerTypes = new List<IBmbCharacter>();
+            _allowedBearerTypes = new List<IBMBCharacter>();
 
             /* Add troops */
             if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
