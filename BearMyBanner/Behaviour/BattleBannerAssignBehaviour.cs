@@ -41,7 +41,6 @@ namespace BearMyBanner
         public override void OnAgentBuild(Agent agent, Banner banner)
         {
             base.OnAgentBuild(agent, banner);
-            agent.AddComponent(new BannerStatusEffectsComponent(agent, _gameObjectEditor));
             try
             {
                 _bannerAssignmentController.ProcessBuiltAgent(new CampaignAgent(agent), Mission.GetMissionType());

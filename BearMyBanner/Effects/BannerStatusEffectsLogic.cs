@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using BearMyBanner.Settings;
 using BearMyBanner.Wrapper;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner.Effects
@@ -31,6 +32,13 @@ namespace BearMyBanner.Effects
             }
 
             base.OnMissionTick(dt);
+        }
+
+        public override void OnAgentBuild(Agent agent, Banner banner)
+        {
+            agent.AddComponent(new BannerStatusEffectsComponent(agent, _gameObjectEditor));
+
+            base.OnAgentBuild(agent, banner);
         }
     }
 }
