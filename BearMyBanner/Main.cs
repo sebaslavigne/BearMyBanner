@@ -29,7 +29,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                PrintInMessageLog("BMB Error: " + ex.Message);
+                LogError(ex);
             }
         }
 
@@ -71,13 +71,13 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                PrintInMessageLog("BMB Error: " + ex.Message);
+                LogError(ex);
             }
         }
 
         public static void PrintInMessageLog(string message)
         {
-                PrintInMessageLog(message, Color.White);
+            PrintInMessageLog(message, Color.White);
         }
 
         public static void PrintInMessageLog(string message, uint color)
@@ -92,6 +92,11 @@ namespace BearMyBanner
                 if (BMBSettings.Instance.WhiteMessages) color = Color.White;
                 InformationManager.DisplayMessage(new InformationMessage(message, color));
             }
+        }
+
+        public static void LogError(Exception ex)
+        {
+            PrintInMessageLog("BMB Error: " + ex.Message);
         }
     }
 }

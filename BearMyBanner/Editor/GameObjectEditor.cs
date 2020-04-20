@@ -18,22 +18,28 @@ namespace BearMyBanner
         /// <param name="forbiddenWeapons">A set of weapons the agent has removed from their equipment</param>
         public static void AddBannerToSpawnEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
         {
-            EquipmentElement weaponElement0 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0);
-            EquipmentElement weaponElement1 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1);
-            EquipmentElement weaponElement2 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2);
-            EquipmentElement weaponElement3 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3);
-            //Clones the equipment without weapons. Apparently arrows are not a weapon, but it doesn't matter
-            Equipment clonedEquipment = agent.SpawnEquipment.Clone(true);
+            Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
-            if (weaponElement0.Item != null && !forbiddenWeapons.Contains(weaponElement0.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
-            if (weaponElement1.Item != null && !forbiddenWeapons.Contains(weaponElement1.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);
-            if (weaponElement2.Item != null && !forbiddenWeapons.Contains(weaponElement2.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
-            if (weaponElement3.Item != null && !forbiddenWeapons.Contains(weaponElement3.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
+            for (int i = 0; i < (int) EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (clonedEquipment[i].Item != null && forbiddenWeapons.Contains(clonedEquipment[i].Item.Type))
+                {
+                    clonedEquipment[i] = new EquipmentElement(null, null);
+                }
+            }
 
             EquipmentElement bannerElement = new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
-            clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon4, bannerElement);
+            clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.ExtraWeaponSlot, bannerElement);
 
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
+        }
+
+        public static void DropBanner(this Agent agent)
+        {
+            if (agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem != null && agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem.Type == ItemObject.ItemTypeEnum.Banner)
+            {
+                agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+            }
         }
     }
 }

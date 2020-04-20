@@ -253,12 +253,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\TournamentBannerAssignBehaviour.cs" />
-    <Compile Include="Controller\BannerAssignmentController.cs" />
+    <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
+    <Compile Include="BannerBattles\BannerAssignmentController.cs" />
+    <Compile Include="BannerTournaments\DropBannerComponent.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
-    <Compile Include="Behaviour\BattleBannerAssignBehaviour.cs" />
+    <Compile Include="BannerBattles\BattleBannerAssignBehaviour.cs" />
     <Compile Include="Settings\IBMBSettings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

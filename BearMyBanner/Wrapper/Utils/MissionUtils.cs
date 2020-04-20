@@ -50,5 +50,10 @@ namespace BearMyBanner.Wrapper
             //TODO for town and village visits
             return false;
         }
+
+        public static TournamentFightMissionController GetNativeTournamentController(this Mission mission)
+        {
+            return mission.MissionLogics.OfType<TournamentFightMissionController>().First();
+        }
     }
 }

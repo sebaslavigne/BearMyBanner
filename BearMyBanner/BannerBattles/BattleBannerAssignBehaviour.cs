@@ -43,7 +43,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
 
@@ -63,7 +63,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
 
@@ -82,7 +82,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
     }
