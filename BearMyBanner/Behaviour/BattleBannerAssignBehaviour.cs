@@ -17,6 +17,7 @@ namespace BearMyBanner
 
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
+            _bannerAssignmentController = new BannerAssignmentController(settings);
             _settings = settings;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
