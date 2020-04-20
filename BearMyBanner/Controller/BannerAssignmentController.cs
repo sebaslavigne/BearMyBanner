@@ -90,7 +90,7 @@ namespace BearMyBanner
             {
                 if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))
                 {
-                    Main.LogInMessageLog(count + " banners given to " + entry.Key, entry.Value);
+                    Main.PrintInMessageLog(count + " banners given to " + entry.Key, entry.Value);
                 }
             }
         }

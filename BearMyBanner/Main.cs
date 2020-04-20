@@ -35,7 +35,7 @@ namespace BearMyBanner
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            LogInMessageLog("Loaded Bear my Banner", Color.FromUint(4282569842U));
+            PrintInMessageLog("Loaded Bear my Banner", Color.FromUint(4282569842U));
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
@@ -77,15 +77,15 @@ namespace BearMyBanner
 
         public static void PrintInMessageLog(string message)
         {
-                LogInMessageLog(message, Color.White);
+                PrintInMessageLog(message, Color.White);
         }
 
-        public static void LogInMessageLog(string message, uint color)
+        public static void PrintInMessageLog(string message, uint color)
         {
-            LogInMessageLog(message, Color.FromUint(color));
+            PrintInMessageLog(message, Color.FromUint(color));
         }
 
-        public static void LogInMessageLog(string message, Color color)
+        public static void PrintInMessageLog(string message, Color color)
         {
             if (BMBSettings.Instance.ShowMessages)
             {
