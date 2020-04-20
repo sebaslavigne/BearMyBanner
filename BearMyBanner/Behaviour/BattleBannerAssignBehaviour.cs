@@ -53,33 +53,9 @@ namespace BearMyBanner
             {
                 var campaignAgent = new CampaignAgent(agent);
                 var missionType = this.Mission.GetMissionType();
-                bool agentGetsBanner = false;
 
-                if (_bannerAssignmentController.AllowedBearerTypes.Contains(campaignAgent.Character))
-                {
-                    if (missionType == MissionType.FieldBattle)
-                    {
-                        agentGetsBanner = _bannerAssignmentController.ProcessAgent(campaignAgent);
-                    }
-                    else if (_settings.AllowSieges && missionType == MissionType.Siege)
-                    {
-                        if ((_settings.SiegeAttackersUseBanners && campaignAgent.IsAttacker)
-                            || (_settings.SiegeDefendersUseBanners && campaignAgent.IsDefender))
-                        {
-                            agentGetsBanner = _bannerAssignmentController.ProcessAgent(campaignAgent);
-                        }
-                    }
-                    else if (_settings.AllowHideouts && missionType == MissionType.Hideout)
-                    {
-                        if ((_settings.HideoutAttackersUseBanners && campaignAgent.IsAttacker)
-                            || (_settings.HideoutBanditsUseBanners && campaignAgent.IsDefender))
-                        {
-                           agentGetsBanner = _bannerAssignmentController.ProcessAgent(campaignAgent);
-                        }
-                    }
-                }
-
-                if (agentGetsBanner)
+                if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
+                    && _bannerAssignmentController.AgentGetsBanner(campaignAgent)) 
                 {
                     agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
                 }
