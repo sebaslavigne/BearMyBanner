@@ -3,63 +3,56 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 
-using TaleWorlds.Core;
-
 namespace BearMyBanner
 {
     public class BannerAssignmentController
     {
         private readonly IBMBSettings _settings;
-        private readonly IGameObjectEditor _gameObjectEditor;
 
-        private List<IBMBCharacter> _allowedBearerTypes;
+        private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
 
-        public BannerAssignmentController(IBMBSettings settings, IGameObjectEditor gameObjectEditor)
+        public BannerAssignmentController(IBMBSettings settings)
         {
             _settings = settings;
-            _gameObjectEditor = gameObjectEditor;
         }
 
         /// <summary>
-        /// Checks if an agent is eligible for a banner and processes them if they are
+        /// Decides if an agent qualifies for a banner based on settings and mission type
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="missionType"></param>
-        public void ProcessBuiltAgent(IBMBAgent agent, MissionType missionType)
+        /// <returns></returns>
+        public bool AgentIsEligible(IBMBAgent agent, MissionType missionType)
         {
             if (_allowedBearerTypes.Contains(agent.Character))
             {
                 if (missionType == MissionType.FieldBattle)
                 {
-                    ProcessAgent(agent);
+                    return true;
                 }
                 else if (_settings.AllowSieges && missionType == MissionType.Siege)
                 {
-                    if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
-                        || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
-                    {
-                        ProcessAgent(agent);
-                    }
+                    return ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
+                        || (_settings.SiegeDefendersUseBanners && agent.IsDefender));
                 }
                 else if (_settings.AllowHideouts && missionType == MissionType.Hideout)
                 {
-                    if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
-                        || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
-                    {
-                        ProcessAgent(agent);
-                    }
+                    return ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
+                        || (_settings.HideoutBanditsUseBanners && agent.IsDefender));
                 }
             }
+            return false;
         }
 
         /// <summary>
         /// Keeps track of agents in dictionaries and decides if they get banners
         /// </summary>
         /// <param name="agent"></param>
-        private void ProcessAgent(IBMBAgent agent)
+        /// <returns>true if the agent should receive a banner</returns>
+        public bool AgentGetsBanner(IBMBAgent agent)
         {
             string agentParty = agent.PartyName;
             IBMBCharacter agentCharacter = agent.Character;
@@ -80,21 +73,19 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
-                _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent);
                 _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
                 _equippedBannersByParty[agentParty] = equippedCount + 1;
+                return true;
             }
+            return false;
         }
-      
+
         /// <summary>
         /// Shows a message with each party banner count in the parties color
         /// </summary>
         /// <param name="team"></param>
-        public void ShowBannersEquippedByPartiesInTeam(List<CampaignAgent> teamAgents)
+        public void PrintBannersEquippedByPartiesInTeam(Dictionary<string, uint> partiesInTeam)
         {
-            Dictionary<string, uint> partiesInTeam = teamAgents
-                .DistinctBy(ca => ca.PartyName)
-                .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
             foreach (KeyValuePair<string, uint> entry in partiesInTeam)
             {
                 if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))

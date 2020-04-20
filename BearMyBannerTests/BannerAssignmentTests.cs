@@ -12,14 +12,12 @@ namespace BearMyBannerTests
     {
         private readonly BannerAssignmentController _sut;
         private IBMBSettings _settings;
-        private readonly Mock<IGameObjectEditor> _editorMock;
 
         public BannerAssignmentTests()
         {
             SetupSettings();
 
-            _editorMock = new Mock<IGameObjectEditor>();
-            _sut = new BannerAssignmentController(_settings, _editorMock.Object);
+            _sut = new BannerAssignmentController(_settings);
         }
 
         private void SetupSettings()
@@ -28,17 +26,20 @@ namespace BearMyBannerTests
             _settings.SetDefaults();
         }
 
-        private void AssertBannerAddedTimes(int count)
+        private void AssertBannerAddedTimes(int bannersExpected, int bannersActual)
         {
-            _editorMock.Verify(m => m.AddBannerToAgentSpawnEquipment(It.IsAny<IBMBAgent>()), Times.Exactly(count));
+            Assert.Equal(bannersExpected, bannersActual);
         }
 
-        private void ProcessAgents(IEnumerable<IBMBAgent> party, MissionType missionType = MissionType.FieldBattle)
+
+        private int ProcessAgents(IEnumerable<IBMBAgent> party, MissionType missionType = MissionType.FieldBattle)
         {
+            int bannersAdded = 0;
             foreach (var agent in party)
             {
-                _sut.ProcessBuiltAgent(agent, missionType);
+                if (_sut.AgentIsEligible(agent, missionType) && _sut.AgentGetsBanner(agent)) bannersAdded++;
             }
+            return bannersAdded;
         }
 
         [Fact]
@@ -57,12 +58,13 @@ namespace BearMyBannerTests
                 .AddTroops(basicInfantry, 21)
                 .Build();
 
+            int bannersAdded = 0;
             foreach (var agent in party)
             {
-                _sut.ProcessBuiltAgent(agent, MissionType.FieldBattle);
+                if (_sut.AgentGetsBanner(agent)) bannersAdded++;
             }
 
-            AssertBannerAddedTimes(3);
+            AssertBannerAddedTimes(3, bannersAdded);
         }
 
         [Fact]
@@ -77,9 +79,9 @@ namespace BearMyBannerTests
                 .AddTroops(archer, 14)
                 .Build();
 
-            ProcessAgents(party);
+            int bannersAdded = ProcessAgents(party);
 
-            AssertBannerAddedTimes(3);
+            AssertBannerAddedTimes(3, bannersAdded);
         }
 
         [Fact]
@@ -99,9 +101,9 @@ namespace BearMyBannerTests
                 .AddTroops(archer, 14)
                 .Build();
 
-            ProcessAgents(firstParty.Concat(secondParty));
+            int bannersAdded = ProcessAgents(firstParty.Concat(secondParty));
 
-            AssertBannerAddedTimes(5);
+            AssertBannerAddedTimes(5, bannersAdded);
         }
 
         [Fact]
@@ -118,9 +120,9 @@ namespace BearMyBannerTests
                 .AddTroops(archer, 20)
                 .Build();
 
-            ProcessAgents(party);
+            int bannersAdded = ProcessAgents(party);
 
-            AssertBannerAddedTimes(1);
+            AssertBannerAddedTimes(1, bannersAdded);
         }
 
 
@@ -146,9 +148,9 @@ namespace BearMyBannerTests
                 .AddTroops(archer, 20)
                 .Build();
 
-            ProcessAgents(party);
+            int bannersAdded = ProcessAgents(party);
 
-            AssertBannerAddedTimes(2);
+            AssertBannerAddedTimes(2, bannersAdded);
         }
 
         [Fact]
@@ -166,9 +168,9 @@ namespace BearMyBannerTests
                 .AddTroops(archer, 20)
                 .Build();
 
-            ProcessAgents(party, MissionType.Siege);
+            int bannersAdded = ProcessAgents(party, MissionType.Siege);
 
-            AssertBannerAddedTimes(0);
+            AssertBannerAddedTimes(0, bannersAdded);
         }
     }
 }
