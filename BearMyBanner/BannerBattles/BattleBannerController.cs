@@ -5,7 +5,7 @@ using BearMyBanner.Settings;
 
 namespace BearMyBanner
 {
-    public class BannerAssignmentController
+    public class BattleBannerController
     {
         private readonly IBMBSettings _settings;
 
@@ -14,7 +14,7 @@ namespace BearMyBanner
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
 
-        public BannerAssignmentController(IBMBSettings settings)
+        public BattleBannerController(IBMBSettings settings)
         {
             _settings = settings;
         }

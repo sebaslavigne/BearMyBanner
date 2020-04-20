@@ -10,14 +10,14 @@ namespace BearMyBannerTests
 {
     public class BannerAssignmentTests
     {
-        private readonly BannerAssignmentController _sut;
+        private readonly BattleBannerController _sut;
         private IBMBSettings _settings;
 
         public BannerAssignmentTests()
         {
             SetupSettings();
 
-            _sut = new BannerAssignmentController(_settings);
+            _sut = new BattleBannerController(_settings);
         }
 
         private void SetupSettings()

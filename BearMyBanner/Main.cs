@@ -35,7 +35,7 @@ namespace BearMyBanner
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            PrintInMessageLog("Loaded Bear my Banner", Color.FromUint(4282569842U));
+            PrintInMessageLog("Loaded Bear my Banner", TaleWorlds.Library.Color.FromUint(4282569842U));
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
@@ -77,19 +77,19 @@ namespace BearMyBanner
 
         public static void PrintInMessageLog(string message)
         {
-            PrintInMessageLog(message, Color.White);
+            PrintInMessageLog(message, TaleWorlds.Library.Color.White);
         }
 
         public static void PrintInMessageLog(string message, uint color)
         {
-            PrintInMessageLog(message, Color.FromUint(color));
+            PrintInMessageLog(message, TaleWorlds.Library.Color.FromUint(color));
         }
 
-        public static void PrintInMessageLog(string message, Color color)
+        public static void PrintInMessageLog(string message, TaleWorlds.Library.Color color)
         {
             if (BMBSettings.Instance.ShowMessages)
             {
-                if (BMBSettings.Instance.WhiteMessages) color = Color.White;
+                if (BMBSettings.Instance.WhiteMessages) color = TaleWorlds.Library.Color.White;
                 InformationManager.DisplayMessage(new InformationMessage(message, color));
             }
         }
