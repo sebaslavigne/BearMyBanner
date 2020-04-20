@@ -3,8 +3,6 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 
-using TaleWorlds.Core;
-
 namespace BearMyBanner
 {
     public class BannerAssignmentController
@@ -12,7 +10,7 @@ namespace BearMyBanner
         private readonly IBMBSettings _settings;
         private readonly IGameObjectEditor _gameObjectEditor;
 
-        private List<IBMBCharacter> _allowedBearerTypes;
+        public List<IBMBCharacter> AllowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
@@ -24,42 +22,11 @@ namespace BearMyBanner
         }
 
         /// <summary>
-        /// Checks if an agent is eligible for a banner and processes them if they are
-        /// </summary>
-        /// <param name="agent"></param>
-        /// <param name="missionType"></param>
-        public void ProcessBuiltAgent(IBMBAgent agent, MissionType missionType)
-        {
-            if (_allowedBearerTypes.Contains(agent.Character))
-            {
-                if (missionType == MissionType.FieldBattle)
-                {
-                    ProcessAgent(agent);
-                }
-                else if (_settings.AllowSieges && missionType == MissionType.Siege)
-                {
-                    if ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
-                        || (_settings.SiegeDefendersUseBanners && agent.IsDefender))
-                    {
-                        ProcessAgent(agent);
-                    }
-                }
-                else if (_settings.AllowHideouts && missionType == MissionType.Hideout)
-                {
-                    if ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
-                        || (_settings.HideoutBanditsUseBanners && agent.IsDefender))
-                    {
-                        ProcessAgent(agent);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Keeps track of agents in dictionaries and decides if they get banners
         /// </summary>
         /// <param name="agent"></param>
-        private void ProcessAgent(IBMBAgent agent)
+        /// <returns>true if the agent should receive a banner</returns>
+        public bool ProcessAgent(IBMBAgent agent)
         {
             string agentParty = agent.PartyName;
             IBMBCharacter agentCharacter = agent.Character;
@@ -80,21 +47,19 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
-                _gameObjectEditor.AddBannerToAgentSpawnEquipment(agent);
                 _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
                 _equippedBannersByParty[agentParty] = equippedCount + 1;
+                return true;
             }
+            return false;
         }
       
         /// <summary>
         /// Shows a message with each party banner count in the parties color
         /// </summary>
         /// <param name="team"></param>
-        public void ShowBannersEquippedByPartiesInTeam(List<CampaignAgent> teamAgents)
+        public void PrintBannersEquippedByPartiesInTeam(Dictionary<string, uint> partiesInTeam)
         {
-            Dictionary<string, uint> partiesInTeam = teamAgents
-                .DistinctBy(ca => ca.PartyName)
-                .ToDictionary(ca => ca.PartyName, ca => ca.PartyColor);
             foreach (KeyValuePair<string, uint> entry in partiesInTeam)
             {
                 if (_equippedBannersByParty.TryGetValue(entry.Key, out var count))
@@ -116,16 +81,16 @@ namespace BearMyBanner
             _equippedBannersByParty = new Dictionary<string, int>();
 
             /* Add types to a list of allowed troops to carry a banner */
-            _allowedBearerTypes = new List<IBMBCharacter>();
+            AllowedBearerTypes = new List<IBMBCharacter>();
 
             /* Add troops */
-            if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
-            if (_settings.AllowCaravanGuards) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
-            if (_settings.AllowMercenaries) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
-            if (_settings.AllowBandits) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
+            if (_settings.AllowSoldiers) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
+            if (_settings.AllowCaravanGuards) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
+            if (_settings.AllowMercenaries) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
+            if (_settings.AllowBandits) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
 
             /* Filter by formation */
-            _allowedBearerTypes = _allowedBearerTypes
+            AllowedBearerTypes = AllowedBearerTypes
                 .Where(t => (_settings.AllowInfantry && t.Type == TroopSpecialization.Infantry)
                             || (_settings.AllowMounted && t.Type == TroopSpecialization.Cavalry)
                             || (_settings.AllowRanged && t.Type == TroopSpecialization.Archer)
@@ -143,20 +108,20 @@ namespace BearMyBanner
                 if (_settings.AllowTier5) allowedTiers.Add(5);
                 if (_settings.AllowTier6) allowedTiers.Add(6);
                 if (_settings.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
-                _allowedBearerTypes = _allowedBearerTypes
+                AllowedBearerTypes = AllowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();
             }
 
             /* Add heroes */
-            if (_settings.AllowPlayer) { _allowedBearerTypes.Add(characterTypes.First(character => character.IsPlayerCharacter)); }
-            if (_settings.AllowCompanions) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.IsHero && character.Occupation == CharacterOccupation.Wanderer)); }
-            if (_settings.AllowNobles) { _allowedBearerTypes.AddRange(characterTypes.Where(character => !character.IsPlayerCharacter && (character.Occupation == CharacterOccupation.Lord || character.Occupation == CharacterOccupation.Lady))); }
+            if (_settings.AllowPlayer) { AllowedBearerTypes.Add(characterTypes.First(character => character.IsPlayerCharacter)); }
+            if (_settings.AllowCompanions) { AllowedBearerTypes.AddRange(characterTypes.Where(character => character.IsHero && character.Occupation == CharacterOccupation.Wanderer)); }
+            if (_settings.AllowNobles) { AllowedBearerTypes.AddRange(characterTypes.Where(character => !character.IsPlayerCharacter && (character.Occupation == CharacterOccupation.Lord || character.Occupation == CharacterOccupation.Lady))); }
 
             /* Add bandits for hideout missions */
             if (_settings.AllowHideouts && _settings.HideoutBanditsUseBanners && isHideout)
             {
-                _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
+                AllowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
             }
         }
     }

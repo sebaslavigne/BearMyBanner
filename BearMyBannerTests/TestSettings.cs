@@ -32,5 +32,6 @@ namespace BearMyBannerTests
         public bool HideoutAttackersUseBanners { get; set; }
         public bool HideoutBanditsUseBanners { get; set; }
         public bool ShowMessages { get; set; }
+        public bool WhiteMessages { get; set; }
     }
 }

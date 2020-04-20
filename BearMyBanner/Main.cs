@@ -29,7 +29,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                LogInMessageLog("BMB Error: " + ex.Message);
+                PrintInMessageLog("BMB Error: " + ex.Message);
             }
         }
 
@@ -70,11 +70,11 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                LogInMessageLog("BMB Error: " + ex.Message);
+                PrintInMessageLog("BMB Error: " + ex.Message);
             }
         }
 
-        public static void LogInMessageLog(string message)
+        public static void PrintInMessageLog(string message)
         {
                 LogInMessageLog(message, Color.White);
         }

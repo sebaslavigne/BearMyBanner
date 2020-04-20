@@ -37,7 +37,7 @@ namespace BearMyBannerTests
         {
             foreach (var agent in party)
             {
-                _sut.ProcessBuiltAgent(agent, missionType);
+                _sut.ProcessAgent(agent);
             }
         }
 
@@ -59,7 +59,7 @@ namespace BearMyBannerTests
 
             foreach (var agent in party)
             {
-                _sut.ProcessBuiltAgent(agent, MissionType.FieldBattle);
+                _sut.ProcessAgent(agent);
             }
 
             AssertBannerAddedTimes(3);
