@@ -55,7 +55,7 @@ namespace BearMyBanner
             {
                 TournamentTeam tournamentTeam = new TournamentTeam(team);
                 _controller.RegisterTeam(tournamentTeam);
-                team.Banner.ChangeBanner(tournamentTeam.BannerKey);
+                team.Banner.ChangeBanner(tournamentTeam.Banner);
             }
             catch (Exception ex)
             {

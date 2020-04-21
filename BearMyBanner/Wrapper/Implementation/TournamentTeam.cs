@@ -15,7 +15,7 @@ namespace BearMyBanner.Wrapper
         }
 
         public TeamColor TeamColor { get; }
-        public string BannerKey { get; set; }
+        public IBMBBanner Banner { get; set; }
         public int Participants { get; set; }
         public int ParticipantsWithBanner { get; set; }
     }
