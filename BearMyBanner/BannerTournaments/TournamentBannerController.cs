@@ -1,4 +1,5 @@
 ﻿using BearMyBanner.Settings;
+using BearMyBanner.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +11,48 @@ namespace BearMyBanner
     class TournamentBannerController
     {
         private readonly IBMBSettings _settings;
-        private Dictionary<int, int> _teamMountedParticipants;
 
-        public int CurrentTeam { get; set; }
+        private Dictionary<TeamColor, TournamentTeam> _teams = new Dictionary<TeamColor, TournamentTeam>();
+        private Dictionary<TeamColor, string> _teamBanners = new Dictionary<TeamColor, string>();
+        private TeamColor _currentTeam;
+
+        private void GenerateBanners()
+        {
+            _teamBanners[TeamColor.Blue] = "3.119.104.1747.1536.768.768.1.0.0";
+            _teamBanners[TeamColor.Red] = "23.118.111.1747.1536.768.768.1.1.0";
+            _teamBanners[TeamColor.Green] = "12.149.120.1747.1536.768.768.1.0.0";
+            _teamBanners[TeamColor.Yellow] = "13.131.149.1747.1536.768.768.1.0.0";
+        }
 
         public TournamentBannerController(IBMBSettings settings)
         {
             _settings = settings;
+            GenerateBanners();
+        }
+
+        public void RegisterTeam(TournamentTeam team)
+        {
+            _teams[team.TeamColor] = team;
+            _currentTeam = team.TeamColor;
+            team.BannerKey = _teamBanners[team.TeamColor];
         }
 
         /// <summary>
         /// Keeps track of how many mounted participants have been built per team
         /// </summary>
-        public void countMountedParticipant()
+        public void CountMountedParticipant()
         {
-            _teamMountedParticipants.TryGetValue(CurrentTeam, out var count);
-            _teamMountedParticipants[CurrentTeam] = count + 1;
+            _teams[_currentTeam].MountedParticipants++;
         }
 
         /// <summary>
         /// Only the first mounted participant of each team gets a banner
         /// </summary>
         /// <returns></returns>
-        public bool participantGetsBanner()
+        public bool ParticipantGetsBanner()
         {
-            return _teamMountedParticipants[CurrentTeam] == 1;
+            return _teams[_currentTeam].MountedParticipants == 1;
         }
     }
+
 }

@@ -258,7 +258,7 @@
     <Compile Include="BannerTournaments\DropBannerComponent.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
-    <Compile Include="Wrapper\TournamentTeam.cs" />
+    <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
@@ -269,12 +269,12 @@
     <Compile Include="Settings\IBMBSettingsExtension.cs" />
     <Compile Include="Wrapper\Enum\TroopSpecialization.cs" />
     <Compile Include="Wrapper\Enum\CharacterOccupation.cs" />
-    <Compile Include="Wrapper\IBMBTeam.cs" />
+    <Compile Include="Wrapper\Interface\IBMBTeam.cs" />
     <Compile Include="Wrapper\Interface\IBMBAgent.cs" />
     <Compile Include="Wrapper\Interface\IBMBCharacter.cs" />
     <Compile Include="Wrapper\Implementation\CampaignAgent.cs" />
     <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
-    <Compile Include="Wrapper\TournamentAgent.cs" />
+    <Compile Include="Wrapper\Implementation\TournamentAgent.cs" />
     <Compile Include="Wrapper\Utils\MissionUtils.cs" />
   </ItemGroup>
   <ItemGroup />

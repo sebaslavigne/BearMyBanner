@@ -36,10 +36,15 @@ namespace BearMyBanner
 
         public static void DropBanner(this Agent agent)
         {
-            if (agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem != null && agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem.Type == ItemObject.ItemTypeEnum.Banner)
+            if (agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem != null && agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem.Type == ItemObject.ItemTypeEnum.Banner)//Getting error here
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
             }
+        }
+
+        public static void ChangeBanner(this Banner banner, string newBanner)
+        {
+            banner.Deserialize(newBanner);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BearMyBanner.Settings;
+using BearMyBanner.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,9 @@ namespace BearMyBanner
             base.AfterAddTeam(team);
             try
             {
-                _controller.CurrentTeam = team.TeamIndex;
+                TournamentTeam tournamentTeam = new TournamentTeam(team);
+                _controller.RegisterTeam(tournamentTeam);
+                team.Banner.ChangeBanner(tournamentTeam.BannerKey);
             }
             catch (Exception ex)
             {
