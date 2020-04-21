@@ -36,7 +36,8 @@ namespace BearMyBanner
 
         public static void DropBanner(this Agent agent)
         {
-            if (agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem != null && agent.Equipment[EquipmentIndex.ExtraWeaponSlot].PrimaryItem.Type == ItemObject.ItemTypeEnum.Banner)//Getting error here
+            MissionWeapon extraSlot = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
+            if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
             }

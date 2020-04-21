@@ -8,9 +8,9 @@ namespace BearMyBanner.Wrapper
 {
     interface IBMBTeam
     {
-        TeamColor TeamColor { get; set; }
+        TeamColor TeamColor { get; }
         string BannerKey { get; set; }
         int Participants { get; set; }
-        int MountedParticipants { get; set; }
+        int ParticipantsWithBanner { get; set; }
     }
 }

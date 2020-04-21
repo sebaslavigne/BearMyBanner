@@ -1,10 +1,6 @@
 ﻿using BearMyBanner.Settings;
 using BearMyBanner.Wrapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BearMyBanner
 {
@@ -16,6 +12,12 @@ namespace BearMyBanner
         private Dictionary<TeamColor, string> _teamBanners = new Dictionary<TeamColor, string>();
         private TeamColor _currentTeam;
 
+        public TournamentBannerController(IBMBSettings settings)
+        {
+            _settings = settings;
+            GenerateBanners();
+        }
+
         private void GenerateBanners()
         {
             _teamBanners[TeamColor.Blue] = "3.119.104.1747.1536.768.768.1.0.0";
@@ -24,12 +26,11 @@ namespace BearMyBanner
             _teamBanners[TeamColor.Yellow] = "13.131.149.1747.1536.768.768.1.0.0";
         }
 
-        public TournamentBannerController(IBMBSettings settings)
-        {
-            _settings = settings;
-            GenerateBanners();
-        }
-
+        /// <summary>
+        /// Keeps track of which team the behaviour will be adding agents to.
+        /// Assigns a banner to the team.
+        /// </summary>
+        /// <param name="team"></param>
         public void RegisterTeam(TournamentTeam team)
         {
             _teams[team.TeamColor] = team;
@@ -38,21 +39,19 @@ namespace BearMyBanner
         }
 
         /// <summary>
-        /// Keeps track of how many mounted participants have been built per team
+        /// Gives
+        /// For now, only the first mounted participant of each team gets a banner
         /// </summary>
-        public void CountMountedParticipant()
+        /// <returns>true if the agent should get a banner</returns>
+        public bool ParticipantGetsBanner(TournamentAgent agent)
         {
-            _teams[_currentTeam].MountedParticipants++;
+            if (_teams[_currentTeam].ParticipantsWithBanner == 0 && agent.HasMount && !agent.HasRangedWeapons)
+            {
+                _teams[_currentTeam].ParticipantsWithBanner = 1;
+                return true;
+            }
+            return false;
         }
 
-        /// <summary>
-        /// Only the first mounted participant of each team gets a banner
-        /// </summary>
-        /// <returns></returns>
-        public bool ParticipantGetsBanner()
-        {
-            return _teams[_currentTeam].MountedParticipants == 1;
-        }
     }
-
 }

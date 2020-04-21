@@ -33,16 +33,13 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
+                var tournamentAgent = new TournamentAgent(agent);
                 //Luckily, mounted agents are built with their mount already assigned
-                if (agent.IsHuman && agent.MountAgent != null)
+                if (_controller.ParticipantGetsBanner(tournamentAgent))
                 {
-
-
                     agent.Origin.SetBanner(agent.Team.Banner);
                     agent.AddBannerToSpawnEquipment(new HashSet<ItemObject.ItemTypeEnum>());
                     agent.AddComponent(new DropBannerComponent(agent));
-                    //TODO
-                    //Use a controller for horses, one on ones, random chance...
                 }
             }
             catch (Exception ex)

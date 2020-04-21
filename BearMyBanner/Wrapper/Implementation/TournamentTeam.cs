@@ -14,9 +14,9 @@ namespace BearMyBanner.Wrapper
             TeamColor = (TeamColor)team.TeamIndex;
         }
 
-        public TeamColor TeamColor { get; set; }
+        public TeamColor TeamColor { get; }
         public string BannerKey { get; set; }
         public int Participants { get; set; }
-        public int MountedParticipants { get; set; }
+        public int ParticipantsWithBanner { get; set; }
     }
 }
