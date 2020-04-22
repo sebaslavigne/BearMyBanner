@@ -54,7 +54,7 @@ namespace BearMyBanner
                 if (theme.mirrorable) banner.Mirrored = random.Next(2) == 0;
 
                 //For plain banners
-                if (themeIndex == 0) secondary = themes.PrimaryColors[0];
+                if (themeIndex == 0) secondary = themes.PrimaryColors[i];
                 if (!swapColors)
                 {
                     banner.PrimaryColor = themes.PrimaryColors[i];
