@@ -35,8 +35,6 @@ namespace BearMyBanner
             int secondary = random.Next(2) == 0 ? themes.SecondaryColors.white : themes.SecondaryColors.black;
             bool swapColors = false;
             if (theme.swappable) swapColors = random.Next(2) == 0;
-            //For plain banners
-            if (themeIndex == 0) secondary = themes.PrimaryColors[0];
 
             //Shuffle meshes
             for (int i = 0; i < theme.meshes.Length; i++)
@@ -54,6 +52,9 @@ namespace BearMyBanner
                 banner.Mesh = theme.meshes[i];
                 banner.HasIcon = theme.isIcon;
                 if (theme.mirrorable) banner.Mirrored = random.Next(2) == 0;
+
+                //For plain banners
+                if (themeIndex == 0) secondary = themes.PrimaryColors[0];
                 if (!swapColors)
                 {
                     banner.PrimaryColor = themes.PrimaryColors[i];
