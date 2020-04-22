@@ -11,12 +11,13 @@ namespace BearMyBanner
 {
     public class BattleBannerAssignBehaviour : MissionLogic
     {
-        private readonly BannerAssignmentController _bannerAssignmentController;
+        private readonly BattleBannerController _bannerAssignmentController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
         private readonly IBMBSettings _settings;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
+            _bannerAssignmentController = new BattleBannerController(settings);
             _settings = settings;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
@@ -42,7 +43,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
 
@@ -62,7 +63,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
 
@@ -81,7 +82,7 @@ namespace BearMyBanner
             }
             catch (Exception ex)
             {
-                Main.PrintInMessageLog("BMB Error: " + ex.Message);
+                Main.LogError(ex);
             }
         }
     }

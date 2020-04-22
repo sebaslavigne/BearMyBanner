@@ -18,22 +18,56 @@ namespace BearMyBanner
         /// <param name="forbiddenWeapons">A set of weapons the agent has removed from their equipment</param>
         public static void AddBannerToSpawnEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
         {
-            EquipmentElement weaponElement0 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0);
-            EquipmentElement weaponElement1 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1);
-            EquipmentElement weaponElement2 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2);
-            EquipmentElement weaponElement3 = agent.SpawnEquipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3);
-            //Clones the equipment without weapons. Apparently arrows are not a weapon, but it doesn't matter
-            Equipment clonedEquipment = agent.SpawnEquipment.Clone(true);
+            Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
-            if (weaponElement0.Item != null && !forbiddenWeapons.Contains(weaponElement0.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weaponElement0);
-            if (weaponElement1.Item != null && !forbiddenWeapons.Contains(weaponElement1.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon1, weaponElement1);
-            if (weaponElement2.Item != null && !forbiddenWeapons.Contains(weaponElement2.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon2, weaponElement2);
-            if (weaponElement3.Item != null && !forbiddenWeapons.Contains(weaponElement3.Item.Type)) clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon3, weaponElement3);
+            for (int i = 0; i < (int) EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (clonedEquipment[i].Item != null && forbiddenWeapons.Contains(clonedEquipment[i].Item.Type))
+                {
+                    clonedEquipment[i] = new EquipmentElement(null, null);
+                }
+            }
 
             EquipmentElement bannerElement = new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
-            clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon4, bannerElement);
+            clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.ExtraWeaponSlot, bannerElement);
 
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
+        }
+
+        public static void DropBanner(this Agent agent)
+        {
+            MissionWeapon extraSlot = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
+            if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
+            {
+                agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+            }
+        }
+
+        public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)
+        {
+            banner.Deserialize(newBanner.Key);
+        }
+
+        public static void ChangeBaseColors(this Banner banner, int colorId, int colorId2)
+        {
+            banner.BannerDataList[0].ColorId = colorId;
+            banner.BannerDataList[0].ColorId2 = colorId2;
+        }
+
+        public static void ChangeIconColor(this Banner banner, int colorId)
+        {
+            for (int i = 1; i < banner.BannerDataList.Count; i++)
+            {
+                banner.BannerDataList[i].ColorId = colorId;
+            }
+        }
+
+        public static void ChangeIconMesh(this Banner banner, int meshId)
+        {
+            for (int i = 1; i < banner.BannerDataList.Count; i++)
+            {
+                banner.BannerDataList[i].MeshId = meshId;
+            }
         }
     }
 }

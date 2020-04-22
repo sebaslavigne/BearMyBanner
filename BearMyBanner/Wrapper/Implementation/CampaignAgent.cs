@@ -23,5 +23,6 @@ namespace BearMyBanner.Wrapper
         public IBMBCharacter Character { get; }
         public string PartyName { get; }
         public uint PartyColor { get; }
+        public bool HasRangedWeapons => throw new System.NotImplementedException();
     }
 }

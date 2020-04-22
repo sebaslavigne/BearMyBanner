@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SandBox;
 using SandBox.Source.Missions;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner.Wrapper
@@ -49,6 +50,22 @@ namespace BearMyBanner.Wrapper
         {
             //TODO for town and village visits
             return false;
+        }
+
+        public static TournamentFightMissionController GetNativeTournamentController(this Mission mission)
+        {
+            return mission.MissionLogics.OfType<TournamentFightMissionController>().First();
+        }
+
+        public static Culture GetTournamentCulture(this Mission mission)
+        {
+            if (mission.SceneName.Contains("aserai")) return Culture.Aserai;
+            if (mission.SceneName.Contains("battania")) return Culture.Battania;
+            if (mission.SceneName.Contains("empire")) return Culture.Empire;
+            if (mission.SceneName.Contains("khuzait")) return Culture.Khuzait;
+            if (mission.SceneName.Contains("sturgia")) return Culture.Sturgia;
+            if (mission.SceneName.Contains("vlandia")) return Culture.Vlandia;
+            return Culture.Unknown;
         }
     }
 }
