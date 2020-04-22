@@ -58,7 +58,7 @@ namespace BearMyBanner
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
                             break;
                         case MissionType.Tournament:
-                            mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
+                            if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
                             break;
                         default:
                             break;

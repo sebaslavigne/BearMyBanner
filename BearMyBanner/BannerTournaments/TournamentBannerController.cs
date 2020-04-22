@@ -95,6 +95,11 @@ namespace BearMyBanner
             return false;
         }
 
+        public TournamentTeam GetCurrentTeam()
+        {
+            return _teams[_currentTeam];
+        }
+
     }
 
 }

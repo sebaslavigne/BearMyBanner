@@ -48,7 +48,10 @@ namespace BearMyBanner
             {
                 TournamentTeam tournamentTeam = new TournamentTeam(team);
                 _controller.RegisterTeam(tournamentTeam);
-                team.Banner.ChangeBanner(tournamentTeam.Banner);
+                if (_settings.TournamentBannersInShields && _settings.TournamentThemes)
+                {
+                    team.Banner.ChangeBanner(tournamentTeam.Banner);
+                }
             }
             catch (Exception ex)
             {
@@ -65,7 +68,15 @@ namespace BearMyBanner
                 //Luckily, mounted agents are built with their mount already assigned
                 if (_controller.ParticipantGetsBanner(tournamentAgent))
                 {
-                    agent.Origin.SetBanner(agent.Team.Banner);
+                    if (_settings.TournamentBannersInShields || !_settings.TournamentThemes)
+                    {
+                        agent.Origin.SetBanner(agent.Team.Banner);
+                    } 
+                    else
+                    {
+                        Banner agentBanner = new Banner(_controller.GetCurrentTeam().Banner.Key);
+                        agent.Origin.SetBanner(agentBanner);
+                    }
                     agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
                     agent.AddComponent(new DropBannerComponent(agent));
                 }
