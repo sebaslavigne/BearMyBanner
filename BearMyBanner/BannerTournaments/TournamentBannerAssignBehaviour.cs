@@ -28,9 +28,9 @@ namespace BearMyBanner
             };
         }
 
-        public override void OnAfterMissionCreated()
+        public override void OnCreated()
         {
-            base.OnAfterMissionCreated();
+            base.OnCreated();
             try
             {
                 _controller.GenerateBanners(this.Mission.GetTournamentCulture());
@@ -66,7 +66,7 @@ namespace BearMyBanner
                 if (_controller.ParticipantGetsBanner(tournamentAgent))
                 {
                     agent.Origin.SetBanner(agent.Team.Banner);
-                    agent.AddBannerToSpawnEquipment(new HashSet<ItemObject.ItemTypeEnum>());
+                    agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
                     agent.AddComponent(new DropBannerComponent(agent));
                 }
             }

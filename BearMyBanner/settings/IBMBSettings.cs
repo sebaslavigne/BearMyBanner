@@ -31,5 +31,8 @@
         bool HideoutBanditsUseBanners { get; set; }
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
+        bool TournamentBanners { get; set; }
+        bool TournamentThemes { get; set; }
+        bool TournamentBannersInShields { get; set; }
     }
 }

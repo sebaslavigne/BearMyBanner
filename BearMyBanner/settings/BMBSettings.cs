@@ -15,7 +15,8 @@ namespace BearMyBanner.Settings
         public const string GroupBanners = "2. Banner settings";
         public const string SubGroupRatios = GroupBanners + "/2.1 Ratio";
         public const string SubGroupSieges = GroupBanners + "/2.2 Use banners during sieges";
-        public const string SubGroupHideouts = GroupBanners + "/2.2 Use banners during hideout attacks";
+        public const string SubGroupHideouts = GroupBanners + "/2.3 Use banners during hideout attacks";
+        public const string SubGroupTournaments = GroupBanners + "/2.4 Allow banners in tournaments";
         public const string GroupMisc = "3. Misc";
 
         public override string ModName => "Bear my Banner";
@@ -150,6 +151,20 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(SubGroupHideouts)]
         public bool HideoutBanditsUseBanners { get; set; }
 
+        /* TOURNAMENTS */
+        [XmlElement]
+        [SettingProperty("Allow banners in tournaments", "The first mounted soldier in each team will have a banner.")]
+        [SettingPropertyGroup(SubGroupTournaments, true)]
+        public bool TournamentBanners { get; set; }
+        [XmlElement]
+        [SettingProperty("Use banner themes for each culture", "Each culture has different patterns for tournament teams. If disabled, banners always have plain colors.")]
+        [SettingPropertyGroup(SubGroupTournaments)]
+        public bool TournamentThemes { get; set; }
+        [XmlElement]
+        [SettingProperty("Shields also have theme pattern", "Shields used in tournaments will also have the banner theme for each team.")]
+        [SettingPropertyGroup(SubGroupTournaments)]
+        public bool TournamentBannersInShields { get; set; }
+        
         /* MISC */
         [XmlElement]
         [SettingProperty("Show messages", "Shows mod messages in Message Log.")]
@@ -159,5 +174,6 @@ namespace BearMyBanner.Settings
         [SettingProperty("Messages always in white", "Useful if some messages are hard to read.")]
         [SettingPropertyGroup(GroupMisc)]
         public bool WhiteMessages { get; set; }
+
     }
 }
