@@ -28,20 +28,13 @@ namespace BearMyBanner
             };
         }
 
-        public override void OnAgentBuild(Agent agent, Banner banner)
+        public override void OnAfterMissionCreated()
         {
-            base.OnAgentBuild(agent, banner);
+            base.OnAfterMissionCreated();
             try
             {
-                var tournamentAgent = new TournamentAgent(agent);
-                //Luckily, mounted agents are built with their mount already assigned
-                if (_controller.ParticipantGetsBanner(tournamentAgent))
-                {
-                    agent.Origin.SetBanner(agent.Team.Banner);
-                    agent.AddBannerToSpawnEquipment(new HashSet<ItemObject.ItemTypeEnum>());
-                    agent.AddComponent(new DropBannerComponent(agent));
-                }
-            }
+                _controller.GenerateBanners(this.Mission.GetTournamentCulture());
+            } 
             catch (Exception ex)
             {
                 Main.LogError(ex);
@@ -56,6 +49,26 @@ namespace BearMyBanner
                 TournamentTeam tournamentTeam = new TournamentTeam(team);
                 _controller.RegisterTeam(tournamentTeam);
                 team.Banner.ChangeBanner(tournamentTeam.Banner);
+            }
+            catch (Exception ex)
+            {
+                Main.LogError(ex);
+            }
+        }
+
+        public override void OnAgentBuild(Agent agent, Banner banner)
+        {
+            base.OnAgentBuild(agent, banner);
+            try
+            {
+                var tournamentAgent = new TournamentAgent(agent);
+                //Luckily, mounted agents are built with their mount already assigned
+                if (_controller.ParticipantGetsBanner(tournamentAgent))
+                {
+                    agent.Origin.SetBanner(agent.Team.Banner);
+                    agent.AddBannerToSpawnEquipment(new HashSet<ItemObject.ItemTypeEnum>());
+                    agent.AddComponent(new DropBannerComponent(agent));
+                }
             }
             catch (Exception ex)
             {

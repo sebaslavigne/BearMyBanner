@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BearMyBanner.Wrapper
 {
-    class Constants
+    public enum Culture
     {
+        Aserai, Battania, Empire, Khuzait, Sturgia, Vlandia, Unknown
     }
 }

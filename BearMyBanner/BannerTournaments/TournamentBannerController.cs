@@ -12,46 +12,31 @@ namespace BearMyBanner
         private Dictionary<TeamColor, TournamentTeam> _teams = new Dictionary<TeamColor, TournamentTeam>();
         private Dictionary<TeamColor, TournamentBanner> _teamBanners = new Dictionary<TeamColor, TournamentBanner>();
         private TeamColor _currentTeam;
-        private readonly (bool mirrorable, bool isIcon, bool swappable, int[] meshes)[] _themes =
-            {
-                (true, false, false, new int[] { 11, 11, 11, 11 }), // plain
-                (true, false, true, new int[] { 1, 3, 12, 14 }), // two tone A
-                (true, false, true, new int[] { 12, 13, 14, 16 }), // two tone B
-                (true, false, false, new int[] { 23, 24, 27, 28 }), // lines
-                (true, false, true, new int[] { 31, 32, 33, 34 }), // base shapes
-                (true, true, true, new int[] { 512, 513, 514, 221 }), // poker
-                (true, true, false, new int[] { 202, 205, 206, 207 }), // small flora
-                (true, true, true, new int[] { 217, 218, 219, 220 }), // big flora
-                (false, true, true, new int[] { 425, 426, 427, 428 }), // moons
-                (false, true, true, new int[] { 523, 525, 526, 534 }), // runes A
-                (false, true, false, new int[] { 530, 531, 532, 533 }), // runes B
-                (false, true, false, new int[] { 423, 423, 423, 423 }) // imperial
-            };
-        private readonly int[] _primaryColors = new int[] { 119, 118, 120, 121};
-        private readonly (int white, int black) _secondaryColors = (128, 149);
+        
 
         public TournamentBannerController(IBMBSettings settings)
         {
             _settings = settings;
-            GenerateBanners();
         }
 
         /// <summary>
         /// Generates the banners for this tournament
         /// </summary>
-        private void GenerateBanners()
+        public void GenerateBanners(Culture culture)
         {
+            TournamentThemes themes = new TournamentThemes(culture);
             Random random = new Random();
+
             //Select theme
-            int themeIndex = random.Next(_themes.Length);
-            var theme = _themes[themeIndex];
+            int themeIndex = random.Next(themes.AvailableThemes.Count);
+            var theme = themes.AvailableThemes[themeIndex];
 
             //Select white or black secondary
-            int secondary = random.Next(2) == 0 ? _secondaryColors.white : _secondaryColors.black;
+            int secondary = random.Next(2) == 0 ? themes.SecondaryColors.white : themes.SecondaryColors.black;
             bool swapColors = false;
             if (theme.swappable) swapColors = random.Next(2) == 0;
             //For plain banners
-            if (themeIndex == 0) secondary = _primaryColors[0];
+            if (themeIndex == 0) secondary = themes.PrimaryColors[0];
 
             //Shuffle meshes
             for (int i = 0; i < theme.meshes.Length; i++)
@@ -71,12 +56,12 @@ namespace BearMyBanner
                 if (theme.mirrorable) banner.Mirrored = random.Next(2) == 0;
                 if (!swapColors)
                 {
-                    banner.PrimaryColor = _primaryColors[i];
+                    banner.PrimaryColor = themes.PrimaryColors[i];
                     banner.SecondaryColor = secondary;
                 } else
                 {
                     banner.PrimaryColor = secondary;
-                    banner.SecondaryColor = _primaryColors[i];
+                    banner.SecondaryColor = themes.PrimaryColors[i];
                 }
                 banner.GenerateKey();
                 _teamBanners[(TeamColor)i] = banner;
