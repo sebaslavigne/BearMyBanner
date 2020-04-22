@@ -33,5 +33,7 @@ namespace BearMyBannerTests
         public bool HideoutBanditsUseBanners { get; set; }
         public bool ShowMessages { get; set; }
         public bool WhiteMessages { get; set; }
+        public bool EnableArmyBanners { get; set; }
+        public bool GiveArmyBannerToPlayer { get; set; }
     }
 }

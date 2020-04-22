@@ -17,6 +17,7 @@ namespace BearMyBanner.Settings
         public const string SubGroupSieges = GroupBanners + "/2.2 Use banners during sieges";
         public const string SubGroupHideouts = GroupBanners + "/2.2 Use banners during hideout attacks";
         public const string GroupMisc = "3. Misc";
+        public const string GroupArmyBanner = "4. Army banners";
 
         public override string ModName => "Bear my Banner";
 
@@ -159,5 +160,15 @@ namespace BearMyBanner.Settings
         [SettingProperty("Messages always in white", "Useful if some messages are hard to read.")]
         [SettingPropertyGroup(GroupMisc)]
         public bool WhiteMessages { get; set; }
+
+        /* ARMY BANNER */
+        [XmlElement]
+        [SettingProperty("Army banners enabled", "Enables special banners for gathered armies.")]
+        [SettingPropertyGroup(GroupArmyBanner)]
+        public bool EnableArmyBanners { get; set; }
+        [XmlElement]
+        [SettingProperty("Give army banner to player", "Give player banner of army they are leading")]
+        [SettingPropertyGroup(GroupArmyBanner)]
+        public bool GiveArmyBannerToPlayer { get; set; }
     }
 }

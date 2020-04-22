@@ -70,7 +70,7 @@ namespace BearMyBanner
                         case MissionType.Siege:
                         case MissionType.Hideout:
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, gameObjectEditor));
-                            mission.AddMissionBehaviour(new BannerStatusEffectsLogic(_settings, gameObjectEditor));
+                            mission.AddMissionBehaviour(new BannerEffectsMissionLogic(_settings, gameObjectEditor));
                             break;
                         case MissionType.Tournament:
                             break;

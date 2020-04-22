@@ -6,6 +6,7 @@ namespace BearMyBanner
     public interface IGameObjectEditor
     {
         void AddBannerToAgentSpawnEquipment(IBMBAgent agent);
-        bool CheckIfAgentHasBanner(IBMBAgent agent);
+        bool CheckIfAgentHasBanner(IBMBAgent agent, BannerType type);
+        void AddBigBannerToAgentSpawnEquipment(IBMBAgent agent);
     }
 }

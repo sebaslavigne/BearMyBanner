@@ -40,6 +40,9 @@
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
 
+            settings.EnableArmyBanners = true;
+            settings.GiveArmyBannerToPlayer = false;
+
             return settings;
         }
     }

@@ -31,5 +31,7 @@
         bool HideoutBanditsUseBanners { get; set; }
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
+        bool EnableArmyBanners { get; set; }
+        bool GiveArmyBannerToPlayer { get; set; }
     }
 }
