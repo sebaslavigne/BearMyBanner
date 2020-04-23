@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BMBSettings>
+  <AllowSoldiers>true</AllowSoldiers>
+  <AllowCaravanGuards>false</AllowCaravanGuards>
+  <AllowMercenaries>false</AllowMercenaries>
+  <AllowBandits>false</AllowBandits>
+  <AllowInfantry>true</AllowInfantry>
+  <AllowMounted>true</AllowMounted>
+  <AllowRanged>false</AllowRanged>
+  <AllowMountedRanged>false</AllowMountedRanged>
+  <FilterTiers>true</FilterTiers>
+  <AllowTier1>false</AllowTier1>
+  <AllowTier2>false</AllowTier2>
+  <AllowTier3>false</AllowTier3>
+  <AllowTier4>true</AllowTier4>
+  <AllowTier5>true</AllowTier5>
+  <AllowTier6>true</AllowTier6>
+  <AllowTier7Plus>false</AllowTier7Plus>
+  <AllowPlayer>false</AllowPlayer>
+  <AllowCompanions>false</AllowCompanions>
+  <AllowNobles>false</AllowNobles>
+  <BearerToTroopRatio>7</BearerToTroopRatio>
+  <UseTroopSpecs>false</UseTroopSpecs>
+  <AllowSieges>true</AllowSieges>
+  <SiegeAttackersUseBanners>true</SiegeAttackersUseBanners>
+  <SiegeDefendersUseBanners>false</SiegeDefendersUseBanners>
+  <AllowHideouts>false</AllowHideouts>
+  <HideoutAttackersUseBanners>false</HideoutAttackersUseBanners>
+  <HideoutBanditsUseBanners>false</HideoutBanditsUseBanners>
+  <ShowMessages>true</ShowMessages>
+  <WhiteMessages>false</WhiteMessages>
+  <TournamentBanners>true</TournamentBanners>
+  <TournamentThemes>true</TournamentThemes>
+  <TournamentBannersInShields>false</TournamentBannersInShields>
+</BMBSettings>
