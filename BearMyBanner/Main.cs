@@ -56,6 +56,7 @@ namespace BearMyBanner
                         case MissionType.Siege:
                         case MissionType.Hideout:
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            mission.AddMissionBehaviour(new MissionDebugBehaviour());
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));

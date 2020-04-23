@@ -258,8 +258,9 @@
     <Compile Include="BannerTournaments\DropBannerComponent.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
+    <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
-    <Compile Include="Wrapper\Utils\TournamentThemes.cs" />
+    <Compile Include="Utils\TournamentThemes.cs" />
     <Compile Include="Wrapper\Interface\IBMBBanner.cs" />
     <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
@@ -279,7 +280,7 @@
     <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
     <Compile Include="Wrapper\Implementation\TournamentAgent.cs" />
     <Compile Include="Wrapper\Implementation\TournamentBanner.cs" />
-    <Compile Include="Wrapper\Utils\MissionUtils.cs" />
+    <Compile Include="Utils\MissionUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
