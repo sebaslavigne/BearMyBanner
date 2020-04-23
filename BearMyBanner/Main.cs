@@ -2,9 +2,9 @@
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.Library;
-using ModLib;
 using BearMyBanner.Settings;
 using BearMyBanner.Wrapper;
+using System.Collections.Generic;
 
 namespace BearMyBanner
 {
@@ -13,6 +13,8 @@ namespace BearMyBanner
 
         public const string ModuleFolderName = "BearMyBanner";
 
+        public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
+
         private IBMBSettings _settings;
 
         protected override void OnSubModuleLoad()
@@ -20,12 +22,8 @@ namespace BearMyBanner
             base.OnSubModuleLoad();
             try
             {
-                FileDatabase.Initialise(ModuleFolderName);
-                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID) ??
-                                       (BMBSettings)new BMBSettings().SetDefaults();
-
-                _settings = settings;
-                SettingsDatabase.RegisterSettings(settings);
+                _settings = BMBSettings.Instance;
+                LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
             {
@@ -35,7 +33,12 @@ namespace BearMyBanner
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            PrintInMessageLog("Loaded Bear my Banner", TaleWorlds.Library.Color.FromUint(4282569842U));
+            base.OnBeforeInitialModuleScreenSetAsRoot();
+            foreach ((string content, bool isError) message in LoadingMessages)
+            {
+                PrintWhileLoading(message.content, message.isError);
+            }
+            LoadingMessages.Clear();
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
@@ -97,7 +100,20 @@ namespace BearMyBanner
 
         public static void LogError(Exception ex)
         {
-            PrintInMessageLog("BMB Error: " + ex.Message);
+            try
+            {
+                PrintInMessageLog("BMB Error: " + ex.Message);
+            }
+            catch (Exception) //If there's an exception because settings were not loaded
+            {
+                InformationManager.DisplayMessage(new InformationMessage("BIG ERROR"));
+            }
+        }
+
+        public static void PrintWhileLoading(string message, bool isError)
+        {
+            Color color = isError ? new Color(1f, 0f, 0f, 1f) : Color.FromUint(4282569842U);
+            InformationManager.DisplayMessage(new InformationMessage(message, color));
         }
     }
 }
