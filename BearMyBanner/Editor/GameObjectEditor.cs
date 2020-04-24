@@ -69,5 +69,13 @@ namespace BearMyBanner
                 banner.BannerDataList[i].MeshId = meshId;
             }
         }
+
+        public static void ModifyBannerMeshAndSize(this Agent agent)
+        {
+            MissionWeapon banner = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
+            //Should check if it's of type banner
+            ;
+            //banner.CurrentUsageItem;
+        }
     }
 }

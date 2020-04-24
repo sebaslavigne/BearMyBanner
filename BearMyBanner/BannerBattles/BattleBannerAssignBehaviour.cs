@@ -15,6 +15,8 @@ namespace BearMyBanner
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
         private readonly IBMBSettings _settings;
 
+        private Agent bigBannerAgent;
+
         public BattleBannerAssignBehaviour(IBMBSettings settings)
         {
             _bannerAssignmentController = new BattleBannerController(settings);
@@ -40,6 +42,17 @@ namespace BearMyBanner
                 MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
                 var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
                 _bannerAssignmentController.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
+
+                List<ItemObject> testBanners = new List<ItemObject>();
+                MBObjectManager.Instance.GetAllInstancesOfObjectType(ref testBanners);
+                ;
+                testBanners = testBanners.Where(item => item.Type == ItemObject.ItemTypeEnum.Banner).Select(item => item).ToList();
+                ;
+                ItemObject bigBanner = MBObjectManager.Instance.GetObject<ItemObject>("banner_big");
+                ItemObject campaignBanner = MBObjectManager.Instance.GetObject<ItemObject>("campaign_banner_small");
+                //can't be done
+                //bigBanner.MultiMeshName = campaignBanner.MultiMeshName;
+
             }
             catch (Exception ex)
             {
@@ -59,6 +72,7 @@ namespace BearMyBanner
                     && _bannerAssignmentController.AgentGetsBanner(campaignAgent)) 
                 {
                     agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
+                    if (bigBannerAgent == null && agent.Team.IsPlayerTeam) bigBannerAgent = agent;
                 }
             }
             catch (Exception ex)
@@ -79,6 +93,12 @@ namespace BearMyBanner
                 .ToDictionary(ta => ta.PartyName, ta => ta.PartyColor);
 
                 _bannerAssignmentController.PrintBannersEquippedByPartiesInTeam(partiesInTeam);
+
+                if (bigBannerAgent != null)
+                {
+                    bigBannerAgent.ModifyBannerMeshAndSize();
+                    Main.PrintInMessageLog("Big banner given to " + bigBannerAgent.Character.Name);
+                }
             }
             catch (Exception ex)
             {
