@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
-using TaleWorlds.Engine;
-using ModLib;
+using BearMyBanner.Settings;
+using BearMyBanner.Wrapper;
+using System.Collections.Generic;
 
 namespace BearMyBanner
 {
@@ -15,25 +13,32 @@ namespace BearMyBanner
 
         public const string ModuleFolderName = "BearMyBanner";
 
+        public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
+
+        private IBMBSettings _settings;
+
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             try
             {
-                FileDatabase.Initialise(ModuleFolderName);
-                BMBSettings settings = FileDatabase.Get<BMBSettings>(BMBSettings.InstanceID);
-                if (settings == null) settings = new BMBSettings();
-                SettingsDatabase.RegisterSettings(settings);
+                _settings = BMBSettings.Instance;
+                LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
             {
-                LogInMessageLog("BMB Error: " + ex.Message);
+                LogError(ex);
             }
         }
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            InformationManager.DisplayMessage(new InformationMessage("Loaded Bear my Banner", Color.FromUint(4282569842U)));
+            base.OnBeforeInitialModuleScreenSetAsRoot();
+            foreach ((string content, bool isError) message in LoadingMessages)
+            {
+                PrintWhileLoading(message.content, message.isError);
+            }
+            LoadingMessages.Clear();
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
@@ -41,29 +46,73 @@ namespace BearMyBanner
             base.OnMissionBehaviourInitialize(mission);
             try
             {
-                LogInMessageLog(mission.SceneName);
+                if (_settings == null)
+                {
+                    throw new InvalidOperationException("Settings were not initialized");
+                }
+
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    if (mission.IsFieldBattle
-                        || (MissionUtils.IsSiege(mission))
-                        || (MissionUtils.IsHideout(mission)))
+                    switch (mission.GetMissionType())
                     {
-                        mission.AddMissionBehaviour(new BattleBannerAssignBehaviour());
+                        case MissionType.FieldBattle:
+                        case MissionType.Siege:
+                        case MissionType.Hideout:
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            break;
+                        case MissionType.Tournament:
+                            if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
+                            break;
+                        default:
+                            break;
                     }
+                }
+                else if (Mission.Current.CombatType == Mission.MissionCombatType.NoCombat)
+                {
+                    //TODO add behaviour for town and village visits
                 }
             }
             catch (Exception ex)
             {
-                LogInMessageLog("BMB Error: " + ex.Message);
+                LogError(ex);
             }
         }
 
-        public static void LogInMessageLog(string message)
+        public static void PrintInMessageLog(string message)
+        {
+            PrintInMessageLog(message, TaleWorlds.Library.Color.White);
+        }
+
+        public static void PrintInMessageLog(string message, uint color)
+        {
+            PrintInMessageLog(message, TaleWorlds.Library.Color.FromUint(color));
+        }
+
+        public static void PrintInMessageLog(string message, TaleWorlds.Library.Color color)
         {
             if (BMBSettings.Instance.ShowMessages)
             {
-                InformationManager.DisplayMessage(new InformationMessage(message));
+                if (BMBSettings.Instance.WhiteMessages) color = TaleWorlds.Library.Color.White;
+                InformationManager.DisplayMessage(new InformationMessage(message, color));
             }
+        }
+
+        public static void LogError(Exception ex)
+        {
+            try
+            {
+                PrintInMessageLog("BMB Error: " + ex.Message);
+            }
+            catch (Exception) //If there's an exception because settings were not loaded
+            {
+                InformationManager.DisplayMessage(new InformationMessage("BIG ERROR"));
+            }
+        }
+
+        public static void PrintWhileLoading(string message, bool isError)
+        {
+            Color color = isError ? new Color(1f, 0f, 0f, 1f) : Color.FromUint(4282569842U);
+            InformationManager.DisplayMessage(new InformationMessage(message, color));
         }
     }
 }
