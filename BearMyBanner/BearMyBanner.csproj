@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ModLib">
-      <HintPath>$(GameDir)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SandBox">
       <HintPath>$(GameDir)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
       <Private>False</Private>
@@ -258,6 +254,8 @@
     <Compile Include="BannerTournaments\DropBannerComponent.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
+    <Compile Include="Settings\BMBSettings.cs" />
+    <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
     <Compile Include="Utils\TournamentThemes.cs" />
@@ -265,7 +263,6 @@
     <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
-    <Compile Include="Settings\BMBSettings.cs" />
     <Compile Include="BannerBattles\BattleBannerAssignBehaviour.cs" />
     <Compile Include="Settings\IBMBSettings.cs" />
     <Compile Include="Main.cs" />

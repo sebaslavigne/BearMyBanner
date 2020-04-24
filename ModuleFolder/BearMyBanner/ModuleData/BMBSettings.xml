@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BMBSettings>
+
+	<!--======== Welcome to the Bear my Banner settings file ========-->
+
+	<!--==== Main Settings ========================================================================================-->
+	
+	<!--== Sieges ==-->
+	
+	<!--Allow banners during sieges-->
+	<!--Default: true-->
+	<AllowSieges>true</AllowSieges>
+	<!--Attackers in a siege use banners-->
+	<!--Default: true-->
+	<SiegeAttackersUseBanners>true</SiegeAttackersUseBanners>
+	<!--Defenders in a siege use banners-->
+	<!--Default: false-->
+	<SiegeDefendersUseBanners>false</SiegeDefendersUseBanners>
+	
+	
+	<!--== Hideout attacks ==-->
+	
+	<!--Allow banners during hideout attacks-->
+	<!--Default: false-->
+	<AllowHideouts>false</AllowHideouts>
+	<!--Attackers in a hideout mission use banners-->
+	<!--Default: false-->
+	<HideoutAttackersUseBanners>false</HideoutAttackersUseBanners>
+	<!--Bandits in a hideout mission use banners. NOTE: you also have to allow bandits in the filters below-->
+	<!--Default: false-->
+	<HideoutBanditsUseBanners>false</HideoutBanditsUseBanners>
+	
+	
+	<!--== Tournaments ==-->
+	
+	<!--Allow banners during tournaments. Gives only one banner per team and only to cavalry-->
+	<!--Default: true-->
+	<TournamentBanners>true</TournamentBanners>
+	<!--Use banner themes. Each culture has different patterns for team banners, selects a random theme for every team.
+	If disabled, banners always use plain colors-->
+	<!--Default: true-->
+	<TournamentThemes>true</TournamentThemes>
+	<!--Each team's banner theme is also applied to the shields. If disabled, shields always use plain colors-->
+	<!--Default: false-->
+	<TournamentBannersInShields>false</TournamentBannersInShields>
+	
+	
+	<!--==== Troop filters ========================================================================================-->
+	
+	<!--These settings determine which and how many units get banners-->
+	
+	<!--== Banner ratios ==-->
+	
+	<!--Give a banner to every 1 in X troops of the same type-->
+	<!--Min: 1, Default: 7-->
+	<BearerToTroopRatio>7</BearerToTroopRatio>
+	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
+	Useful if you have diverse armies, but which units get banners is more random.-->
+	<!--Default: false-->
+	<UseTroopSpecs>false</UseTroopSpecs>
+	
+	
+	<!--== Filter by occupation ==-->
+	
+	<!--Allow soldiers. These are most troops-->
+	<!--Default: true-->
+	<AllowSoldiers>true</AllowSoldiers>
+	<!--Allow caravan guards-->
+	<!--Default: false-->
+	<AllowCaravanGuards>false</AllowCaravanGuards>
+	<!--Default: false-->
+	<!--Allow mercenaries (i.e. Watchmen, Hired Blades, etc.)-->
+	<AllowMercenaries>false</AllowMercenaries>
+	<!--Allow bandits (i.e. Looters, Bandits, Raiders, etc.)-->
+	<!--Default: false-->
+	<AllowBandits>false</AllowBandits>
+	
+	
+	<!--== Filter by specialization ==-->
+	
+	<!--Allow infantry units-->
+	<!--Default: true-->
+	<AllowInfantry>true</AllowInfantry>
+	<!--Allow archers and crossbowmen. NOTE: the troops that get banners will lose their bow or crossbow, but still use their bows.
+	Also note that if ordered to "Charge" they will rush the enemy, order them to "Advance" and they will stay with the rest of the archers-->
+	<!--Default: false-->
+	<AllowRanged>false</AllowRanged>
+	<!--Allow cavalry units-->
+	<!--Default: true-->
+	<AllowMounted>true</AllowMounted>
+	<!--Allow horse archers. NOTE: same as with the archers-->
+	<!--Default: false-->
+	<AllowMountedRanged>false</AllowMountedRanged>
+
+	
+	<!--== Filter by tier ==-->
+	
+	<!--Use tier filters. If disabled, all tiers get banners-->
+	<!--Default: true-->
+	<FilterTiers>true</FilterTiers>
+	
+	<!--Tier 1 units-->
+	<!--Default: false-->
+	<AllowTier1>false</AllowTier1>
+	<!--Tier 2 units-->
+	<!--Default: false-->
+	<AllowTier2>false</AllowTier2>
+	<!--Tier 3 units-->
+	<!--Default: false-->
+	<AllowTier3>false</AllowTier3>
+	<!--Tier 4 units-->
+	<!--Default: true-->
+	<AllowTier4>true</AllowTier4>
+	<!--Tier 5 units-->
+	<!--Default: true-->
+	<AllowTier5>true</AllowTier5>
+	<!--Tier 6 units-->
+	<!--Default: true-->
+	<AllowTier6>true</AllowTier6>
+	<!--Tier 7 units and above. Some troop tree mods have tiers higher than 7-->
+	<!--Default: false-->
+	<AllowTier7Plus>false</AllowTier7Plus>
+	
+	<!--== Heroes ==-->
+	
+	<!--Give banners to your character, your companions and other nobles
+	IMPORTANT NOTE: same rules as with the archers apply (for now), bows and crossbows are removed at the start of the battle-->
+	
+	<!--Give a banner to the player. NOTE: you won't be able to equip your shield with the scroll wheel.
+	Use the numpad, or whichever key you have assigned in the game settings-->
+	<!--Default: false-->
+	<AllowPlayer>false</AllowPlayer>
+	<!--Give a banner to every companion-->
+	<!--Default: false-->
+	<AllowCompanions>false</AllowCompanions>
+	<!--Give a banner to every noble-->
+	<!--Default: false-->
+	<AllowNobles>false</AllowNobles>
+	
+	
+	<!--==== Miscellaneous ========================================================================================-->
+	
+	<!--Show messages in the lower left corner. For example, how many banners are given to each party in a battle-->
+	<!--Default: true-->
+	<ShowMessages>true</ShowMessages>
+	<!--Messages are always displayed in white. Useful if some party colors are hard to read-->
+	<!--Default: false-->
+	<WhiteMessages>false</WhiteMessages>
+</BMBSettings>

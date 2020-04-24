@@ -2,13 +2,24 @@
 {
     public interface IBMBSettings
     {
+        bool AllowSieges { get; set; }
+        bool SiegeAttackersUseBanners { get; set; }
+        bool SiegeDefendersUseBanners { get; set; }
+        bool AllowHideouts { get; set; }
+        bool HideoutAttackersUseBanners { get; set; }
+        bool HideoutBanditsUseBanners { get; set; }
+        bool TournamentBanners { get; set; }
+        bool TournamentThemes { get; set; }
+        bool TournamentBannersInShields { get; set; }
+        int BearerToTroopRatio { get; set; }
+        bool UseTroopSpecs { get; set; }
         bool AllowSoldiers { get; set; }
         bool AllowCaravanGuards { get; set; }
         bool AllowMercenaries { get; set; }
         bool AllowBandits { get; set; }
         bool AllowInfantry { get; set; }
-        bool AllowMounted { get; set; }
         bool AllowRanged { get; set; }
+        bool AllowMounted { get; set; }
         bool AllowMountedRanged { get; set; }
         bool FilterTiers { get; set; }
         bool AllowTier1 { get; set; }
@@ -21,18 +32,7 @@
         bool AllowPlayer { get; set; }
         bool AllowCompanions { get; set; }
         bool AllowNobles { get; set; }
-        int BearerToTroopRatio { get; set; }
-        bool UseTroopSpecs { get; set; }
-        bool AllowSieges { get; set; }
-        bool SiegeAttackersUseBanners { get; set; }
-        bool SiegeDefendersUseBanners { get; set; }
-        bool AllowHideouts { get; set; }
-        bool HideoutAttackersUseBanners { get; set; }
-        bool HideoutBanditsUseBanners { get; set; }
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
-        bool TournamentBanners { get; set; }
-        bool TournamentThemes { get; set; }
-        bool TournamentBannersInShields { get; set; }
     }
 }
