@@ -27,7 +27,7 @@ namespace BearMyBanner.Settings
             }
             catch (Exception ex)
             {
-                Main.LoadingMessages.Add(("BMB Error loading settings: " + ex.Message, true));
+                Main.LoadingMessages.Add(("BMB Error loading settings: settings file not found or is corrupt", true));
                 IBMBSettings BMBSettings = new BMBSettings();
                 settings = BMBSettings.SetDefaults();
                 Main.LoadingMessages.Add(("Bear my Banner will use default settings", true));
