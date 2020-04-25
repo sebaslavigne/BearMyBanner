@@ -54,10 +54,10 @@
 	<!--Give a banner to every 1 in X troops of the same type-->
 	<!--Min: 1, Default: 7-->
 	<BearerToTroopRatio>7</BearerToTroopRatio>
-	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
+	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types () to count equipped banners.
 	Useful if you have diverse armies, but which units get banners is more random.-->
-	<!--Default: false-->
-	<UseTroopSpecs>false</UseTroopSpecs>
+	<!--Default: true-->
+	<UseTroopSpecs>true</UseTroopSpecs>
 	
 	
 	<!--== Filter by occupation ==-->

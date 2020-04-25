@@ -255,6 +255,9 @@
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
+    <Compile Include="Settings\BMBFormationBanners.cs" />
+    <Compile Include="Settings\IBMBFormationBanners.cs" />
+    <Compile Include="Settings\IBMBFormationBannersExtension.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
