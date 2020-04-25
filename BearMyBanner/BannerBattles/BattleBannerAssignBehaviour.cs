@@ -13,12 +13,16 @@ namespace BearMyBanner
     {
         private readonly BattleBannerController _bannerAssignmentController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly IBMBSettings _settings;
+        private readonly Dictionary<int, string> _formationKeys;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings)
+        private readonly IBMBSettings _settings;
+        private readonly IBMBFormationBanners _formationBanners;
+
+        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBanners)
         {
             _bannerAssignmentController = new BattleBannerController(settings);
             _settings = settings;
+            _formationBanners = formationBanners;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
@@ -27,6 +31,18 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Bolts,
                 ItemObject.ItemTypeEnum.Bow,
                 ItemObject.ItemTypeEnum.Crossbow
+            };
+
+            _formationKeys = new Dictionary<int, string>()
+            {
+                { (int)FormationClass.Infantry, _formationBanners.Infantry },
+                { (int)FormationClass.Ranged, _formationBanners.Ranged },
+                { (int)FormationClass.Cavalry, _formationBanners.Cavalry },
+                { (int)FormationClass.HorseArcher, _formationBanners.HorseArcher },
+                { (int)FormationClass.Skirmisher, _formationBanners.Skirmisher },
+                { (int)FormationClass.HeavyInfantry, _formationBanners.HeavyInfantry },
+                { (int)FormationClass.LightCavalry, _formationBanners.LightCavalry },
+                { (int)FormationClass.HeavyCavalry, _formationBanners.HeavyCavalry }
             };
         }
 
@@ -58,7 +74,8 @@ namespace BearMyBanner
                 if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
                     && _bannerAssignmentController.AgentGetsBanner(campaignAgent)) 
                 {
-                    agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
+                    agent.RemoveForbiddenItems(_forbiddenWeapons);
+                    agent.EquipBanner(_formationKeys[(int)agent.Formation.FormationIndex]);
                 }
             }
             catch (Exception ex)

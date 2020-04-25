@@ -16,6 +16,7 @@ namespace BearMyBanner
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 
         private IBMBSettings _settings;
+        private IBMBFormationBanners _formationBanners;
 
         protected override void OnSubModuleLoad()
         {
@@ -23,6 +24,7 @@ namespace BearMyBanner
             try
             {
                 _settings = BMBSettings.Instance;
+                _formationBanners = BMBFormationBanners.Instance;
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -58,7 +60,7 @@ namespace BearMyBanner
                         case MissionType.FieldBattle:
                         case MissionType.Siege:
                         case MissionType.Hideout:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));

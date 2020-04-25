@@ -25,13 +25,13 @@ namespace BearMyBanner.Settings
         {
         }
 
-        public string KeyFormation1 { get; set; }
-        public string KeyFormation2 { get; set; }
-        public string KeyFormation3 { get; set; }
-        public string KeyFormation4 { get; set; }
-        public string KeyFormation5 { get; set; }
-        public string KeyFormation6 { get; set; }
-        public string KeyFormation7 { get; set; }
-        public string KeyFormation8 { get; set; }
+        public string Infantry { get; set; }
+        public string Ranged { get; set; }
+        public string Cavalry { get; set; }
+        public string HorseArcher { get; set; }
+        public string Skirmisher { get; set; }
+        public string HeavyInfantry { get; set; }
+        public string LightCavalry { get; set; }
+        public string HeavyCavalry { get; set; }
     }
 }
