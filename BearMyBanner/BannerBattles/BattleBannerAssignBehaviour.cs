@@ -13,7 +13,7 @@ namespace BearMyBanner
     {
         private readonly BattleBannerController _bannerAssignmentController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly Dictionary<int, string> _formationKeys;
+        private readonly Dictionary<FormationClass, string> _formationKeys;
 
         private readonly IBMBSettings _settings;
         private readonly IBMBFormationBanners _formationBanners;
@@ -33,16 +33,16 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Crossbow
             };
 
-            _formationKeys = new Dictionary<int, string>()
+            _formationKeys = new Dictionary<FormationClass, string>()
             {
-                { (int)FormationClass.Infantry, _formationBanners.Infantry },
-                { (int)FormationClass.Ranged, _formationBanners.Ranged },
-                { (int)FormationClass.Cavalry, _formationBanners.Cavalry },
-                { (int)FormationClass.HorseArcher, _formationBanners.HorseArcher },
-                { (int)FormationClass.Skirmisher, _formationBanners.Skirmisher },
-                { (int)FormationClass.HeavyInfantry, _formationBanners.HeavyInfantry },
-                { (int)FormationClass.LightCavalry, _formationBanners.LightCavalry },
-                { (int)FormationClass.HeavyCavalry, _formationBanners.HeavyCavalry }
+                { FormationClass.Infantry, _formationBanners.Infantry },
+                { FormationClass.Ranged, _formationBanners.Ranged },
+                { FormationClass.Cavalry, _formationBanners.Cavalry },
+                { FormationClass.HorseArcher, _formationBanners.HorseArcher },
+                { FormationClass.Skirmisher, _formationBanners.Skirmisher },
+                { FormationClass.HeavyInfantry, _formationBanners.HeavyInfantry },
+                { FormationClass.LightCavalry, _formationBanners.LightCavalry },
+                { FormationClass.HeavyCavalry, _formationBanners.HeavyCavalry }
             };
         }
 
@@ -74,8 +74,18 @@ namespace BearMyBanner
                 if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
                     && _bannerAssignmentController.AgentGetsBanner(campaignAgent)) 
                 {
-                    agent.RemoveForbiddenItems(_forbiddenWeapons);
-                    agent.EquipBanner(_formationKeys[(int)agent.Formation.FormationIndex]);
+                    agent.RemoveFromEquipment(_forbiddenWeapons);
+                    agent.RemoveFromSpawnEquipment(_forbiddenWeapons);
+
+                    FormationClass formationIndex = agent.Formation != null ? agent.Formation.FormationIndex : FormationClass.Unset;
+                    if (agent.Formation != null && _formationKeys.ContainsKey(formationIndex))
+                    {
+                        agent.EquipBanner(_formationKeys[formationIndex]);
+                    }
+                    else
+                    {
+                        agent.EquipBanner();
+                    }
                 }
             }
             catch (Exception ex)

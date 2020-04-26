@@ -12,6 +12,10 @@ namespace BearMyBanner.Settings
 
         public static IBMBFormationBanners SetDefaults(this IBMBFormationBanners formationBanners)
         {
+            formationBanners.EnableFormationBanners = false;
+            formationBanners.CompanionsUseFormationBanners = false;
+            formationBanners.UseInShields = true;
+
             formationBanners.Infantry = "1.111.111.1536.1536.756.764.1.0.0.301.116.116.700.700.764.764.0.0.225";
             formationBanners.Ranged = "1.111.111.1536.1536.756.764.1.0.0.311.116.116.700.700.764.764.0.0.315";
             formationBanners.Cavalry = "1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.301.116.116.300.300.764.564.0.0.225";

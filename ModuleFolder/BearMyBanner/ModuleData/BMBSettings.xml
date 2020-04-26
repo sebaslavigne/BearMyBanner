@@ -10,9 +10,11 @@
 	<!--Allow banners during sieges-->
 	<!--Default: true-->
 	<AllowSieges>true</AllowSieges>
+	
 	<!--Attackers in a siege use banners-->
 	<!--Default: true-->
 	<SiegeAttackersUseBanners>true</SiegeAttackersUseBanners>
+	
 	<!--Defenders in a siege use banners-->
 	<!--Default: false-->
 	<SiegeDefendersUseBanners>false</SiegeDefendersUseBanners>
@@ -23,9 +25,11 @@
 	<!--Allow banners during hideout attacks-->
 	<!--Default: false-->
 	<AllowHideouts>false</AllowHideouts>
+	
 	<!--Attackers in a hideout mission use banners-->
 	<!--Default: false-->
 	<HideoutAttackersUseBanners>false</HideoutAttackersUseBanners>
+	
 	<!--Bandits in a hideout mission use banners. NOTE: you also have to allow bandits in the filters below-->
 	<!--Default: false-->
 	<HideoutBanditsUseBanners>false</HideoutBanditsUseBanners>
@@ -36,10 +40,12 @@
 	<!--Allow banners during tournaments. Gives only one banner per team and only to cavalry-->
 	<!--Default: true-->
 	<TournamentBanners>true</TournamentBanners>
+	
 	<!--Use banner themes. Each culture has different patterns for team banners, selects a random theme for every team.
 	If disabled, banners always use plain colors-->
 	<!--Default: true-->
 	<TournamentThemes>true</TournamentThemes>
+	
 	<!--Each team's banner theme is also applied to the shields. If disabled, shields always use plain colors-->
 	<!--Default: false-->
 	<TournamentBannersInShields>false</TournamentBannersInShields>
@@ -53,8 +59,9 @@
 	
 	<!--Give a banner to every 1 in X troops of the same type-->
 	<!--Min: 1, Default: 7-->
-	<BearerToTroopRatio>7</BearerToTroopRatio>
-	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types () to count equipped banners.
+	<BearerToTroopRatio>10</BearerToTroopRatio>
+	
+	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
 	Useful if you have diverse armies, but which units get banners is more random.-->
 	<!--Default: true-->
 	<UseTroopSpecs>true</UseTroopSpecs>
@@ -65,12 +72,15 @@
 	<!--Allow soldiers. These are most troops-->
 	<!--Default: true-->
 	<AllowSoldiers>true</AllowSoldiers>
+	
 	<!--Allow caravan guards-->
 	<!--Default: false-->
 	<AllowCaravanGuards>false</AllowCaravanGuards>
+	
 	<!--Default: false-->
 	<!--Allow mercenaries (i.e. Watchmen, Hired Blades, etc.)-->
 	<AllowMercenaries>false</AllowMercenaries>
+	
 	<!--Allow bandits (i.e. Looters, Bandits, Raiders, etc.)-->
 	<!--Default: false-->
 	<AllowBandits>false</AllowBandits>
@@ -81,13 +91,16 @@
 	<!--Allow infantry units-->
 	<!--Default: true-->
 	<AllowInfantry>true</AllowInfantry>
+	
 	<!--Allow archers and crossbowmen. NOTE: the troops that get banners will lose their bow or crossbow, but still use their bows.
 	Also note that if ordered to "Charge" they will rush the enemy, order them to "Advance" and they will stay with the rest of the archers-->
 	<!--Default: false-->
 	<AllowRanged>false</AllowRanged>
+	
 	<!--Allow cavalry units-->
 	<!--Default: true-->
 	<AllowMounted>true</AllowMounted>
+	
 	<!--Allow horse archers. NOTE: same as with the archers-->
 	<!--Default: false-->
 	<AllowMountedRanged>false</AllowMountedRanged>
@@ -130,9 +143,11 @@
 	Use the numpad, or whichever key you have assigned in the game settings-->
 	<!--Default: false-->
 	<AllowPlayer>false</AllowPlayer>
+	
 	<!--Give a banner to every companion-->
 	<!--Default: false-->
 	<AllowCompanions>false</AllowCompanions>
+	
 	<!--Give a banner to every noble-->
 	<!--Default: false-->
 	<AllowNobles>false</AllowNobles>
@@ -143,7 +158,14 @@
 	<!--Show messages in the lower left corner. For example, how many banners are given to each party in a battle-->
 	<!--Default: true-->
 	<ShowMessages>true</ShowMessages>
+	
 	<!--Messages are always displayed in white. Useful if some party colors are hard to read-->
 	<!--Default: false-->
 	<WhiteMessages>false</WhiteMessages>
+
+	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes.
+	NOTE: return back to false once you're happy with the results.-->
+	<!--Default: false-->
+	<ReloadFiles>false</ReloadFiles>
+		
 </BMBSettings>

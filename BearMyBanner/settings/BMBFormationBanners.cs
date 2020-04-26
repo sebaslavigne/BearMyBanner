@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BearMyBanner.Settings
 {
-    class BMBFormationBanners : IBMBFormationBanners
+    [Serializable]
+    public class BMBFormationBanners : IBMBFormationBanners
     {
         public static IBMBFormationBanners Instance => GetInstance();
 
@@ -21,9 +18,19 @@ namespace BearMyBanner.Settings
             return _formationBanners;
         }
 
+        public static IBMBFormationBanners Reload()
+        {
+            _formationBanners = null;
+            return Instance;
+        }
+
         internal BMBFormationBanners()
         {
         }
+
+        public bool EnableFormationBanners { get; set; }
+        public bool CompanionsUseFormationBanners { get; set; }
+        public bool UseInShields { get; set; }
 
         public string Infantry { get; set; }
         public string Ranged { get; set; }

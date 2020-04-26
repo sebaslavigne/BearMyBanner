@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BearMyBanner.Settings
+﻿namespace BearMyBanner.Settings
 {
     public interface IBMBFormationBanners
     {
+        bool EnableFormationBanners { get; set; }
+        bool CompanionsUseFormationBanners { get; set; }
+        bool UseInShields { get; set; }
 
         string Infantry { get; set; }
         string Ranged { get; set; }

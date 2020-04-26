@@ -33,7 +33,7 @@ namespace BearMyBanner.Settings
                 Main.LoadingMessages.Add(("Bear my Banner will use default settings", true));
 
                 //Use when adding new settings to easily create new file
-                //SerializeDefaults(settingsPath, settings);
+                //SerializeSettings<BMBSettings>(settingsPath, (BMBSettings)settings);
 
             }
             return settings;
@@ -51,7 +51,7 @@ namespace BearMyBanner.Settings
             IBMBFormationBanners formationBanners;
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(BMBSettings));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(BMBFormationBanners));
                 using (StreamReader streamReader = new StreamReader(settingsPath))
                 {
                     formationBanners = (BMBFormationBanners)xmlSerializer.Deserialize(streamReader);
@@ -65,26 +65,18 @@ namespace BearMyBanner.Settings
                 Main.LoadingMessages.Add(("Bear my Banner will use default formation banners", true));
 
                 //Use when adding new settings to easily create new file
-                //SerializeDefaults(settingsPath, settings);
+                //SerializeSettings<BMBFormationBanners>(settingsPath, (BMBFormationBanners)formationBanners);
 
             }
             return formationBanners;
         }
 
-        private static void SerializeDefaults(string settingsPath, IBMBSettings settings)
+        private static void SerializeSettings<T>(string settingsPath, T settings)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(BMBSettings));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             using (TextWriter streamWriter = new StreamWriter(settingsPath))
             {
                 xmlSerializer.Serialize(streamWriter, settings);
-            }
-        }
-        private static void SerializeFormationBanners(string settingsPath, IBMBFormationBanners formationBanners)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(BMBSettings));
-            using (TextWriter streamWriter = new StreamWriter(settingsPath))
-            {
-                xmlSerializer.Serialize(streamWriter, formationBanners);
             }
         }
     }

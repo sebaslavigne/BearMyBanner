@@ -15,7 +15,7 @@ namespace BearMyBanner
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="forbiddenWeapons">A set of weapon types that get removed from the agent's spawn equipment</param>
-        public static void RemoveForbiddenItems(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        public static void RemoveFromSpawnEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
         {
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
@@ -49,6 +49,17 @@ namespace BearMyBanner
             if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+            }
+        }
+
+        public static void RemoveFromEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (!agent.Equipment[i].IsEmpty && forbiddenWeapons.Contains(agent.Equipment[i].PrimaryItem.Type))
+                {
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                }
             }
         }
 

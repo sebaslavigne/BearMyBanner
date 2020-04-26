@@ -37,12 +37,13 @@
             settings.HideoutAttackersUseBanners = false;
             settings.HideoutBanditsUseBanners = false;
 
-            settings.ShowMessages = true;
-            settings.WhiteMessages = false;
-
             settings.TournamentBanners = true;
             settings.TournamentThemes = true;
             settings.TournamentBannersInShields = false;
+
+            settings.ShowMessages = true;
+            settings.WhiteMessages = false;
+            settings.ReloadFiles = false;
 
             return settings;
         }

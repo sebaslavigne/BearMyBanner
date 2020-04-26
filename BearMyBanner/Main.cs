@@ -53,6 +53,13 @@ namespace BearMyBanner
                     throw new InvalidOperationException("Settings were not initialized");
                 }
 
+                if (_settings.ReloadFiles)
+                {
+                    _settings = BMBSettings.Reload();
+                    _formationBanners = BMBFormationBanners.Reload();
+                    PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
+                }
+
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
                     switch (mission.GetMissionType())
@@ -107,7 +114,7 @@ namespace BearMyBanner
             }
             catch (Exception) //If there's an exception because settings were not loaded
             {
-                InformationManager.DisplayMessage(new InformationMessage("BIG ERROR"));
+                InformationManager.DisplayMessage(new InformationMessage("BMB Error loading settings"));
             }
         }
 
