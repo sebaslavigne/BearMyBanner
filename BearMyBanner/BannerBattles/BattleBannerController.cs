@@ -8,15 +8,17 @@ namespace BearMyBanner
     public class BattleBannerController
     {
         private readonly IBMBSettings _settings;
+        private readonly IBMBFormationBanners _formationBanners;
 
         private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
 
-        public BattleBannerController(IBMBSettings settings)
+        public BattleBannerController(IBMBSettings settings, IBMBFormationBanners formationBanners)
         {
             _settings = settings;
+            _formationBanners = formationBanners;
         }
 
         /// <summary>
@@ -78,6 +80,20 @@ namespace BearMyBanner
                 return true;
             }
             return false;
+        }
+
+        public bool AgentGetsFancyBanner(IBMBAgent agent)
+        {
+            if (!_formationBanners.EnableFormationBanners || !agent.IsInPlayerParty) return false;
+            if (agent.Character.IsPlayerCharacter) return false;
+            if (_formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
+            if (agent.Character.IsHero) return false;
+            return true;
+        }
+
+        public bool AgentGetsFancyShield(IBMBAgent agent)
+        {
+            return (_formationBanners.UseInShields && AgentGetsFancyBanner(agent));
         }
 
         /// <summary>

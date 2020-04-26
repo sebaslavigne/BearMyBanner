@@ -11,18 +11,19 @@ namespace BearMyBanner
 {
     public class BattleBannerAssignBehaviour : MissionLogic
     {
-        private readonly BattleBannerController _bannerAssignmentController;
+        private readonly BattleBannerController _controller;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly Dictionary<FormationClass, Banner> _formationBanners;
+        private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
         private readonly IBMBSettings _settings;
         private readonly IBMBFormationBanners _formationBannerSettings;
 
         private List<Agent> _spawnedAgents = new List<Agent>();
+        private bool initialUnitsSpawned = false;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
         {
-            _bannerAssignmentController = new BattleBannerController(settings);
+            _controller = new BattleBannerController(settings, formationBannerSettings);
             _settings = settings;
             _formationBannerSettings = formationBannerSettings;
 
@@ -35,16 +36,16 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Crossbow
             };
 
-            _formationBanners = new Dictionary<FormationClass, Banner>()
+            _formationBanners = new Dictionary<FormationGroup, Banner>()
             {
-                { FormationClass.Infantry, new Banner(_formationBannerSettings.Infantry) },
-                { FormationClass.Ranged, new Banner(_formationBannerSettings.Ranged) },
-                { FormationClass.Cavalry, new Banner(_formationBannerSettings.Cavalry) },
-                { FormationClass.HorseArcher, new Banner(_formationBannerSettings.HorseArcher) },
-                { FormationClass.Skirmisher, new Banner(_formationBannerSettings.Skirmisher) },
-                { FormationClass.HeavyInfantry, new Banner(_formationBannerSettings.HeavyInfantry) },
-                { FormationClass.LightCavalry, new Banner(_formationBannerSettings.LightCavalry) },
-                { FormationClass.HeavyCavalry, new Banner(_formationBannerSettings.HeavyCavalry) }
+                { FormationGroup.Infantry, new Banner(_formationBannerSettings.Infantry) },
+                { FormationGroup.Ranged, new Banner(_formationBannerSettings.Ranged) },
+                { FormationGroup.Cavalry, new Banner(_formationBannerSettings.Cavalry) },
+                { FormationGroup.HorseArcher, new Banner(_formationBannerSettings.HorseArcher) },
+                { FormationGroup.Skirmisher, new Banner(_formationBannerSettings.Skirmisher) },
+                { FormationGroup.HeavyInfantry, new Banner(_formationBannerSettings.HeavyInfantry) },
+                { FormationGroup.LightCavalry, new Banner(_formationBannerSettings.LightCavalry) },
+                { FormationGroup.HeavyCavalry, new Banner(_formationBannerSettings.HeavyCavalry) }
             };
         }
 
@@ -57,7 +58,7 @@ namespace BearMyBanner
                 var nativeCharacterTypes = new List<CharacterObject>();
                 MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
                 var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
-                _bannerAssignmentController.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
+                _controller.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
             }
             catch (Exception ex)
             {
@@ -90,10 +91,12 @@ namespace BearMyBanner
                     AfterAgentSpawned(agent);
                 }
                 _spawnedAgents.Clear();
+                OnInitialUnitsSpawned();
             }
             catch (Exception ex)
             {
                 Main.LogError(ex);
+                _spawnedAgents.Clear();
             }
         }
 
@@ -106,16 +109,19 @@ namespace BearMyBanner
             var campaignAgent = new CampaignAgent(agent);
             var missionType = this.Mission.GetMissionType();
 
-            if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
-                && _bannerAssignmentController.AgentGetsBanner(campaignAgent))
+            if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyShield(campaignAgent))
             {
+                agent.SwitchShieldBanner(_formationBanners[campaignAgent.Formation]);
+            }
 
+            if (_controller.AgentIsEligible(campaignAgent, missionType)
+                && _controller.AgentGetsBanner(campaignAgent))
+            {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
 
-                FormationClass formationIndex = agent.Formation != null ? agent.Formation.FormationIndex : FormationClass.Unset;
-                if (agent.Formation != null && _formationBanners.ContainsKey(formationIndex))
+                if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
                 {
-                    agent.EquipBanner(_formationBanners[formationIndex]);
+                    agent.EquipBanner(_formationBanners[campaignAgent.Formation]);
                 }
                 else
                 {
@@ -124,18 +130,24 @@ namespace BearMyBanner
             }
         }
 
-        public override void OnFormationUnitsSpawned(Team team)
+        private void OnInitialUnitsSpawned()
         {
-            base.OnFormationUnitsSpawned(team);
             try
             {
-                List<CampaignAgent> teamAgents = team.TeamAgents.Select(ta => new CampaignAgent(ta)).ToList();
+                if (initialUnitsSpawned) return;
 
-                Dictionary<string, uint> partiesInTeam = teamAgents
-                .DistinctBy(ta => ta.PartyName)
-                .ToDictionary(ta => ta.PartyName, ta => ta.PartyColor);
+                foreach (Team team in this.Mission.Teams)
+                {
+                    List<CampaignAgent> teamAgents = team.TeamAgents.Select(ta => new CampaignAgent(ta)).ToList();
 
-                _bannerAssignmentController.PrintBannersEquippedByPartiesInTeam(partiesInTeam);
+                    Dictionary<string, uint> partiesInTeam = teamAgents
+                    .DistinctBy(ta => ta.PartyName)
+                    .ToDictionary(ta => ta.PartyName, ta => ta.PartyColor);
+
+                    _controller.PrintBannersEquippedByPartiesInTeam(partiesInTeam);
+                }
+
+                initialUnitsSpawned = true;
             }
             catch (Exception ex)
             {

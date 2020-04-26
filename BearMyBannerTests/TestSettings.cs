@@ -33,5 +33,9 @@ namespace BearMyBannerTests
         public bool HideoutBanditsUseBanners { get; set; }
         public bool ShowMessages { get; set; }
         public bool WhiteMessages { get; set; }
+        public bool TournamentBanners { get; set; }
+        public bool TournamentThemes { get; set; }
+        public bool TournamentBannersInShields { get; set; }
+        public bool ReloadFiles { get; set; }
     }
 }

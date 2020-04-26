@@ -262,6 +262,7 @@
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
     <Compile Include="Utils\TournamentThemes.cs" />
+    <Compile Include="Wrapper\Enum\FormationGroup.cs" />
     <Compile Include="Wrapper\Interface\IBMBBanner.cs" />
     <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />

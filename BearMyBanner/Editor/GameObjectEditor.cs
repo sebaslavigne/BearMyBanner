@@ -79,6 +79,37 @@ namespace BearMyBanner
             agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
         }
 
+        public static void SwitchShieldBanner(this Agent agent, Banner banner)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                MissionWeapon paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), banner);
+                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == ItemObject.ItemTypeEnum.Shield)
+                {
+                    string shieldId = agent.Equipment[i].PrimaryItem.StringId;
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                    try
+                    {
+                        paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
+                    }
+                    catch (System.Exception)
+                    {
+
+                        ;
+                    }
+                    try
+                    {
+                        agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
+                    }
+                    catch (System.Exception)
+                    {
+
+                        ;
+                    }
+                }
+            }
+        }
+
         public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)
         {
             banner.Deserialize(newBanner.Key);
