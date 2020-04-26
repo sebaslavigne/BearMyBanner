@@ -14,20 +14,14 @@
             settings.AllowMountedRanged = false;
 
             settings.FilterTiers = true;
-            settings.AllowTier1 = false;
-            settings.AllowTier2 = false;
-            settings.AllowTier3 = false;
-            settings.AllowTier4 = true;
-            settings.AllowTier5 = true;
-            settings.AllowTier6 = true;
-            settings.AllowTier7Plus = false;
+            settings.AllowedTiers = "4,5,6";
 
             settings.AllowPlayer = false;
             settings.AllowCompanions = false;
             settings.AllowNobles = false;
 
             settings.BearerToTroopRatio = 7;
-            settings.UseTroopSpecs = true;
+            settings.UnitCountMode = UnitCountMode.type;
 
             settings.AllowSieges = true;
             settings.SiegeAttackersUseBanners = true;

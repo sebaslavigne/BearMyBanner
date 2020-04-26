@@ -57,14 +57,16 @@
 	
 	<!--== Banner ratios ==-->
 	
-	<!--Give a banner to every 1 in X troops of the same type. Smaller value means more banners-->
+	<!--Give a banner to every 1 in X units of the same type. Smaller values mean more banners-->
 	<!--Min: 1, Default: 10-->
 	<BearerToTroopRatio>10</BearerToTroopRatio>
 	
-	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
-	Useful if you have diverse armies, but which units get banners is more random.-->
-	<!--Default: true-->
-	<UseTroopSpecs>true</UseTroopSpecs>
+	<!--How the units will be counted to give them banners using the filters and the banner to troop ratio-->
+	<!--Possible values:
+		type  - Count by general type (Infantry, Archer, Cavalry and Horse Archer)
+		troop - Count by individual units (Imperial Veteran Infantryman, Battanian Wildling, Khuzait Lancer, etc.). You might want to lower the ratio value if you use this-->
+	<!--Default: type-->
+	<UnitCountMode>type</UnitCountMode>
 	
 	
 	<!--== Filter by occupation ==-->
@@ -86,13 +88,13 @@
 	<AllowBandits>false</AllowBandits>
 	
 	
-	<!--== Filter by specialization ==-->
+	<!--== Filter by type ==-->
 	
 	<!--Allow infantry units-->
 	<!--Default: true-->
 	<AllowInfantry>true</AllowInfantry>
 	
-	<!--Allow archers and crossbowmen. NOTE: the troops that get banners will lose their bow or crossbow, but still use their bows.
+	<!--Allow archers and crossbowmen. NOTE: the troops that get banners will lose their bow or crossbow, but still use their melee weapons.
 	Also note that if ordered to "Charge" they will rush the enemy, order them to "Advance" and they will stay with the rest of the archers-->
 	<!--Default: false-->
 	<AllowRanged>false</AllowRanged>
@@ -111,28 +113,11 @@
 	<!--Use tier filters. If disabled, all tiers get banners-->
 	<!--Default: true-->
 	<FilterTiers>true</FilterTiers>
-	
-	<!--Tier 1 units-->
-	<!--Default: false-->
-	<AllowTier1>false</AllowTier1>
-	<!--Tier 2 units-->
-	<!--Default: false-->
-	<AllowTier2>false</AllowTier2>
-	<!--Tier 3 units-->
-	<!--Default: false-->
-	<AllowTier3>false</AllowTier3>
-	<!--Tier 4 units-->
-	<!--Default: true-->
-	<AllowTier4>true</AllowTier4>
-	<!--Tier 5 units-->
-	<!--Default: true-->
-	<AllowTier5>true</AllowTier5>
-	<!--Tier 6 units-->
-	<!--Default: true-->
-	<AllowTier6>true</AllowTier6>
-	<!--Tier 7 units and above. Some troop tree mods have tiers higher than 7-->
-	<!--Default: false-->
-	<AllowTier7Plus>false</AllowTier7Plus>
+
+	<!--The tiers that will get banners, separated by commas.
+	Some troop tree mods include tiers higher than 6, just add them to the list to enable them (e.g. 8,9,10,11)-->
+	<!--Default: 4,5,6-->
+	<AllowedTiers>4,5,6</AllowedTiers>
 	
 	<!--== Heroes ==-->
 	
@@ -163,8 +148,8 @@
 	<!--Default: false-->
 	<WhiteMessages>false</WhiteMessages>
 
-	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes.
-	NOTE: return back to false once you're happy with the results.-->
+	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes, set to true before running the game.
+	NOTE: return back to false once you're happy with the configuration.-->
 	<!--Default: false-->
 	<ReloadFiles>false</ReloadFiles>
 		

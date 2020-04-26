@@ -2,6 +2,7 @@
 using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
+using System;
 
 namespace BearMyBanner
 {
@@ -71,7 +72,7 @@ namespace BearMyBanner
             _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
 
             /* Give banner or skip */
-            int processedTroops = _settings.UseTroopSpecs ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
+            int processedTroops = _settings.UnitCountMode == UnitCountMode.type ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
@@ -142,14 +143,11 @@ namespace BearMyBanner
             /* Filter by tier */
             if (_settings.FilterTiers)
             {
-                List<int> allowedTiers = new List<int>();
-                if (_settings.AllowTier1) allowedTiers.Add(1);
-                if (_settings.AllowTier2) allowedTiers.Add(2);
-                if (_settings.AllowTier3) allowedTiers.Add(3);
-                if (_settings.AllowTier4) allowedTiers.Add(4);
-                if (_settings.AllowTier5) allowedTiers.Add(5);
-                if (_settings.AllowTier6) allowedTiers.Add(6);
-                if (_settings.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
+                List<int> allowedTiers = _settings.AllowedTiers
+                    .Split(',')
+                    .Select(Int32.Parse)
+                    .ToList();
+
                 _allowedBearerTypes = _allowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();
