@@ -118,6 +118,7 @@ namespace BearMyBanner
                 && _controller.AgentGetsBanner(campaignAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
+                agent.AddComponent(new DropBannerComponent(agent));
 
                 if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
                 {
