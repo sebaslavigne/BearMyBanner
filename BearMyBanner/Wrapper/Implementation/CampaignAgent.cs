@@ -9,12 +9,14 @@ namespace BearMyBanner.Wrapper
         {
             WrappedAgent = wrappedAgent;
             Character = new CampaignCharacter((CharacterObject)WrappedAgent.Character);
-            var partyToWrap = ((PartyGroupAgentOrigin) WrappedAgent.Origin)?.Party;
+            var partyToWrap = ((PartyGroupAgentOrigin)WrappedAgent.Origin)?.Party;
             if (partyToWrap != null)
             {
                 PartyName = partyToWrap.Name.ToString();
                 PartyColor = partyToWrap.PrimaryColorPair.Item1;
+                IsInPlayerParty = partyToWrap.Leader.IsPlayerCharacter;
             }
+            Formation = wrappedAgent.Formation != null ? (FormationGroup)(int)wrappedAgent.Formation.FormationIndex : FormationGroup.Unset;
         }
 
         public Agent WrappedAgent { get; }
@@ -23,6 +25,8 @@ namespace BearMyBanner.Wrapper
         public IBMBCharacter Character { get; }
         public string PartyName { get; }
         public uint PartyColor { get; }
+        public bool IsInPlayerParty { get; }
         public bool HasRangedWeapons => throw new System.NotImplementedException();
+        public FormationGroup Formation { get; }
     }
 }

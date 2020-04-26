@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BMBFormationBanners>
+	
+	<!--======== Welcome to the Bear my Banner formation banners file ========-->
+	
+	<!--Formations are the different groups you can assign soldiers to. This allows you to configure banner designs for each one of them.
+	Use the online tool https://bannerlord.party/banner/ to design a banner and copy the code into the desired group.
+	Be aware that if the code is not formatted well, nothing will happen and the party's banner will be used instead.-->
+	
+	<!-- https://bannerlord.party/banner/ -->
+	
+	
+	<!--Enable the use of custom banner designs for troop formations-->
+	<!--Default: false-->
+	<EnableFormationBanners>false</EnableFormationBanners>
+	
+	<!--Companions also use the banner of the formation they're assigned to-->
+	<!--Default: false-->
+	<CompanionsUseFormationBanners>false</CompanionsUseFormationBanners>
+	
+	<!--The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers)-->
+	<!--Default: true-->
+	<UseInShields>true</UseInShields>
+	
+	<!--Formation banner codes. DO NOT leave any spaces in between the opening and closing tags-->
+	<!--Default values are a white background with a black symbol representing the formation-->
+	<Infantry>1.111.111.1536.1536.756.764.1.0.0.301.116.116.700.700.764.764.0.0.225</Infantry>
+	
+	<Ranged>1.111.111.1536.1536.756.764.1.0.0.311.116.116.700.700.764.764.0.0.315</Ranged>
+	
+	<Cavalry>1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.301.116.116.300.300.764.564.0.0.225</Cavalry>
+	
+	<HorseArcher>1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.311.116.116.300.300.764.564.0.0.315</HorseArcher>
+	
+	<Skirmisher>1.111.111.1536.1536.756.764.1.0.0.304.116.116.600.600.764.864.0.0.45.304.116.116.600.600.764.664.0.0.45.304.116.116.600.600.764.764.0.0.45</Skirmisher>
+	
+	<HeavyInfantry>1.111.111.1536.1536.756.764.1.0.0.318.111.116.700.700.764.764.1.1.0.301.116.116.700.700.764.764.0.0.225</HeavyInfantry>
+	
+	<LightCavalry>1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.304.116.116.300.300.764.614.0.0.315.304.116.116.300.300.764.514.0.0.315.304.116.116.300.300.764.564.0.0.315</LightCavalry>
+
+	<HeavyCavalry>1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.318.111.116.300.300.764.564.1.0.0.301.116.116.300.300.764.564.0.0.225</HeavyCavalry>
+
+</BMBFormationBanners>

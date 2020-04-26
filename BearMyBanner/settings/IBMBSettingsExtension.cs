@@ -14,20 +14,14 @@
             settings.AllowMountedRanged = false;
 
             settings.FilterTiers = true;
-            settings.AllowTier1 = false;
-            settings.AllowTier2 = false;
-            settings.AllowTier3 = false;
-            settings.AllowTier4 = true;
-            settings.AllowTier5 = true;
-            settings.AllowTier6 = true;
-            settings.AllowTier7Plus = false;
+            settings.AllowedTiers = "4,5,6";
 
             settings.AllowPlayer = false;
             settings.AllowCompanions = false;
             settings.AllowNobles = false;
 
             settings.BearerToTroopRatio = 7;
-            settings.UseTroopSpecs = false;
+            settings.UnitCountMode = UnitCountMode.type;
 
             settings.AllowSieges = true;
             settings.SiegeAttackersUseBanners = true;
@@ -37,12 +31,13 @@
             settings.HideoutAttackersUseBanners = false;
             settings.HideoutBanditsUseBanners = false;
 
-            settings.ShowMessages = true;
-            settings.WhiteMessages = false;
-
             settings.TournamentBanners = true;
             settings.TournamentThemes = true;
             settings.TournamentBannersInShields = false;
+
+            settings.ShowMessages = true;
+            settings.WhiteMessages = false;
+            settings.ReloadFiles = false;
 
             return settings;
         }

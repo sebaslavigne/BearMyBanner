@@ -68,6 +68,7 @@
     <Compile Include="CharacterFactory.cs" />
     <Compile Include="PartyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestFormations.cs" />
     <Compile Include="TestSettings.cs" />
   </ItemGroup>
   <ItemGroup>
