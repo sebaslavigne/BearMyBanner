@@ -21,7 +21,7 @@
             settings.AllowNobles = false;
 
             settings.BearerToTroopRatio = 7;
-            settings.UseTroopSpecs = true;
+            settings.UnitCountMode = UnitCountMode.type;
 
             settings.AllowSieges = true;
             settings.SiegeAttackersUseBanners = true;

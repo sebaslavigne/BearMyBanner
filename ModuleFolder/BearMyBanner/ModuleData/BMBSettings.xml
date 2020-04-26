@@ -57,14 +57,16 @@
 	
 	<!--== Banner ratios ==-->
 	
-	<!--Give a banner to every 1 in X troops of the same type. Smaller values mean more banners-->
+	<!--Give a banner to every 1 in X units of the same type. Smaller values mean more banners-->
 	<!--Min: 1, Default: 10-->
 	<BearerToTroopRatio>10</BearerToTroopRatio>
 	
-	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
-	Useful if you have diverse armies, but which units get banners is more random.-->
-	<!--Default: true-->
-	<UseTroopSpecs>true</UseTroopSpecs>
+	<!--How the units will be counted to give them banners using the filters and the banner to troop ratio-->
+	<!--Possible values:
+		type  - Count by general type (Infantry, Archer, Cavalry and Horse Archer)
+		troop - Count by individual units (Imperial Veteran Infantryman, Battanian Wildling, Khuzait Lancer, etc.). You might want to lower the ratio value if you use this-->
+	<!--Default: type-->
+	<UnitCountMode>type</UnitCountMode>
 	
 	
 	<!--== Filter by occupation ==-->
@@ -86,7 +88,7 @@
 	<AllowBandits>false</AllowBandits>
 	
 	
-	<!--== Filter by specialization ==-->
+	<!--== Filter by type ==-->
 	
 	<!--Allow infantry units-->
 	<!--Default: true-->
@@ -146,8 +148,8 @@
 	<!--Default: false-->
 	<WhiteMessages>false</WhiteMessages>
 
-	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes.
-	NOTE: return back to false once you're happy with the results.-->
+	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes, set to true before running the game.
+	NOTE: return back to false once you're happy with the configuration.-->
 	<!--Default: false-->
 	<ReloadFiles>false</ReloadFiles>
 		

@@ -12,7 +12,7 @@
         bool TournamentThemes { get; set; }
         bool TournamentBannersInShields { get; set; }
         int BearerToTroopRatio { get; set; }
-        bool UseTroopSpecs { get; set; }
+        UnitCountMode UnitCountMode { get; set; }
         bool AllowSoldiers { get; set; }
         bool AllowCaravanGuards { get; set; }
         bool AllowMercenaries { get; set; }

@@ -258,6 +258,7 @@
     <Compile Include="Settings\BMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBannersExtension.cs" />
+    <Compile Include="Settings\SettingEnums.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />

@@ -72,7 +72,7 @@ namespace BearMyBanner
             _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
 
             /* Give banner or skip */
-            int processedTroops = _settings.UseTroopSpecs ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
+            int processedTroops = _settings.UnitCountMode == UnitCountMode.type ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
