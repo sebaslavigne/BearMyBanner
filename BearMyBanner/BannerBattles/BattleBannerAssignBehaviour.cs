@@ -13,16 +13,18 @@ namespace BearMyBanner
     {
         private readonly BattleBannerController _bannerAssignmentController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly Dictionary<FormationClass, string> _formationKeys;
+        private readonly Dictionary<FormationClass, Banner> _formationBanners;
 
         private readonly IBMBSettings _settings;
-        private readonly IBMBFormationBanners _formationBanners;
+        private readonly IBMBFormationBanners _formationBannerSettings;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBanners)
+        private List<Agent> _spawnedAgents = new List<Agent>();
+
+        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
         {
             _bannerAssignmentController = new BattleBannerController(settings);
             _settings = settings;
-            _formationBanners = formationBanners;
+            _formationBannerSettings = formationBannerSettings;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
@@ -33,16 +35,16 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Crossbow
             };
 
-            _formationKeys = new Dictionary<FormationClass, string>()
+            _formationBanners = new Dictionary<FormationClass, Banner>()
             {
-                { FormationClass.Infantry, _formationBanners.Infantry },
-                { FormationClass.Ranged, _formationBanners.Ranged },
-                { FormationClass.Cavalry, _formationBanners.Cavalry },
-                { FormationClass.HorseArcher, _formationBanners.HorseArcher },
-                { FormationClass.Skirmisher, _formationBanners.Skirmisher },
-                { FormationClass.HeavyInfantry, _formationBanners.HeavyInfantry },
-                { FormationClass.LightCavalry, _formationBanners.LightCavalry },
-                { FormationClass.HeavyCavalry, _formationBanners.HeavyCavalry }
+                { FormationClass.Infantry, new Banner(_formationBannerSettings.Infantry) },
+                { FormationClass.Ranged, new Banner(_formationBannerSettings.Ranged) },
+                { FormationClass.Cavalry, new Banner(_formationBannerSettings.Cavalry) },
+                { FormationClass.HorseArcher, new Banner(_formationBannerSettings.HorseArcher) },
+                { FormationClass.Skirmisher, new Banner(_formationBannerSettings.Skirmisher) },
+                { FormationClass.HeavyInfantry, new Banner(_formationBannerSettings.HeavyInfantry) },
+                { FormationClass.LightCavalry, new Banner(_formationBannerSettings.LightCavalry) },
+                { FormationClass.HeavyCavalry, new Banner(_formationBannerSettings.HeavyCavalry) }
             };
         }
 
@@ -68,29 +70,57 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                var campaignAgent = new CampaignAgent(agent);
-                var missionType = this.Mission.GetMissionType();
-
-                if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
-                    && _bannerAssignmentController.AgentGetsBanner(campaignAgent)) 
-                {
-                    agent.RemoveFromEquipment(_forbiddenWeapons);
-                    agent.RemoveFromSpawnEquipment(_forbiddenWeapons);
-
-                    FormationClass formationIndex = agent.Formation != null ? agent.Formation.FormationIndex : FormationClass.Unset;
-                    if (agent.Formation != null && _formationKeys.ContainsKey(formationIndex))
-                    {
-                        agent.EquipBanner(_formationKeys[formationIndex]);
-                    }
-                    else
-                    {
-                        agent.EquipBanner();
-                    }
-                }
+                _spawnedAgents.Add(agent);
             }
             catch (Exception ex)
             {
                 Main.LogError(ex);
+            }
+        }
+
+        public override void OnPreMissionTick(float dt)
+        {
+            base.OnPreMissionTick(dt);
+            try
+            {
+                if (_spawnedAgents.IsEmpty()) return;
+
+                foreach (Agent agent in _spawnedAgents)
+                {
+                    AfterAgentSpawned(agent);
+                }
+                _spawnedAgents.Clear();
+            }
+            catch (Exception ex)
+            {
+                Main.LogError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Should take place after agent is built AND WieldInitialWeapons is invoked
+        /// </summary>
+        /// <param name="agent"></param>
+        private void AfterAgentSpawned(Agent agent)
+        {
+            var campaignAgent = new CampaignAgent(agent);
+            var missionType = this.Mission.GetMissionType();
+
+            if (_bannerAssignmentController.AgentIsEligible(campaignAgent, missionType)
+                && _bannerAssignmentController.AgentGetsBanner(campaignAgent))
+            {
+
+                agent.RemoveFromEquipment(_forbiddenWeapons);
+
+                FormationClass formationIndex = agent.Formation != null ? agent.Formation.FormationIndex : FormationClass.Unset;
+                if (agent.Formation != null && _formationBanners.ContainsKey(formationIndex))
+                {
+                    agent.EquipBanner(_formationBanners[formationIndex]);
+                }
+                else
+                {
+                    agent.EquipBanner();
+                }
             }
         }
 

@@ -57,8 +57,8 @@
 	
 	<!--== Banner ratios ==-->
 	
-	<!--Give a banner to every 1 in X troops of the same type-->
-	<!--Min: 1, Default: 7-->
+	<!--Give a banner to every 1 in X troops of the same type. Smaller value means more banners-->
+	<!--Min: 1, Default: 10-->
 	<BearerToTroopRatio>10</BearerToTroopRatio>
 	
 	<!--Use specializations (Infantry, Archer, Cavalry and Horse Archer) instead of troop types to count equipped banners.
