@@ -9,6 +9,11 @@
 	
 	<!-- https://bannerlord.party/banner/ -->
 	
+	<!--Unfortunately, the game doesn't persist the troop formation setup in the savefiles yet, you have to manually assign them each time.
+	This has nothing to do with the mod-->
+	
+	
+	<!--== Formation Banner settings ==-->
 	
 	<!--Enable the use of custom banner designs for troop formations.
 	Only applies to player's party-->
