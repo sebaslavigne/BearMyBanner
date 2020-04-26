@@ -10,7 +10,8 @@
 	<!-- https://bannerlord.party/banner/ -->
 	
 	
-	<!--Enable the use of custom banner designs for troop formations-->
+	<!--Enable the use of custom banner designs for troop formations.
+	Only applies to player's party-->
 	<!--Default: false-->
 	<EnableFormationBanners>false</EnableFormationBanners>
 	
