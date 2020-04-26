@@ -22,13 +22,7 @@
         bool AllowMounted { get; set; }
         bool AllowMountedRanged { get; set; }
         bool FilterTiers { get; set; }
-        bool AllowTier1 { get; set; }
-        bool AllowTier2 { get; set; }
-        bool AllowTier3 { get; set; }
-        bool AllowTier4 { get; set; }
-        bool AllowTier5 { get; set; }
-        bool AllowTier6 { get; set; }
-        bool AllowTier7Plus { get; set; }
+        string AllowedTiers { get; set; }
         bool AllowPlayer { get; set; }
         bool AllowCompanions { get; set; }
         bool AllowNobles { get; set; }

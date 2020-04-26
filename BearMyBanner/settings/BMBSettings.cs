@@ -48,13 +48,7 @@ namespace BearMyBanner.Settings
         public bool AllowMounted { get; set; }
         public bool AllowMountedRanged { get; set; }
         public bool FilterTiers { get; set; }
-        public bool AllowTier1 { get; set; }
-        public bool AllowTier2 { get; set; }
-        public bool AllowTier3 { get; set; }
-        public bool AllowTier4 { get; set; }
-        public bool AllowTier5 { get; set; }
-        public bool AllowTier6 { get; set; }
-        public bool AllowTier7Plus { get; set; }
+        public string AllowedTiers { get; set; }
         public bool AllowPlayer { get; set; }
         public bool AllowCompanions { get; set; }
         public bool AllowNobles { get; set; }
