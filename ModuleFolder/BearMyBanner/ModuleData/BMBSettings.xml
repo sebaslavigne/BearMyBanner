@@ -148,8 +148,8 @@
 	<!--Default: false-->
 	<WhiteMessages>false</WhiteMessages>
 
-	<!--Reloads the configuration files every time you enter a new mission. Useful for quickly testing changes, set to true before running the game.
-	NOTE: return back to false once you're happy with the configuration.-->
+	<!--Reloads the configuration files every time you enter a new battle. Useful for quickly tweaking the configuration to your liking.
+	NOTE: set to true before running the game, return back to false once you're happy with the configuration.-->
 	<!--Default: false-->
 	<ReloadFiles>false</ReloadFiles>
 		
