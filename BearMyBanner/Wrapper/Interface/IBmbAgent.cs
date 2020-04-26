@@ -6,6 +6,7 @@
         bool IsDefender { get; }
         IBMBCharacter Character { get; }
         string PartyName { get; }
+        bool IsInPlayerParty { get; }
         bool HasRangedWeapons { get; }
     }
 }

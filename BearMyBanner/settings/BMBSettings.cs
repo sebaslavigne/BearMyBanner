@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.Library;
 
 namespace BearMyBanner.Settings
 {
@@ -25,6 +18,12 @@ namespace BearMyBanner.Settings
             return _settings;
         }
 
+        public static IBMBSettings Reload()
+        {
+            _settings = null;
+            return Instance;
+        }
+
         internal BMBSettings()
         {
         }
@@ -39,7 +38,7 @@ namespace BearMyBanner.Settings
         public bool TournamentThemes { get; set; }
         public bool TournamentBannersInShields { get; set; }
         public int BearerToTroopRatio { get; set; }
-        public bool UseTroopSpecs { get; set; }
+        public UnitCountMode UnitCountMode { get; set; }
         public bool AllowSoldiers { get; set; }
         public bool AllowCaravanGuards { get; set; }
         public bool AllowMercenaries { get; set; }
@@ -49,18 +48,13 @@ namespace BearMyBanner.Settings
         public bool AllowMounted { get; set; }
         public bool AllowMountedRanged { get; set; }
         public bool FilterTiers { get; set; }
-        public bool AllowTier1 { get; set; }
-        public bool AllowTier2 { get; set; }
-        public bool AllowTier3 { get; set; }
-        public bool AllowTier4 { get; set; }
-        public bool AllowTier5 { get; set; }
-        public bool AllowTier6 { get; set; }
-        public bool AllowTier7Plus { get; set; }
+        public string AllowedTiers { get; set; }
         public bool AllowPlayer { get; set; }
         public bool AllowCompanions { get; set; }
         public bool AllowNobles { get; set; }
         public bool ShowMessages { get; set; }
         public bool WhiteMessages { get; set; }
+        public bool ReloadFiles { get; set; }
 
     }
 }

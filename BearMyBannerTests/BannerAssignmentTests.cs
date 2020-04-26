@@ -12,18 +12,21 @@ namespace BearMyBannerTests
     {
         private readonly BattleBannerController _sut;
         private IBMBSettings _settings;
+        private IBMBFormationBanners _formationBanners;
 
         public BannerAssignmentTests()
         {
             SetupSettings();
 
-            _sut = new BattleBannerController(_settings);
+            _sut = new BattleBannerController(_settings, _formationBanners);
         }
 
         private void SetupSettings()
         {
             _settings = new TestSettings();
             _settings.SetDefaults();
+            _formationBanners = new TestFormations();
+            _formationBanners.SetDefaults();
         }
 
         private void AssertBannerAddedTimes(int bannersExpected, int bannersActual)

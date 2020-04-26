@@ -13,11 +13,10 @@ namespace BearMyBanner
 
         /// <summary>
         /// Alters the equipment this an Agent will spawn with.
-        /// Agents don't have anything equipped at this point, SpawnEquipment defines what the game will equip them with at spawn
         /// </summary>
         /// <param name="agent"></param>
-        /// <param name="forbiddenWeapons">A set of weapons the agent has removed from their equipment</param>
-        public static void AddBannerToSpawnEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        /// <param name="forbiddenWeapons">A set of weapon types that get removed from the agent's spawn equipment</param>
+        public static void RemoveFromSpawnEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
         {
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
@@ -28,6 +27,16 @@ namespace BearMyBanner
                     clonedEquipment[i] = new EquipmentElement(null, null);
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a banner to the extra item slot in the agent's spawn equipment
+        /// Understand it as an instruction to equip a banner when the agent spawns
+        /// </summary>
+        /// <param name="agent"></param>
+        public static void AddBannerToSpawnEquipment(this Agent agent)
+        {
+            Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
             EquipmentElement bannerElement = new EquipmentElement(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID));
             clonedEquipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.ExtraWeaponSlot, bannerElement);
@@ -41,6 +50,64 @@ namespace BearMyBanner
             if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+            }
+        }
+
+        public static void RemoveFromEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (!agent.Equipment[i].IsEmpty && forbiddenWeapons.Contains(agent.Equipment[i].PrimaryItem.Type))
+                {
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                }
+            }
+        }
+
+        public static void EquipBanner(this Agent agent)
+        {
+            EquipBanner(agent, agent.Origin.Banner);
+        }
+
+        public static void EquipBanner(this Agent agent, string key)
+        {
+            EquipBanner(agent, new Banner(key));
+        }
+
+        public static void EquipBanner(this Agent agent, Banner banner)
+        {
+            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), banner);
+            agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
+        }
+
+        public static void SwitchShieldBanner(this Agent agent, Banner banner)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                MissionWeapon paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), banner);
+                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == ItemObject.ItemTypeEnum.Shield)
+                {
+                    string shieldId = agent.Equipment[i].PrimaryItem.StringId;
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                    try
+                    {
+                        paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
+                    }
+                    catch (System.Exception)
+                    {
+
+                        ;
+                    }
+                    try
+                    {
+                        agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
+                    }
+                    catch (System.Exception)
+                    {
+
+                        ;
+                    }
+                }
             }
         }
 

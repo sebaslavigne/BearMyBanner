@@ -2,21 +2,24 @@
 using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
+using System;
 
 namespace BearMyBanner
 {
     public class BattleBannerController
     {
         private readonly IBMBSettings _settings;
+        private readonly IBMBFormationBanners _formationBanners;
 
         private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
 
-        public BattleBannerController(IBMBSettings settings)
+        public BattleBannerController(IBMBSettings settings, IBMBFormationBanners formationBanners)
         {
             _settings = settings;
+            _formationBanners = formationBanners;
         }
 
         /// <summary>
@@ -69,7 +72,7 @@ namespace BearMyBanner
             _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
 
             /* Give banner or skip */
-            int processedTroops = _settings.UseTroopSpecs ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
+            int processedTroops = _settings.UnitCountMode == UnitCountMode.type ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
@@ -78,6 +81,20 @@ namespace BearMyBanner
                 return true;
             }
             return false;
+        }
+
+        public bool AgentGetsFancyBanner(IBMBAgent agent)
+        {
+            if (!_formationBanners.EnableFormationBanners || !agent.IsInPlayerParty) return false;
+            if (agent.Character.IsPlayerCharacter) return false;
+            if (_settings.AllowCompanions && _formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
+            if (agent.Character.IsHero) return false;
+            return true;
+        }
+
+        public bool AgentGetsFancyShield(IBMBAgent agent)
+        {
+            return (_formationBanners.UseInShields && AgentGetsFancyBanner(agent));
         }
 
         /// <summary>
@@ -126,14 +143,11 @@ namespace BearMyBanner
             /* Filter by tier */
             if (_settings.FilterTiers)
             {
-                List<int> allowedTiers = new List<int>();
-                if (_settings.AllowTier1) allowedTiers.Add(1);
-                if (_settings.AllowTier2) allowedTiers.Add(2);
-                if (_settings.AllowTier3) allowedTiers.Add(3);
-                if (_settings.AllowTier4) allowedTiers.Add(4);
-                if (_settings.AllowTier5) allowedTiers.Add(5);
-                if (_settings.AllowTier6) allowedTiers.Add(6);
-                if (_settings.AllowTier7Plus) allowedTiers.AddRange(new List<int>() { 7, 8, 9, 10, 11, 12, 13, 14 }); //This'll do for now
+                List<int> allowedTiers = _settings.AllowedTiers
+                    .Split(',')
+                    .Select(Int32.Parse)
+                    .ToList();
+
                 _allowedBearerTypes = _allowedBearerTypes
                     .Where(t => allowedTiers.Contains(t.Tier))
                     .ToList();

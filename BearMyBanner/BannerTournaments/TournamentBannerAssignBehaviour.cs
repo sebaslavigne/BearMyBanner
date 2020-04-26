@@ -77,7 +77,8 @@ namespace BearMyBanner
                         Banner agentBanner = new Banner(_controller.GetCurrentTeam().Banner.Key);
                         agent.Origin.SetBanner(agentBanner);
                     }
-                    agent.AddBannerToSpawnEquipment(_forbiddenWeapons);
+                    agent.RemoveFromSpawnEquipment(_forbiddenWeapons);
+                    agent.AddBannerToSpawnEquipment();
                     agent.AddComponent(new DropBannerComponent(agent));
                 }
             }
