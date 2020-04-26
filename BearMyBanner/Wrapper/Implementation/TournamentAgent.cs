@@ -25,6 +25,8 @@ namespace BearMyBanner.Wrapper
         public bool HasMount => WrappedAgent.HasMount;
         public bool HasRangedWeapons => CheckForRangedWeapons();
 
+        public bool IsInPlayerParty => false;
+
         private bool CheckForRangedWeapons()
         {
             var equipment = WrappedAgent.SpawnEquipment;

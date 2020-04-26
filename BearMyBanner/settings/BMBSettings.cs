@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.Library;
 
 namespace BearMyBanner.Settings
 {
@@ -23,6 +16,12 @@ namespace BearMyBanner.Settings
                 _settings = SettingsLoader.LoadBMBSettings();
             }
             return _settings;
+        }
+
+        public static IBMBSettings Reload()
+        {
+            _settings = null;
+            return Instance;
         }
 
         internal BMBSettings()
@@ -61,6 +60,7 @@ namespace BearMyBanner.Settings
         public bool AllowNobles { get; set; }
         public bool ShowMessages { get; set; }
         public bool WhiteMessages { get; set; }
+        public bool ReloadFiles { get; set; }
 
     }
 }

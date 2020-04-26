@@ -16,6 +16,7 @@ namespace BearMyBanner
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 
         private IBMBSettings _settings;
+        private IBMBFormationBanners _formationBanners;
 
         protected override void OnSubModuleLoad()
         {
@@ -23,6 +24,7 @@ namespace BearMyBanner
             try
             {
                 _settings = BMBSettings.Instance;
+                _formationBanners = BMBFormationBanners.Instance;
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -51,6 +53,13 @@ namespace BearMyBanner
                     throw new InvalidOperationException("Settings were not initialized");
                 }
 
+                if (_settings.ReloadFiles)
+                {
+                    _settings = BMBSettings.Reload();
+                    _formationBanners = BMBFormationBanners.Reload();
+                    PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
+                }
+
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
                     switch (mission.GetMissionType())
@@ -58,7 +67,7 @@ namespace BearMyBanner
                         case MissionType.FieldBattle:
                         case MissionType.Siege:
                         case MissionType.Hideout:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings));
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
@@ -105,7 +114,7 @@ namespace BearMyBanner
             }
             catch (Exception) //If there's an exception because settings were not loaded
             {
-                InformationManager.DisplayMessage(new InformationMessage("BIG ERROR"));
+                InformationManager.DisplayMessage(new InformationMessage("BMB Error loading settings"));
             }
         }
 

@@ -27,7 +27,7 @@
             settings.AllowNobles = false;
 
             settings.BearerToTroopRatio = 7;
-            settings.UseTroopSpecs = false;
+            settings.UseTroopSpecs = true;
 
             settings.AllowSieges = true;
             settings.SiegeAttackersUseBanners = true;
@@ -37,12 +37,13 @@
             settings.HideoutAttackersUseBanners = false;
             settings.HideoutBanditsUseBanners = false;
 
-            settings.ShowMessages = true;
-            settings.WhiteMessages = false;
-
             settings.TournamentBanners = true;
             settings.TournamentThemes = true;
             settings.TournamentBannersInShields = false;
+
+            settings.ShowMessages = true;
+            settings.WhiteMessages = false;
+            settings.ReloadFiles = false;
 
             return settings;
         }
