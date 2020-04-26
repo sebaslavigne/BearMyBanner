@@ -86,7 +86,7 @@ namespace BearMyBanner
         {
             if (!_formationBanners.EnableFormationBanners || !agent.IsInPlayerParty) return false;
             if (agent.Character.IsPlayerCharacter) return false;
-            if (_formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
+            if (_settings.AllowCompanions && _formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
             if (agent.Character.IsHero) return false;
             return true;
         }
