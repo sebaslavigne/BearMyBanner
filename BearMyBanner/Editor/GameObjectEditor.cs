@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BearMyBanner.Wrapper;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 
 namespace BearMyBanner
 {

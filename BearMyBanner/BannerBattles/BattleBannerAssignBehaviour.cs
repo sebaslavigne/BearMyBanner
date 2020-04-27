@@ -6,6 +6,7 @@ using BearMyBanner.Settings;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 
 namespace BearMyBanner
 {
@@ -57,6 +58,7 @@ namespace BearMyBanner
             {
                 var nativeCharacterTypes = new List<CharacterObject>();
                 MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
+                
                 var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
                 _controller.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
             }
