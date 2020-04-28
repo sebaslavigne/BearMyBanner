@@ -20,7 +20,7 @@ namespace BearMyBanner
         {
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
-            for (int i = 0; i < (int) EquipmentIndex.NumAllWeaponSlots; i++)
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
                 if (clonedEquipment[i].Item != null && forbiddenWeapons.Contains(clonedEquipment[i].Item.Type))
                 {
@@ -89,26 +89,24 @@ namespace BearMyBanner
                 {
                     string shieldId = agent.Equipment[i].PrimaryItem.StringId;
                     agent.RemoveEquippedWeapon((EquipmentIndex)i);
-                    try
-                    {
-                        paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
-                    }
-                    catch (System.Exception)
-                    {
-
-                        ;
-                    }
-                    try
-                    {
-                        agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
-                    }
-                    catch (System.Exception)
-                    {
-
-                        ;
-                    }
+                    paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
+                    agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
                 }
             }
+        }
+
+        public static bool HasRangedWeapon(this Equipment equipment)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (!equipment[i].IsEmpty
+                    && (equipment[i].Item.Type == ItemObject.ItemTypeEnum.Bow
+                    || equipment[i].Item.Type == ItemObject.ItemTypeEnum.Crossbow))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)

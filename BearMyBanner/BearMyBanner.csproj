@@ -256,6 +256,8 @@
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
     <Compile Include="BannerTournaments\DropBannerComponent.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleBannerController.cs" />
     <Compile Include="Editor\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
@@ -266,6 +268,8 @@
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="VisitBannerBehaviour.cs" />
+    <Compile Include="Wrapper\CustomBattleAgent.cs" />
+    <Compile Include="Wrapper\CustomBattleCharacter.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
     <Compile Include="Utils\TournamentThemes.cs" />
     <Compile Include="Wrapper\Enum\FormationGroup.cs" />

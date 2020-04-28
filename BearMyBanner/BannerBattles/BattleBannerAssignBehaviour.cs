@@ -20,7 +20,7 @@ namespace BearMyBanner
         private readonly IBMBFormationBanners _formationBannerSettings;
 
         private List<Agent> _spawnedAgents = new List<Agent>();
-        private bool initialUnitsSpawned = false;
+        private bool _initialUnitsSpawned = false;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
         {
@@ -137,7 +137,7 @@ namespace BearMyBanner
         {
             try
             {
-                if (initialUnitsSpawned) return;
+                if (_initialUnitsSpawned) return;
 
                 foreach (Team team in this.Mission.Teams)
                 {
@@ -150,7 +150,7 @@ namespace BearMyBanner
                     _controller.PrintBannersEquippedByPartiesInTeam(partiesInTeam);
                 }
 
-                initialUnitsSpawned = true;
+                _initialUnitsSpawned = true;
             }
             catch (Exception ex)
             {
