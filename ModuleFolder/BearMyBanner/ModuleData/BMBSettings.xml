@@ -50,6 +50,18 @@
 	<!--Default: false-->
 	<TournamentBannersInShields>false</TournamentBannersInShields>
 	
+	<!--== Town and village visits ==-->
+	
+	<!--When visiting a town or a caslte, the companion that follows you carries a banner-->
+	<!--Default: false-->
+	<TownCastleVisitBanner>false</TownCastleVisitBanner>
+
+	<!--When visiting a village, the companion that follows you carries a banner-->
+	<!--Default: true-->
+	<VillageVisitBanner>true</VillageVisitBanner>
+	
+		
+	
 	
 	<!--==== Troop filters ========================================================================================-->
 	

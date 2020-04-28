@@ -16,7 +16,8 @@ namespace BearMyBanner.Wrapper
             if (mission.IsHideout()) return MissionType.Hideout;
             if (mission.IsTournament()) return MissionType.Tournament;
             if (mission.IsHideout()) return MissionType.Hideout;
-            if (mission.IsVisit()) return MissionType.Visit;
+            if (mission.IsTownVisit()) return MissionType.TownVisit;
+            if (mission.IsVillageVisit()) return MissionType.VillageVisit;
             return MissionType.Unknown;
         }
 
@@ -46,10 +47,13 @@ namespace BearMyBanner.Wrapper
             return mission.MissionLogics.OfType<CustomBattleAgentLogic>().Any();
         }
 
-        public static bool IsVisit(this Mission mission)
+        public static bool IsTownVisit(this Mission mission)
         {
-            //TODO for town and village visits
-            return false;
+            return mission.MissionLogics.OfType<TownCenterMissionController>().Any();
+        }
+        public static bool IsVillageVisit(this Mission mission)
+        {
+            return mission.MissionLogics.OfType<VillageMissionController>().Any();
         }
 
         public static TournamentFightMissionController GetNativeTournamentController(this Mission mission)

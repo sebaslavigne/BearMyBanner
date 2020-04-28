@@ -265,6 +265,7 @@
     <Compile Include="Settings\SettingEnums.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
+    <Compile Include="VisitBannerBehaviour.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
     <Compile Include="Utils\TournamentThemes.cs" />
     <Compile Include="Wrapper\Enum\FormationGroup.cs" />
@@ -288,6 +289,8 @@
     <Compile Include="Wrapper\Implementation\TournamentBanner.cs" />
     <Compile Include="Utils\MissionUtils.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BannerVisits\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

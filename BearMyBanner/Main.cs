@@ -65,20 +65,26 @@ namespace BearMyBanner
                     switch (mission.GetMissionType())
                     {
                         case MissionType.FieldBattle:
-                        case MissionType.Siege:
-                        case MissionType.Hideout:
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            break;
+                        case MissionType.Siege:
+                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            break;
+                        case MissionType.Hideout:
+                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
                             break;
+                        case MissionType.TownVisit:
+                            if(_settings.TownCastleVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
+                            break;
+                        case MissionType.VillageVisit:
+                            if (_settings.VillageVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
+                            break;
                         default:
                             break;
                     }
-                }
-                else if (Mission.Current.CombatType == Mission.MissionCombatType.NoCombat)
-                {
-                    //TODO add behaviour for town and village visits
                 }
             }
             catch (Exception ex)

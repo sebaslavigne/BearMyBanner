@@ -11,6 +11,8 @@
         bool TournamentBanners { get; set; }
         bool TournamentThemes { get; set; }
         bool TournamentBannersInShields { get; set; }
+        bool TownCastleVisitBanner { get; set; }
+        bool VillageVisitBanner { get; set; }
         int BearerToTroopRatio { get; set; }
         UnitCountMode UnitCountMode { get; set; }
         bool AllowSoldiers { get; set; }

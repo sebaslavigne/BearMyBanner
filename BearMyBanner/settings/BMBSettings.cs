@@ -37,6 +37,8 @@ namespace BearMyBanner.Settings
         public bool TournamentBanners { get; set; }
         public bool TournamentThemes { get; set; }
         public bool TournamentBannersInShields { get; set; }
+        public bool TownCastleVisitBanner { get; set; }
+        public bool VillageVisitBanner { get; set; }
         public int BearerToTroopRatio { get; set; }
         public UnitCountMode UnitCountMode { get; set; }
         public bool AllowSoldiers { get; set; }

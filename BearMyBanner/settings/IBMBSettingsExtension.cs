@@ -35,6 +35,9 @@
             settings.TournamentThemes = true;
             settings.TournamentBannersInShields = false;
 
+            settings.TownCastleVisitBanner = false;
+            settings.VillageVisitBanner = false;
+
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
