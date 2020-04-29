@@ -14,7 +14,8 @@ namespace BearMyBanner.Wrapper
             {
                 PartyName = partyToWrap.Name.ToString();
                 PartyColor = partyToWrap.PrimaryColorPair.Item1;
-                IsInPlayerParty = partyToWrap.Leader.IsPlayerCharacter;
+                IsInPlayerParty = false;
+                IsInPlayerParty = partyToWrap.Leader != null ? partyToWrap.Leader.IsPlayerCharacter : false;
             }
             Formation = wrappedAgent.Formation != null ? (FormationGroup)(int)wrappedAgent.Formation.FormationIndex : FormationGroup.Unset;
         }

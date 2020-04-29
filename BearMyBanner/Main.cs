@@ -62,16 +62,17 @@ namespace BearMyBanner
 
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    switch (mission.GetMissionType())
+                    MissionType missionType = mission.GetMissionType();
+                    switch (missionType)
                     {
                         case MissionType.FieldBattle:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
                             break;
                         case MissionType.Siege:
-                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
                             break;
                         case MissionType.Hideout:
-                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));

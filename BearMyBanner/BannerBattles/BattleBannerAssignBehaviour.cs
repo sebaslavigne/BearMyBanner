@@ -22,9 +22,9 @@ namespace BearMyBanner
         private List<Agent> _spawnedAgents = new List<Agent>();
         private bool _initialUnitsSpawned = false;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
+        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings, MissionType missionType)
         {
-            _controller = new BattleBannerController(settings, formationBannerSettings, this.Mission.GetMissionType());
+            _controller = new BattleBannerController(settings, formationBannerSettings, missionType);
             _settings = settings;
             _formationBannerSettings = formationBannerSettings;
 
