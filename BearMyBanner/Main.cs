@@ -82,6 +82,9 @@ namespace BearMyBanner
                         case MissionType.VillageVisit:
                             if (_settings.VillageVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
                             break;
+                        case MissionType.CustomBattle:
+                            mission.AddMissionBehaviour(new CustomBattleBannerBehaviour(_settings));
+                            break;
                         default:
                             break;
                     }

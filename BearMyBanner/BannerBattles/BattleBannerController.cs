@@ -3,6 +3,7 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 using System;
+using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner
 {
@@ -16,32 +17,34 @@ namespace BearMyBanner
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
 
-        public BattleBannerController(IBMBSettings settings, IBMBFormationBanners formationBanners)
+        private MissionType _missionType;
+
+        public BattleBannerController(IBMBSettings settings, IBMBFormationBanners formationBanners, MissionType missionType)
         {
             _settings = settings;
             _formationBanners = formationBanners;
+            _missionType = missionType;
         }
 
         /// <summary>
         /// Decides if an agent qualifies for a banner based on settings and mission type
         /// </summary>
         /// <param name="agent"></param>
-        /// <param name="missionType"></param>
         /// <returns></returns>
-        public bool AgentIsEligible(IBMBAgent agent, MissionType missionType)
+        public bool AgentIsEligible(IBMBAgent agent)
         {
             if (_allowedBearerTypes.Contains(agent.Character))
             {
-                if (missionType == MissionType.FieldBattle)
+                if (_missionType == MissionType.FieldBattle || _missionType == MissionType.CustomBattle)
                 {
                     return true;
                 }
-                else if (_settings.AllowSieges && missionType == MissionType.Siege)
+                else if (_settings.AllowSieges && _missionType == MissionType.Siege)
                 {
                     return ((_settings.SiegeAttackersUseBanners && agent.IsAttacker)
                         || (_settings.SiegeDefendersUseBanners && agent.IsDefender));
                 }
-                else if (_settings.AllowHideouts && missionType == MissionType.Hideout)
+                else if (_settings.AllowHideouts && _missionType == MissionType.Hideout)
                 {
                     return ((_settings.HideoutAttackersUseBanners && agent.IsAttacker)
                         || (_settings.HideoutBanditsUseBanners && agent.IsDefender));
@@ -116,8 +119,7 @@ namespace BearMyBanner
         /// Generates a list of allowed troop types according to settings
         /// </summary>
         /// <param name="characterTypes"></param>
-        /// <param name="isHideout"></param>
-        public void FilterAllowedBearerTypes(IReadOnlyList<IBMBCharacter> characterTypes, bool isHideout)
+        public void FilterAllowedBearerTypes(IReadOnlyList<IBMBCharacter> characterTypes)
         {
             _processedTroopsByType = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
             _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
@@ -141,7 +143,7 @@ namespace BearMyBanner
                 .ToList();
 
             /* Filter by tier */
-            if (_settings.FilterTiers)
+            if (_settings.FilterTiers && _missionType != MissionType.CustomBattle)
             {
                 List<int> allowedTiers = _settings.AllowedTiers
                     .Split(',')
@@ -159,7 +161,7 @@ namespace BearMyBanner
             if (_settings.AllowNobles) { _allowedBearerTypes.AddRange(characterTypes.Where(character => !character.IsPlayerCharacter && (character.Occupation == CharacterOccupation.Lord || character.Occupation == CharacterOccupation.Lady))); }
 
             /* Add bandits for hideout missions */
-            if (_settings.AllowHideouts && _settings.HideoutBanditsUseBanners && isHideout)
+            if (_settings.AllowHideouts && _settings.HideoutBanditsUseBanners && _missionType == MissionType.Hideout)
             {
                 _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
             }

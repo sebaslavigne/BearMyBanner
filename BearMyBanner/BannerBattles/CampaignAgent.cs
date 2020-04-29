@@ -26,7 +26,7 @@ namespace BearMyBanner.Wrapper
         public string PartyName { get; }
         public uint PartyColor { get; }
         public bool IsInPlayerParty { get; }
-        public bool HasRangedWeapons => throw new System.NotImplementedException();
+        public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
         public FormationGroup Formation { get; }
     }
 }

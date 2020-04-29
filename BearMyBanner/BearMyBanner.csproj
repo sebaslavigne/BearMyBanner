@@ -255,9 +255,12 @@
   <ItemGroup>
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
-    <Compile Include="BannerTournaments\DropBannerComponent.cs" />
-    <Compile Include="Editor\GameObjectEditor.cs" />
+    <Compile Include="Utils\DropBannerComponent.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleBannerController.cs" />
+    <Compile Include="Utils\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Settings\BMBSettings.cs" />
     <Compile Include="Settings\BMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBanners.cs" />
@@ -265,12 +268,14 @@
     <Compile Include="Settings\SettingEnums.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
-    <Compile Include="VisitBannerBehaviour.cs" />
+    <Compile Include="BannerVisits\VisitBannerBehaviour.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleAgent.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleCharacter.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
-    <Compile Include="Utils\TournamentThemes.cs" />
+    <Compile Include="BannerTournaments\TournamentThemes.cs" />
     <Compile Include="Wrapper\Enum\FormationGroup.cs" />
     <Compile Include="Wrapper\Interface\IBMBBanner.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
+    <Compile Include="BannerTournaments\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="BannerBattles\BattleBannerAssignBehaviour.cs" />
@@ -283,14 +288,14 @@
     <Compile Include="Wrapper\Interface\IBMBTeam.cs" />
     <Compile Include="Wrapper\Interface\IBMBAgent.cs" />
     <Compile Include="Wrapper\Interface\IBMBCharacter.cs" />
-    <Compile Include="Wrapper\Implementation\CampaignAgent.cs" />
-    <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentAgent.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentBanner.cs" />
+    <Compile Include="BannerBattles\CampaignAgent.cs" />
+    <Compile Include="BannerBattles\CampaignCharacter.cs" />
+    <Compile Include="BannerTournaments\TournamentAgent.cs" />
+    <Compile Include="BannerTournaments\TournamentBanner.cs" />
     <Compile Include="Utils\MissionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BannerVisits\" />
+    <Folder Include="Wrapper\Implementation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

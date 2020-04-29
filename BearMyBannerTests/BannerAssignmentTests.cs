@@ -55,7 +55,7 @@ namespace BearMyBannerTests
         public void TestBasicBattleWithDefaultSettings()
         {
             var basicInfantry = CharacterFactory.GetBasicInfantry();
-            _sut.FilterAllowedBearerTypes(new [] {basicInfantry}, false);
+            _sut.FilterAllowedBearerTypes(new [] {basicInfantry});
 
             var party = new PartyBuilder("testParty")
                 .AddTroops(basicInfantry, 21)
@@ -75,7 +75,7 @@ namespace BearMyBannerTests
         {
             var basicInfantry = CharacterFactory.GetBasicInfantry();
             var archer = CharacterFactory.GetArcher();
-            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new []{archer, basicInfantry}), false);
+            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new []{archer, basicInfantry}));
 
             var party = new PartyBuilder("testParty")
                 .AddTroops(basicInfantry, 21)
@@ -92,7 +92,7 @@ namespace BearMyBannerTests
         {
             var basicInfantry = CharacterFactory.GetBasicInfantry();
             var archer = CharacterFactory.GetArcher();
-            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[] { archer, basicInfantry }), false);
+            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[] { archer, basicInfantry }));
 
             var firstParty = new PartyBuilder("firstParty")
                 .AddTroops(basicInfantry, 21)
@@ -115,7 +115,7 @@ namespace BearMyBannerTests
             var lowTierInfantry = CharacterFactory.GetLowTierInfantry();
             var basicInfantry = CharacterFactory.GetBasicInfantry();
             var archer = CharacterFactory.GetArcher();
-            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new [] {archer, lowTierInfantry, basicInfantry}), false);
+            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new [] {archer, lowTierInfantry, basicInfantry}));
 
             var party = new PartyBuilder("testParty")
                 .AddTroops(lowTierInfantry, 50)
@@ -142,7 +142,7 @@ namespace BearMyBannerTests
             _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[]
             {
                 archer, basicInfantryType1, basicInfantryType2, basicInfantryType3
-            }), false);
+            }));
 
             var party = new PartyBuilder("testParty")
                 .AddTroops(basicInfantryType1, 7)
@@ -164,7 +164,7 @@ namespace BearMyBannerTests
             _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[]
             {
                 archer, basicInfantryType1
-            }), false);
+            }));
 
             var party = new PartyBuilder("testParty", false)
                 .AddTroops(basicInfantryType1, 30)

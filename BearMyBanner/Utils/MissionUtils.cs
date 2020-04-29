@@ -18,6 +18,7 @@ namespace BearMyBanner.Wrapper
             if (mission.IsHideout()) return MissionType.Hideout;
             if (mission.IsTownVisit()) return MissionType.TownVisit;
             if (mission.IsVillageVisit()) return MissionType.VillageVisit;
+            if (mission.IsCustomBattle()) return MissionType.CustomBattle;
             return MissionType.Unknown;
         }
 

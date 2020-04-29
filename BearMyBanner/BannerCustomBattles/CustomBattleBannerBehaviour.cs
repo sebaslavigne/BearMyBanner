@@ -1,8 +1,10 @@
-﻿using System;
+﻿using BearMyBanner.Settings;
+using BearMyBanner.Wrapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BearMyBanner.Wrapper;
-using BearMyBanner.Settings;
+using System.Text;
+using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -10,43 +12,27 @@ using TaleWorlds.ObjectSystem;
 
 namespace BearMyBanner
 {
-    public class BattleBannerAssignBehaviour : MissionLogic
+    public class CustomBattleBannerBehaviour : MissionLogic
     {
         private readonly BattleBannerController _controller;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
         private readonly IBMBSettings _settings;
-        private readonly IBMBFormationBanners _formationBannerSettings;
 
         private List<Agent> _spawnedAgents = new List<Agent>();
         private bool _initialUnitsSpawned = false;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
+        public CustomBattleBannerBehaviour(IBMBSettings settings)
         {
-            _controller = new BattleBannerController(settings, formationBannerSettings, this.Mission.GetMissionType());
+            _controller = new BattleBannerController(settings, null, MissionType.CustomBattle);
             _settings = settings;
-            _formationBannerSettings = formationBannerSettings;
 
-            // For battles, we don't want ranged units dropping banners because they had a bow
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
             {
                 ItemObject.ItemTypeEnum.Arrows,
                 ItemObject.ItemTypeEnum.Bolts,
                 ItemObject.ItemTypeEnum.Bow,
                 ItemObject.ItemTypeEnum.Crossbow
-            };
-
-            _formationBanners = new Dictionary<FormationGroup, Banner>()
-            {
-                { FormationGroup.Infantry, new Banner(_formationBannerSettings.Infantry) },
-                { FormationGroup.Ranged, new Banner(_formationBannerSettings.Ranged) },
-                { FormationGroup.Cavalry, new Banner(_formationBannerSettings.Cavalry) },
-                { FormationGroup.HorseArcher, new Banner(_formationBannerSettings.HorseArcher) },
-                { FormationGroup.Skirmisher, new Banner(_formationBannerSettings.Skirmisher) },
-                { FormationGroup.HeavyInfantry, new Banner(_formationBannerSettings.HeavyInfantry) },
-                { FormationGroup.LightCavalry, new Banner(_formationBannerSettings.LightCavalry) },
-                { FormationGroup.HeavyCavalry, new Banner(_formationBannerSettings.HeavyCavalry) }
             };
         }
 
@@ -56,10 +42,10 @@ namespace BearMyBanner
 
             try
             {
-                var nativeCharacterTypes = new List<CharacterObject>();
+                var nativeCharacterTypes = new List<BasicCharacterObject>();
                 MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
-                
-                var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
+
+                var characterTypes = nativeCharacterTypes.Select(t => new CustomBattleCharacter(t)).ToList();
                 _controller.FilterAllowedBearerTypes(characterTypes);
             }
             catch (Exception ex)
@@ -88,6 +74,7 @@ namespace BearMyBanner
             {
                 if (_spawnedAgents.IsEmpty()) return;
 
+                _spawnedAgents.Shuffle<Agent>();
                 foreach (Agent agent in _spawnedAgents)
                 {
                     AfterAgentSpawned(agent);
@@ -108,29 +95,16 @@ namespace BearMyBanner
         /// <param name="agent"></param>
         private void AfterAgentSpawned(Agent agent)
         {
-            var campaignAgent = new CampaignAgent(agent);
-            var missionType = this.Mission.GetMissionType();
+            var battleAgent = new CustomBattleAgent(agent);
 
-            if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyShield(campaignAgent))
-            {
-                agent.SwitchShieldBanner(_formationBanners[campaignAgent.Formation]);
-            }
-
-            if (_controller.AgentIsEligible(campaignAgent)
-                && _controller.AgentGetsBanner(campaignAgent))
+            if (_controller.AgentIsEligible(battleAgent)
+                && _controller.AgentGetsBanner(battleAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
                 agent.AddComponent(new DropBannerComponent(agent));
-
-                if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
-                {
-                    agent.EquipBanner(_formationBanners[campaignAgent.Formation]);
-                }
-                else
-                {
-                    agent.EquipBanner();
-                }
+                agent.EquipBanner();
             }
+
         }
 
         private void OnInitialUnitsSpawned()
@@ -141,7 +115,7 @@ namespace BearMyBanner
 
                 foreach (Team team in this.Mission.Teams)
                 {
-                    List<CampaignAgent> teamAgents = team.TeamAgents.Select(ta => new CampaignAgent(ta)).ToList();
+                    List<CustomBattleAgent> teamAgents = team.TeamAgents.Select(ta => new CustomBattleAgent(ta)).ToList();
 
                     Dictionary<string, uint> partiesInTeam = teamAgents
                     .DistinctBy(ta => ta.PartyName)
