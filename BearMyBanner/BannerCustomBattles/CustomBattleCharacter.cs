@@ -32,7 +32,7 @@ namespace BearMyBanner.Wrapper
 
         public override bool Equals(object obj)
         {
-            if (obj is CampaignCharacter other)
+            if (obj is CustomBattleCharacter other)
             {
                 return _wrappedCharacter.Equals(other._wrappedCharacter);
             }

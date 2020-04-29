@@ -24,7 +24,7 @@ namespace BearMyBanner
 
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings)
         {
-            _controller = new BattleBannerController(settings, formationBannerSettings);
+            _controller = new BattleBannerController(settings, formationBannerSettings, this.Mission.GetMissionType());
             _settings = settings;
             _formationBannerSettings = formationBannerSettings;
 
@@ -60,7 +60,7 @@ namespace BearMyBanner
                 MBObjectManager.Instance.GetAllInstancesOfObjectType(ref nativeCharacterTypes);
                 
                 var characterTypes = nativeCharacterTypes.Select(t => new CampaignCharacter(t)).ToList();
-                _controller.FilterAllowedBearerTypes(characterTypes, this.Mission.IsHideout());
+                _controller.FilterAllowedBearerTypes(characterTypes);
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace BearMyBanner
                 agent.SwitchShieldBanner(_formationBanners[campaignAgent.Formation]);
             }
 
-            if (_controller.AgentIsEligible(campaignAgent, missionType)
+            if (_controller.AgentIsEligible(campaignAgent)
                 && _controller.AgentGetsBanner(campaignAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);

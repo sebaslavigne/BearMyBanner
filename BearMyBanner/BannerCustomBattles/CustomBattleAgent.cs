@@ -13,7 +13,8 @@ namespace BearMyBanner.Wrapper
             var partyToWrap = ((CustomBattleAgentOrigin)WrappedAgent.Origin);
             if (partyToWrap != null)
             {
-                PartyName = partyToWrap.IsUnderPlayersCommand ? "Player" : "Enemy";
+                PartyName = partyToWrap.IsUnderPlayersCommand ? "Player party" : "Enemy party";
+                PartyColor = WrappedAgent.Origin.FactionColor;
                 IsInPlayerParty = partyToWrap.IsUnderPlayersCommand;
             }
         }
@@ -25,6 +26,7 @@ namespace BearMyBanner.Wrapper
         public IBMBCharacter Character { get; }
         public string PartyName { get; }
         public bool IsInPlayerParty { get; }
-        public bool HasRangedWeapons => throw new System.NotImplementedException();
+        public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
+        public uint PartyColor { get; }
     }
 }
