@@ -12,6 +12,7 @@ namespace BearMyBanner
     {
 
         public const string ModuleFolderName = "BearMyBanner";
+        public const string ModName = "Bear my Banner";
 
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 

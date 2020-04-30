@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="MBOptionScreen.v2.0.10, Version=2.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bannerlord.MBOptionScreen.2.0.10\lib\net472\MBOptionScreen.v2.0.10.dll</HintPath>
+    </Reference>
     <Reference Include="SandBox">
       <HintPath>$(GameDir)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
       <Private>False</Private>
@@ -69,6 +75,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -255,6 +262,8 @@
   <ItemGroup>
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
+    <Compile Include="Settings\MCMSettings.cs" />
+    <Compile Include="Settings\MCMString.cs" />
     <Compile Include="Utils\DropBannerComponent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerController.cs" />
@@ -296,6 +305,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wrapper\Implementation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
