@@ -37,5 +37,9 @@ namespace BearMyBannerTests
         public bool TournamentThemes { get; set; }
         public bool TournamentBannersInShields { get; set; }
         public bool ReloadFiles { get; set; }
+        public bool TownCastleVisitBanner { get; set; }
+        public bool VillageVisitBanner { get; set; }
+        public UnitCountMode UnitCountMode { get; set; }
+        public string AllowedTiers { get; set; }
     }
 }

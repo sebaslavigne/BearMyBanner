@@ -11,6 +11,7 @@ namespace BearMyBannerTests
     public class BannerAssignmentTests
     {
         private readonly BattleBannerController _sut;
+        private readonly BattleBannerController _sutSiege;
         private IBMBSettings _settings;
         private IBMBFormationBanners _formationBanners;
 
@@ -18,7 +19,8 @@ namespace BearMyBannerTests
         {
             SetupSettings();
 
-            _sut = new BattleBannerController(_settings, _formationBanners);
+            _sut = new BattleBannerController(_settings, _formationBanners, MissionType.FieldBattle);
+            _sutSiege = new BattleBannerController(_settings, _formationBanners, MissionType.Siege);
         }
 
         private void SetupSettings()
@@ -40,7 +42,14 @@ namespace BearMyBannerTests
             int bannersAdded = 0;
             foreach (var agent in party)
             {
-                if (_sut.AgentIsEligible(agent, missionType) && _sut.AgentGetsBanner(agent)) bannersAdded++;
+                if (missionType == MissionType.Siege)
+                {
+                    if (_sutSiege.AgentIsEligible(agent) && _sut.AgentGetsBanner(agent)) bannersAdded++;
+                }
+                else
+                { 
+                    if (_sut.AgentIsEligible(agent) && _sut.AgentGetsBanner(agent)) bannersAdded++;
+                }
             }
             return bannersAdded;
         }
@@ -161,7 +170,7 @@ namespace BearMyBannerTests
         {
             var basicInfantryType1 = CharacterFactory.GetBasicInfantry();
             var archer = CharacterFactory.GetArcher();
-            _sut.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[]
+            _sutSiege.FilterAllowedBearerTypes(new List<IBMBCharacter>(new[]
             {
                 archer, basicInfantryType1
             }));
@@ -170,7 +179,6 @@ namespace BearMyBannerTests
                 .AddTroops(basicInfantryType1, 30)
                 .AddTroops(archer, 20)
                 .Build();
-
             int bannersAdded = ProcessAgents(party, MissionType.Siege);
 
             AssertBannerAddedTimes(0, bannersAdded);
