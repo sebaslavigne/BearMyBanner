@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MBOptionScreen.Attributes;
+﻿using MBOptionScreen.Attributes;
 using MBOptionScreen.Attributes.v2;
 using MBOptionScreen.Data;
 using MBOptionScreen.Settings;
@@ -86,18 +85,18 @@ namespace BearMyBanner.Settings
         //==== Troop filters ========================================================================================
 
         //== Banner ratios ==
-        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 100, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio/*, valueFormat: "0 Denars"*/)]
+        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio, valueFormat: "0")]
         [SettingPropertyGroup(g010)]
         public int BearerToTroopRatio { get; set; }
 
         [SettingPropertyDropdown(displayName: MCMDisplayName.UnitCountMode, Order = 1, RequireRestart = false, HintText = MCMHint.UnitCountMode)]
         [SettingPropertyGroup(g010)]
-        public DefaultDropdown<UnitCountMode> UnitCountModeSetting { get; set; } = new DefaultDropdown<UnitCountMode>(new UnitCountMode[]
+        public DefaultDropdown<string> UnitCountModeSetting { get; set; } = new DefaultDropdown<string>(new string[]
         {
-            UnitCountMode.Type,
-            UnitCountMode.Troop
+            "General occupation",
+            "Specific troop type"
         }, 0);
-        public UnitCountMode UnitCountMode { get => UnitCountModeSetting.SelectedValue; set => UnitCountModeSetting.SelectedValue = value; }
+        public UnitCountMode UnitCountMode { get => (UnitCountMode)UnitCountModeSetting.SelectedIndex; set => UnitCountModeSetting.SelectedIndex = (int)value; }
 
         //== Filter by occupation ==
         [SettingPropertyBool(displayName: MCMDisplayName.AllowSoldiers, Order = 0, RequireRestart = false, HintText = MCMHint.AllowSoldiers)]
@@ -165,6 +164,10 @@ namespace BearMyBanner.Settings
         public bool WhiteMessages { get; set; }
 
         public bool ReloadFiles { get { return false; } set { } }
+
+
+        //======== FORMATIONS =======================================================================================================================
+
 
     }
 }

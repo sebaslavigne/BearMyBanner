@@ -24,8 +24,6 @@ namespace BearMyBanner
             base.OnSubModuleLoad();
             try
             {
-                _settings = BMBSettings.Instance;
-                _formationBanners = BMBFormationBanners.Instance;
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -37,11 +35,27 @@ namespace BearMyBanner
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
-            foreach ((string content, bool isError) message in LoadingMessages)
+            try
             {
-                PrintWhileLoading(message.content, message.isError);
+                try
+                {
+                    _settings = MCMSettings.Instance;
+                    _formationBanners = BMBFormationBanners.Instance;
+                }
+                catch (Exception)
+                {
+                    throw new InvalidOperationException("There was an error with MCM");
+                }
+                foreach ((string content, bool isError) message in LoadingMessages)
+                {
+                    PrintWhileLoading(message.content, message.isError);
+                }
+                LoadingMessages.Clear();
             }
-            LoadingMessages.Clear();
+            catch (Exception ex)
+            {
+                LogError(ex);
+            }
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
