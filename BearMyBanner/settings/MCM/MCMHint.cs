@@ -23,8 +23,8 @@ namespace BearMyBanner.Settings
         public const string TownCastleVisitBanner = "When visiting a town or a castle, the companion that follows you carries a banner.";
         public const string VillageVisitBanner = "When visiting a village, the companion that follows you carries a banner.";
 
-        public const string BearerToTroopRatio = "Give a banner to every 1 in X units of the same type. Smaller values mean more banners.";
-        public const string UnitCountMode = "How the units will be counted to give them banners using the filters and the banner to troop ratio.";
+        public const string BearerToTroopRatio = "Give a banner to every 1 in X units in a group. Smaller values mean more banners.";
+        public const string UnitCountMode = "How the units will be grouped to give them banners.";
 
         public const string AllowSoldiers = "Allow soldiers to bear banners. Most units are of this type.";
         public const string AllowCaravanGuards = "Allow caravan guards to bear banners.";
@@ -52,47 +52,5 @@ namespace BearMyBanner.Settings
         //public const string BannerCodeHint = "Use online editor at https://bannerlord.party/banner/ then copy the code here. An invalid code might cause problems.";
     }
 
-    public class MCMDisplayName
-    {
-        public const string AllowSieges = "Use banners in sieges";
-        public const string SiegeAttackersUseBanners = "Siege attackers use banners";
-        public const string SiegeDefendersUseBanners = "Siege defenders use banners";
-        public const string AllowHideouts = "Use banners in hideout attacks";
-        public const string HideoutAttackersUseBanners = "Hideout attackers use banners";
-        public const string HideoutBanditsUseBanners = "Hideout bandits use banners";
-        public const string TournamentBanners = "Use banners in tournaments";
-        public const string TournamentThemes = "Random tournament themes";
-        public const string TournamentBannersInShields = "Apply theme to shields";
-        public const string TownCastleVisitBanner = "Use banners in towns and castles";
-        public const string VillageVisitBanner = "Use banners in villages";
-        public const string BearerToTroopRatio = "Bearer to troop ratio";
-        public const string UnitCountMode = "Bearer units count mode";
-        public const string AllowSoldiers = "Allow soldiers";
-        public const string AllowCaravanGuards = "Allow caravan guards";
-        public const string AllowMercenaries = "Allow mercenaries";
-        public const string AllowBandits = "Allow bandits";
-        public const string AllowInfantry = "Allow infantry";
-        public const string AllowRanged = "Allow ranged";
-        public const string AllowMounted = "Allow cavalry";
-        public const string AllowMountedRanged = "Allow horse archers";
-        public const string FilterTiers = "Filter by tier";
-        public const string AllowedTiers = "Allowed tiers";
-        public const string AllowPlayer = "Give banner to player";
-        public const string AllowCompanions = "Give banners to companions";
-        public const string AllowNobles = "Give banners to nobles";
-        public const string ShowMessages = "Show messages";
-        public const string WhiteMessages = "White messages";
-
-        public const string EnableFormationBanners = "Use formation banners (from config file)";
-        public const string CompanionsUseFormationBanners = "Companions use formation banners";
-        public const string UseInShields = "Apply to shields";
-        public const string Infantry = "Infantry";
-        public const string Ranged = "Ranged";
-        public const string Cavalry = "Cavalry";
-        public const string HorseArcher = "Horse archer";
-        public const string Skirmisher = "Skirmisher";
-        public const string HeavyInfantry = "Heavy infantry";
-        public const string LightCavalry = "Light cavalry";
-        public const string HeavyCavalry = "Heavy cavalry";
-    }
+    
 }

@@ -86,7 +86,7 @@ namespace BearMyBanner.Settings
         //==== Troop filters ========================================================================================
 
         //== Banner ratios ==
-        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio/*, valueFormat: "0"*/)]
+        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, valueFormat: MCMDisplayName.BearerToTroopRatioFormat, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio)]
         [SettingPropertyGroup(g010)]
         public int BearerToTroopRatio { get; set; }
 
@@ -94,8 +94,8 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g010)]
         public DefaultDropdown<string> UnitCountModeSetting { get; set; } = new DefaultDropdown<string>(new string[]
         {
-            "General occupation",
-            "Specific troop type"
+            MCMDisplayName.UnitCountModeType,
+            MCMDisplayName.UnitCountModeTroop
         }, 0);
         public UnitCountMode UnitCountMode { get => (UnitCountMode)UnitCountModeSetting.SelectedIndex; set => UnitCountModeSetting.SelectedIndex = (int)value; }
 
