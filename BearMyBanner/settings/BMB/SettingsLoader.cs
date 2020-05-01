@@ -29,7 +29,7 @@ namespace BearMyBanner.Settings
             {
                 Main.LoadingMessages.Add(("BMB Error loading settings: settings file not found or is corrupt", true));
                 IBMBSettings BMBSettings = new BMBSettings();
-                settings = BMBSettings.SetDefaults();
+                settings = BMBSettings.SetDefaultSettings();
                 Main.LoadingMessages.Add(("Bear my Banner will use default settings", true));
 
                 //Use when adding new settings to easily create new file
@@ -61,7 +61,7 @@ namespace BearMyBanner.Settings
             {
                 Main.LoadingMessages.Add(("BMB Error loading settings: formation banners file not found or is corrupt", true));
                 IBMBFormationBanners BMBFormationBanners = new BMBFormationBanners();
-                formationBanners = BMBFormationBanners.SetDefaults();
+                formationBanners = BMBFormationBanners.SetDefaultFormationSettings();
                 Main.LoadingMessages.Add(("Bear my Banner will use default formation banners", true));
 
                 //Use when adding new settings to easily create new file

@@ -26,9 +26,9 @@ namespace BearMyBannerTests
         private void SetupSettings()
         {
             _settings = new TestSettings();
-            _settings.SetDefaults();
+            _settings.SetDefaultSettings();
             _formationBanners = new TestFormations();
-            _formationBanners.SetDefaults();
+            _formationBanners.SetDefaultFormationSettings();
         }
 
         private void AssertBannerAddedTimes(int bannersExpected, int bannersActual)
@@ -141,7 +141,7 @@ namespace BearMyBannerTests
         [Fact]
         public void TestThatIgnoringTroopCharactersWorks()
         {
-            _settings.UnitCountMode = UnitCountMode.type;
+            _settings.UnitCountMode = UnitCountMode.Type;
             _settings.BearerToTroopRatio = 10;
 
             var basicInfantryType1 = CharacterFactory.GetBasicInfantry();

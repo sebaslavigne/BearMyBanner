@@ -12,19 +12,21 @@ namespace BearMyBanner
     {
 
         public const string ModuleFolderName = "BearMyBanner";
+        public const string ModName = "Bear my Banner";
 
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 
         private IBMBSettings _settings;
         private IBMBFormationBanners _formationBanners;
+        private IBMBFormationBanners _configFileBanners;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             try
             {
-                _settings = BMBSettings.Instance;
-                _formationBanners = BMBFormationBanners.Instance;
+                _configFileBanners = BMBFormationBanners.Instance;
+
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -36,11 +38,29 @@ namespace BearMyBanner
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
-            foreach ((string content, bool isError) message in LoadingMessages)
+            try
             {
-                PrintWhileLoading(message.content, message.isError);
+                try
+                {
+                    _settings = MCMSettings.Instance;
+                    _formationBanners = MCMSettings.Instance;
+                    _configFileBanners.CopyCodesTo(_formationBanners);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidOperationException("There was an error with MCM");
+                }
+
+                foreach ((string content, bool isError) message in LoadingMessages)
+                {
+                    PrintWhileLoading(message.content, message.isError);
+                }
+                LoadingMessages.Clear();
             }
-            LoadingMessages.Clear();
+            catch (Exception ex)
+            {
+                LogError(ex);
+            }
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)

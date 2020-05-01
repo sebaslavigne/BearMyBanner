@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="MBOptionScreen.v2.0.10, Version=2.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bannerlord.MBOptionScreen.2.0.10\lib\net472\MBOptionScreen.v2.0.10.dll</HintPath>
+    </Reference>
     <Reference Include="SandBox">
       <HintPath>$(GameDir)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
       <Private>False</Private>
@@ -69,6 +75,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -255,18 +262,21 @@
   <ItemGroup>
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
+    <Compile Include="Settings\MCM\MCMDisplayName.cs" />
+    <Compile Include="Settings\MCM\MCMSettings.cs" />
+    <Compile Include="Settings\MCM\MCMHint.cs" />
     <Compile Include="Utils\DropBannerComponent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerController.cs" />
     <Compile Include="Utils\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
-    <Compile Include="Settings\BMBSettings.cs" />
-    <Compile Include="Settings\BMBFormationBanners.cs" />
+    <Compile Include="Settings\BMB\BMBSettings.cs" />
+    <Compile Include="Settings\BMB\BMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBannersExtension.cs" />
     <Compile Include="Settings\SettingEnums.cs" />
-    <Compile Include="Settings\SettingsLoader.cs" />
+    <Compile Include="Settings\BMB\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
     <Compile Include="BannerVisits\VisitBannerBehaviour.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleAgent.cs" />
@@ -296,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wrapper\Implementation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

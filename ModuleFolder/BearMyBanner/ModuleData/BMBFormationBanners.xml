@@ -12,24 +12,12 @@
 	<!--Unfortunately, the game doesn't persist the troop formation setup in the savefiles yet, you have to manually assign them each time.
 	This has nothing to do with the mod-->
 	
-	
-	<!--== Formation Banner settings ==-->
-	
-	<!--Enable the use of custom banner designs for troop formations.
-	Only applies to player's party-->
-	<!--Default: false-->
-	<EnableFormationBanners>false</EnableFormationBanners>
-	
-	<!--Companions also use the banner of the formation they're assigned to-->
-	<!--Default: false-->
-	<CompanionsUseFormationBanners>false</CompanionsUseFormationBanners>
-	
-	<!--The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers)-->
-	<!--Default: true-->
-	<UseInShields>true</UseInShields>
+	<!--======== Formation banner codes ========-->
 	
 	<!--Formation banner codes. DO NOT leave any spaces in between the opening and closing tags-->
+	<!--Game must be reloaded for changes to take effect-->
 	<!--Default values are a white background with a black symbol representing the formation-->
+	
 	<Infantry>1.111.111.1536.1536.756.764.1.0.0.301.116.116.700.700.764.764.0.0.225</Infantry>
 	
 	<Ranged>1.111.111.1536.1536.756.764.1.0.0.311.116.116.700.700.764.764.0.0.315</Ranged>
