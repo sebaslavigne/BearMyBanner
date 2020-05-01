@@ -141,7 +141,7 @@ namespace BearMyBannerTests
         [Fact]
         public void TestThatIgnoringTroopCharactersWorks()
         {
-            _settings.UnitCountMode = UnitCountMode.type;
+            _settings.UnitCountMode = UnitCountMode.Type;
             _settings.BearerToTroopRatio = 10;
 
             var basicInfantryType1 = CharacterFactory.GetBasicInfantry();

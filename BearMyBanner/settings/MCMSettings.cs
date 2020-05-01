@@ -1,26 +1,27 @@
 ﻿using System.Collections.Generic;
 using MBOptionScreen.Attributes;
 using MBOptionScreen.Attributes.v2;
+using MBOptionScreen.Data;
 using MBOptionScreen.Settings;
 
 namespace BearMyBanner.Settings
 {
     public class MCMSettings : AttributeSettings<MCMSettings>, IBMBSettings
     {
-        private const string g0 = "Settings";
-        private const string g00 = g0 + "/Battle Types";
-        private const string g000 = g00 + "/Sieges";
-        private const string g001 = g00 + "/Hideout Attacks";
-        private const string g002 = g00 + "/Tournaments";
-        private const string g003 = g00 + "/Towns and villages";
-        private const string g01 = g0 + "/Filters";
-        private const string g010 = g01 + "/Ratios";
-        private const string g011 = g01 + "/Occupation";
-        private const string g012 = g01 + "/Type";
-        private const string g013 = g01 + "/Tier";
-        private const string g014 = g01 + "/Heroes";
-        private const string g02 = g0 + "/Miscellaneous";
-        private const string g1 = "Formations";
+        private const string g0 = "Bear my Banner settings";
+        private const string g00 = g0 + "/I. Battle Types";
+        private const string g000 = g00 + "/i. Sieges";
+        private const string g001 = g00 + "/ii. Hideout Attacks";
+        private const string g002 = g00 + "/iii. Tournaments";
+        private const string g003 = g00 + "/iv. Towns and villages";
+        private const string g01 = g0 + "/II. Filters";
+        private const string g010 = g01 + "/i. Ratios";
+        private const string g011 = g01 + "/ii. Occupation";
+        private const string g012 = g01 + "/iii. Type";
+        private const string g013 = g01 + "/iv. Tier";
+        private const string g014 = g01 + "/v. Heroes";
+        private const string g02 = g0 + "/III. Miscellaneous";
+        private const string g1 = "Formation";
 
         public MCMSettings()
         {
@@ -48,106 +49,122 @@ namespace BearMyBanner.Settings
         public bool SiegeDefendersUseBanners { get; set; }
 
         //== Hideout attacks ==
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowHideouts, Order = 3, RequireRestart = false, HintText = MCMHint.AllowHideouts)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowHideouts, Order = 0, RequireRestart = false, HintText = MCMHint.AllowHideouts)]
         [SettingPropertyGroup(g001)]
         public bool AllowHideouts { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.HideoutAttackersUseBanners, Order = 4, RequireRestart = false, HintText = MCMHint.HideoutAttackersUseBanners)]
+        [SettingPropertyBool(displayName: MCMDisplayName.HideoutAttackersUseBanners, Order = 1, RequireRestart = false, HintText = MCMHint.HideoutAttackersUseBanners)]
         [SettingPropertyGroup(g001)]
         public bool HideoutAttackersUseBanners { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.HideoutBanditsUseBanners, Order = 5, RequireRestart = false, HintText = MCMHint.HideoutBanditsUseBanners)]
+        [SettingPropertyBool(displayName: MCMDisplayName.HideoutBanditsUseBanners, Order = 2, RequireRestart = false, HintText = MCMHint.HideoutBanditsUseBanners)]
         [SettingPropertyGroup(g001)]
         public bool HideoutBanditsUseBanners { get; set; }
 
         //== Tournaments ==
-        [SettingPropertyBool(displayName: MCMDisplayName.TournamentBanners, Order = 6, RequireRestart = false, HintText = MCMHint.TournamentBanners)]
+        [SettingPropertyBool(displayName: MCMDisplayName.TournamentBanners, Order = 0, RequireRestart = false, HintText = MCMHint.TournamentBanners)]
         [SettingPropertyGroup(g002)]
         public bool TournamentBanners { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.TournamentThemes, Order = 7, RequireRestart = false, HintText = MCMHint.TournamentThemes)]
+        [SettingPropertyBool(displayName: MCMDisplayName.TournamentThemes, Order = 1, RequireRestart = false, HintText = MCMHint.TournamentThemes)]
         [SettingPropertyGroup(g002)]
         public bool TournamentThemes { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.TournamentBannersInShields, Order = 8, RequireRestart = false, HintText = MCMHint.TournamentBannersInShields)]
+        [SettingPropertyBool(displayName: MCMDisplayName.TournamentBannersInShields, Order = 2, RequireRestart = false, HintText = MCMHint.TournamentBannersInShields)]
         [SettingPropertyGroup(g002)]
         public bool TournamentBannersInShields { get; set; }
 
         //== Town and village visits ==
+        [SettingPropertyBool(displayName: MCMDisplayName.TownCastleVisitBanner, Order = 0, RequireRestart = false, HintText = MCMHint.TownCastleVisitBanner)]
+        [SettingPropertyGroup(g003)]
         public bool TownCastleVisitBanner { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.VillageVisitBanner, Order = 1, RequireRestart = false, HintText = MCMHint.VillageVisitBanner)]
+        [SettingPropertyGroup(g003)]
         public bool VillageVisitBanner { get; set; }
 
         //==== Troop filters ========================================================================================
 
         //== Banner ratios ==
+        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 100, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio/*, valueFormat: "0 Denars"*/)]
+        [SettingPropertyGroup(g010)]
         public int BearerToTroopRatio { get; set; }
-        public UnitCountMode UnitCountMode { get; set; }
+
+        [SettingPropertyDropdown(displayName: MCMDisplayName.UnitCountMode, Order = 1, RequireRestart = false, HintText = MCMHint.UnitCountMode)]
+        [SettingPropertyGroup(g010)]
+        public DefaultDropdown<UnitCountMode> UnitCountModeSetting { get; set; } = new DefaultDropdown<UnitCountMode>(new UnitCountMode[]
+        {
+            UnitCountMode.Type,
+            UnitCountMode.Troop
+        }, 0);
+        public UnitCountMode UnitCountMode { get => UnitCountModeSetting.SelectedValue; set => UnitCountModeSetting.SelectedValue = value; }
 
         //== Filter by occupation ==
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowSoldiers, Order = 9, RequireRestart = false, HintText = MCMHint.AllowSoldiers)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowSoldiers, Order = 0, RequireRestart = false, HintText = MCMHint.AllowSoldiers)]
         [SettingPropertyGroup(g011)]
         public bool AllowSoldiers { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowCaravanGuards, Order = 10, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowCaravanGuards, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
         [SettingPropertyGroup(g011)]
         public bool AllowCaravanGuards { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMercenaries, Order = 11, RequireRestart = false, HintText = MCMHint.AllowMercenaries)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowMercenaries, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMercenaries)]
         [SettingPropertyGroup(g011)]
         public bool AllowMercenaries { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowBandits, Order = 12, RequireRestart = false, HintText = MCMHint.AllowBandits)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowBandits, Order = 3, RequireRestart = false, HintText = MCMHint.AllowBandits)]
         [SettingPropertyGroup(g011)]
         public bool AllowBandits { get; set; }
 
         //== Filter by type ==
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowInfantry, Order = 13, RequireRestart = false, HintText = MCMHint.AllowInfantry)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowInfantry, Order = 0, RequireRestart = false, HintText = MCMHint.AllowInfantry)]
         [SettingPropertyGroup(g012)]
         public bool AllowInfantry { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowRanged, Order = 14, RequireRestart = false, HintText = MCMHint.AllowRanged)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowRanged, Order = 1, RequireRestart = false, HintText = MCMHint.AllowRanged)]
         [SettingPropertyGroup(g012)]
         public bool AllowRanged { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMounted, Order = 15, RequireRestart = false, HintText = MCMHint.AllowMounted)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowMounted, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMounted)]
         [SettingPropertyGroup(g012)]
         public bool AllowMounted { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMountedRanged, Order = 16, RequireRestart = false, HintText = MCMHint.AllowMountedRanged)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowMountedRanged, Order = 3, RequireRestart = false, HintText = MCMHint.AllowMountedRanged)]
         [SettingPropertyGroup(g012)]
         public bool AllowMountedRanged { get; set; }
 
         //== Filter by tier ==
-        [SettingPropertyBool(displayName: MCMDisplayName.FilterTiers, Order = 17, RequireRestart = false, HintText = MCMHint.FilterTiers)]
+        [SettingPropertyBool(displayName: MCMDisplayName.FilterTiers, Order = 0, RequireRestart = false, HintText = MCMHint.FilterTiers)]
         [SettingPropertyGroup(g013)]
         public bool FilterTiers { get; set; }
 
-
+        [SettingPropertyText(displayName: MCMDisplayName.AllowedTiers, order: 1, requireRestart: false, hintText: MCMHint.AllowedTiers)]
+        [SettingPropertyGroup(g013)]
         public string AllowedTiers { get; set; }
 
         //== Heroes ==
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowPlayer, Order = 18, RequireRestart = false, HintText = MCMHint.AllowPlayer)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowPlayer, Order = 0, RequireRestart = false, HintText = MCMHint.AllowPlayer)]
         [SettingPropertyGroup(g014)]
         public bool AllowPlayer { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowCompanions, Order = 19, RequireRestart = false, HintText = MCMHint.AllowCompanions)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowCompanions, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCompanions)]
         [SettingPropertyGroup(g014)]
         public bool AllowCompanions { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowNobles, Order = 20, RequireRestart = false, HintText = MCMHint.AllowNobles)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowNobles, Order = 2, RequireRestart = false, HintText = MCMHint.AllowNobles)]
         [SettingPropertyGroup(g014)]
         public bool AllowNobles { get; set; }
 
         //==== Miscellaneous ========================================================================================
-        [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 21, RequireRestart = false, HintText = MCMHint.ShowMessages)]
+        [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 0, RequireRestart = false, HintText = MCMHint.ShowMessages)]
         [SettingPropertyGroup(g02)]
         public bool ShowMessages { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 22, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
+        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 1, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
         [SettingPropertyGroup(g02)]
         public bool WhiteMessages { get; set; }
 
-
         public bool ReloadFiles { get { return false; } set { } }
+
     }
 }
