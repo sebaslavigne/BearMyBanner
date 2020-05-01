@@ -5,9 +5,9 @@ using MBOptionScreen.Settings;
 
 namespace BearMyBanner.Settings
 {
-    public class MCMSettings : AttributeSettings<MCMSettings>, IBMBSettings
+    public class MCMSettings : AttributeSettings<MCMSettings>, IBMBSettings, IBMBFormationBanners
     {
-        private const string g0 = "Bear my Banner settings";
+        private const string g0 = "A. Main Settings";
         private const string g00 = g0 + "/I. Battle Types";
         private const string g000 = g00 + "/i. Sieges";
         private const string g001 = g00 + "/ii. Hideout Attacks";
@@ -20,11 +20,12 @@ namespace BearMyBanner.Settings
         private const string g013 = g01 + "/iv. Tier";
         private const string g014 = g01 + "/v. Heroes";
         private const string g02 = g0 + "/III. Miscellaneous";
-        private const string g1 = "Formation";
+        private const string g1 = "B. Formation Banners Settings";
 
         public MCMSettings()
         {
-            this.SetDefaults();
+            this.SetDefaultSettings();
+            this.SetDefaultFormationSettings();
         }
 
         public override string Id { get; set; } = "BearMyBanner_v0_7_0";
@@ -85,7 +86,7 @@ namespace BearMyBanner.Settings
         //==== Troop filters ========================================================================================
 
         //== Banner ratios ==
-        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio, valueFormat: "0")]
+        [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio/*, valueFormat: "0"*/)]
         [SettingPropertyGroup(g010)]
         public int BearerToTroopRatio { get; set; }
 
@@ -165,9 +166,53 @@ namespace BearMyBanner.Settings
 
         public bool ReloadFiles { get { return false; } set { } }
 
-
         //======== FORMATIONS =======================================================================================================================
+        //===========================================================================================================================================
 
+        [SettingPropertyBool(displayName: MCMDisplayName.EnableFormationBanners, Order = 0, RequireRestart = false, HintText = MCMHint.EnableFormationBanners)]
+        [SettingPropertyGroup(g1)]
+        public bool EnableFormationBanners { get; set; }
 
+        [SettingPropertyBool(displayName: MCMDisplayName.CompanionsUseFormationBanners, Order = 2, RequireRestart = false, HintText = MCMHint.CompanionsUseFormationBanners)]
+        [SettingPropertyGroup(g1)]
+        public bool CompanionsUseFormationBanners { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.UseInShields, Order = 3, RequireRestart = false, HintText = MCMHint.UseInShields)]
+        [SettingPropertyGroup(g1)]
+        public bool UseInShields { get; set; }
+
+        //== Banner codes ==
+
+        //[SettingPropertyText(displayName: MCMDisplayName.Infantry, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string Infantry { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.Ranged, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string Ranged { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.Cavalry, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string Cavalry { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.HorseArcher, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string HorseArcher { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.Skirmisher, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string Skirmisher { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.HeavyInfantry, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string HeavyInfantry { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.LightCavalry, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string LightCavalry { get; set; }
+
+        //[SettingPropertyText(displayName: MCMDisplayName.HeavyCavalry, order: 1, requireRestart: false, hintText: MCMHint.BannerCodeHint)]
+        //[SettingPropertyGroup(g1)]
+        public string HeavyCavalry { get; set; }
     }
 }

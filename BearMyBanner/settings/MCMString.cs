@@ -45,6 +45,11 @@ namespace BearMyBanner.Settings
 
         public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
         public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
+
+        public const string EnableFormationBanners = "Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.";
+        public const string CompanionsUseFormationBanners = "Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.";
+        public const string UseInShields = "The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers).";
+        //public const string BannerCodeHint = "Use online editor at https://bannerlord.party/banner/ then copy the code here. An invalid code might cause problems.";
     }
 
     public class MCMDisplayName
@@ -77,5 +82,17 @@ namespace BearMyBanner.Settings
         public const string AllowNobles = "Give banners to nobles";
         public const string ShowMessages = "Show messages";
         public const string WhiteMessages = "White messages";
+
+        public const string EnableFormationBanners = "Use formation banners (from config file)";
+        public const string CompanionsUseFormationBanners = "Companions use formation banners";
+        public const string UseInShields = "Apply to shields";
+        public const string Infantry = "Infantry";
+        public const string Ranged = "Ranged";
+        public const string Cavalry = "Cavalry";
+        public const string HorseArcher = "Horse archer";
+        public const string Skirmisher = "Skirmisher";
+        public const string HeavyInfantry = "Heavy infantry";
+        public const string LightCavalry = "Light cavalry";
+        public const string HeavyCavalry = "Heavy cavalry";
     }
 }

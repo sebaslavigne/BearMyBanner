@@ -26,9 +26,9 @@ namespace BearMyBannerTests
         private void SetupSettings()
         {
             _settings = new TestSettings();
-            _settings.SetDefaults();
+            _settings.SetDefaultSettings();
             _formationBanners = new TestFormations();
-            _formationBanners.SetDefaults();
+            _formationBanners.SetDefaultFormationSettings();
         }
 
         private void AssertBannerAddedTimes(int bannersExpected, int bannersActual)

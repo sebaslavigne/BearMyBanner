@@ -2,7 +2,7 @@
 {
     public static class IBMBSettingsExtension
     {
-        public static IBMBSettings SetDefaults(this IBMBSettings settings)
+        public static IBMBSettings SetDefaultSettings(this IBMBSettings settings)
         {
             settings.AllowSoldiers = true;
             settings.AllowCaravanGuards = false;

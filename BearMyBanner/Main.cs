@@ -18,12 +18,15 @@ namespace BearMyBanner
 
         private IBMBSettings _settings;
         private IBMBFormationBanners _formationBanners;
+        private IBMBFormationBanners _configFileBanners;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             try
             {
+                _configFileBanners = BMBFormationBanners.Instance;
+
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -40,12 +43,14 @@ namespace BearMyBanner
                 try
                 {
                     _settings = MCMSettings.Instance;
-                    _formationBanners = BMBFormationBanners.Instance;
+                    _formationBanners = MCMSettings.Instance;
+                    _configFileBanners.CopyCodesTo(_formationBanners);
                 }
                 catch (Exception)
                 {
                     throw new InvalidOperationException("There was an error with MCM");
                 }
+
                 foreach ((string content, bool isError) message in LoadingMessages)
                 {
                     PrintWhileLoading(message.content, message.isError);
