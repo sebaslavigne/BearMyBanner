@@ -13,8 +13,9 @@ namespace BearMyBanner
 
         private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
-        private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
-        private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
+        private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedBySpec;
+        private Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>> _processedByFormation;
+        private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedByTroop;
 
         private MissionType _missionType;
 
@@ -23,6 +24,11 @@ namespace BearMyBanner
             _settings = settings;
             _formationBanners = formationBanners;
             _missionType = missionType;
+
+            _processedBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
+            _processedByFormation = new Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>>();
+            _processedByTroop = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
+            _equippedBannersByParty = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -75,6 +81,7 @@ namespace BearMyBanner
             string agentParty = agent.PartyName;
             IBMBCharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
+            FormationGroup agentFormation = agent.Formation;
 
             /* Caravan masters bypass count if they lead caravans */
             if (_settings.AllowCaravanGuards == CaravanAssignMode.OnlyMasters && agent.IsInCaravanParty)
@@ -88,17 +95,22 @@ namespace BearMyBanner
             }
 
             /* Add to maps */
-            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
-            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IBMBAgent>());
+            if (!_processedByTroop.ContainsKey(agentParty)) _processedByTroop.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
+            if (!_processedByTroop[agentParty].ContainsKey(agentCharacter)) _processedByTroop[agentParty].Add(agentCharacter, new List<IBMBAgent>());
 
-            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBMBAgent>>());
-            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<IBMBAgent>());
+            if (!_processedByFormation.ContainsKey(agentParty)) _processedByFormation.Add(agentParty, new Dictionary<FormationGroup, List<IBMBAgent>>());
+            if (!_processedByFormation[agentParty].ContainsKey(agentFormation)) _processedByFormation[agentParty].Add(agentFormation, new List<IBMBAgent>());
 
-            _processedTroopsByType[agentParty][agentCharacter].Add(agent);
-            _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
+            if (!_processedBySpec.ContainsKey(agentParty)) _processedBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBMBAgent>>());
+            if (!_processedBySpec[agentParty].ContainsKey(agentSpec)) _processedBySpec[agentParty].Add(agentSpec, new List<IBMBAgent>());
+
+            _processedBySpec[agentParty][agentSpec].Add(agent);
+            _processedByFormation[agentParty][agentFormation].Add(agent);
+            _processedByTroop[agentParty][agentCharacter].Add(agent);
 
             /* Give banner or skip */
-            int processedTroops = _settings.UnitCountMode == UnitCountMode.Type ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
+            //int processedTroops = _settings.UnitCountMode == UnitCountMode.Type ? _processedByType[agentParty][agentSpec].Count : _processedByTroop[agentParty][agentCharacter].Count;
+            int processedTroops = GetProcessedTroopsByMode(agentParty, agentSpec, agentFormation, agentCharacter);
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
@@ -106,6 +118,20 @@ namespace BearMyBanner
                 return true;
             }
             return false;
+        }
+
+        private int GetProcessedTroopsByMode(string agentParty, TroopSpecialization agentSpec, FormationGroup agentFormation, IBMBCharacter agentCharacter)
+        {
+            switch (_settings.UnitCountMode)
+            {
+                case UnitCountMode.Spec:
+                default:
+                    return _processedBySpec[agentParty][agentSpec].Count;
+                case UnitCountMode.Formation:
+                    return _processedByFormation[agentParty][agentFormation].Count;
+                case UnitCountMode.Troop:
+                    return _processedByTroop[agentParty][agentCharacter].Count;
+            }
         }
 
         private void CountBannerGivenToParty(string agentParty)
@@ -149,10 +175,6 @@ namespace BearMyBanner
         /// <param name="characterTypes"></param>
         public void FilterAllowedBearerTypes(IReadOnlyList<IBMBCharacter> characterTypes)
         {
-            _processedTroopsByType = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
-            _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
-            _equippedBannersByParty = new Dictionary<string, int>();
-
             /* Add types to a list of allowed troops to carry a banner */
             _allowedBearerTypes = new List<IBMBCharacter>();
 

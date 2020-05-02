@@ -30,6 +30,8 @@ namespace BearMyBanner.Wrapper
         public bool IsInPlayerParty => false;
         public bool ServesUnderLord => false;
 
+        public FormationGroup Formation => FormationGroup.Unset;
+
         private bool CheckForRangedWeapons()
         {
             var equipment = WrappedAgent.SpawnEquipment;

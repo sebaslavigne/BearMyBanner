@@ -4,7 +4,7 @@ namespace BearMyBanner.Settings
 {
     public enum UnitCountMode
     {
-        Type, Troop
+        Spec, Formation, Troop
     }
 
     public enum DropRetreatMode

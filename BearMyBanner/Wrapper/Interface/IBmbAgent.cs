@@ -11,5 +11,6 @@
         bool ServesUnderLord { get; }
         bool IsInCaravanParty { get; }
         bool IsCaravanPartyLeader { get; }
+        FormationGroup Formation { get; }
     }
 }

@@ -95,7 +95,8 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g01)]
         public DefaultDropdown<string> UnitCountModeSetting { get; set; } = new DefaultDropdown<string>(new string[]
         {
-            MCMDisplayName.UnitCountModeType,
+            MCMDisplayName.UnitCountModeSpec,
+            MCMDisplayName.UnitCountModeFormation,
             MCMDisplayName.UnitCountModeTroop
         }, 0);
         public UnitCountMode UnitCountMode { get => (UnitCountMode)UnitCountModeSetting.SelectedIndex; set => UnitCountModeSetting.SelectedIndex = (int)value; }

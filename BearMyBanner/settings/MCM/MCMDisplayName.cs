@@ -20,7 +20,8 @@
         public const string BearerToTroopRatio = "Bearer to troop ratio";
         public const string BearerToTroopRatioFormat = "1 banner per 0 troops";
         public const string UnitCountMode = "Bearers grouping mode";
-        public const string UnitCountModeType = "General type";
+        public const string UnitCountModeSpec = "General type";
+        public const string UnitCountModeFormation = "Formation";
         public const string UnitCountModeTroop = "Specific troop type";
 
         public const string AllowSoldiers = "Allow soldiers";
