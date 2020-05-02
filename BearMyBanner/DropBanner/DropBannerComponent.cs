@@ -49,7 +49,6 @@ namespace BearMyBanner
                 if (_dropsOnLowHealth && Agent.Health < _settings.DropHealthThreshold)
                 {
                     Agent.DropBanner();
-                    Main.PrintInMessageLog(Agent.Name + " has dropped a banner");// TODO remove
                 }
             }
             catch (Exception ex)
@@ -65,7 +64,6 @@ namespace BearMyBanner
                 if (_dropsOnRetreat)
                 {
                     Agent.DropBanner();
-                    Main.PrintInMessageLog(Agent.Name + " is retreating");// TODO remove
                 }
             }
             catch (Exception ex)
