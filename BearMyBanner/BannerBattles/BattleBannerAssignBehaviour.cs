@@ -13,6 +13,7 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BattleBannerController _controller;
+        private readonly DropBannerController _dropBannerController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
         private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
@@ -25,6 +26,7 @@ namespace BearMyBanner
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings, MissionType missionType)
         {
             _controller = new BattleBannerController(settings, formationBannerSettings, missionType);
+            _dropBannerController = new DropBannerController(settings);
             _settings = settings;
             _formationBannerSettings = formationBannerSettings;
 
@@ -73,7 +75,8 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                _spawnedAgents.Add(agent);
+                if (agent.IsHuman) _spawnedAgents.Add(agent);
+                if (agent.IsHuman) Main.PrintInMessageLog(agent.Character.GetPower() + " - " + agent.Name);
             }
             catch (Exception ex)
             {
@@ -120,7 +123,7 @@ namespace BearMyBanner
                 && _controller.AgentGetsBanner(campaignAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
-                agent.AddComponent(new DropBannerComponent(agent));
+                agent.AddComponent(new DropBannerComponent(agent, _settings, _dropBannerController));
 
                 if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
                 {

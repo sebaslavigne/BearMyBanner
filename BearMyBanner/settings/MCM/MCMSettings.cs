@@ -155,6 +155,15 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g014)]
         public bool AllowNobles { get; set; }
 
+
+        //==== Drop banners ========================================================================================
+        public bool DropOnLowHealth { get; set; }
+        public int DropHealthThreshold { get; set; }
+        public bool DropOnRetreat { get; set; }
+        public int DropRetreatChance { get; set; }
+        public bool DropWeightedRetreat { get; set; }
+
+
         //==== Miscellaneous ========================================================================================
         [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 0, RequireRestart = false, HintText = MCMHint.ShowMessages)]
         [SettingPropertyGroup(g02)]

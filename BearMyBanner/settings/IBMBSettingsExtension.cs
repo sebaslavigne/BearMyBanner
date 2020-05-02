@@ -38,6 +38,10 @@
             settings.TownCastleVisitBanner = false;
             settings.VillageVisitBanner = false;
 
+            settings.DropOnLowHealth = true;
+            settings.DropOnRetreat = true;
+            settings.DropRetreatChance = 100;
+
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;

@@ -55,8 +55,12 @@ namespace BearMyBanner.Settings
         public bool AllowCompanions { get; set; }
         public bool AllowNobles { get; set; }
         public bool ShowMessages { get; set; }
+        public bool DropOnLowHealth { get; set; }
+        public int DropHealthThreshold { get; set; }
+        public bool DropOnRetreat { get; set; }
+        public int DropRetreatChance { get; set; }
+        public bool DropWeightedRetreat { get; set; }
         public bool WhiteMessages { get; set; }
         public bool ReloadFiles { get; set; }
-
     }
 }

@@ -15,6 +15,7 @@ namespace BearMyBanner
     public class CustomBattleBannerBehaviour : MissionLogic
     {
         private readonly BattleBannerController _controller;
+        private readonly DropBannerController _dropBannerController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
 
         private readonly IBMBSettings _settings;
@@ -25,6 +26,7 @@ namespace BearMyBanner
         public CustomBattleBannerBehaviour(IBMBSettings settings)
         {
             _controller = new BattleBannerController(settings, null, MissionType.CustomBattle);
+            _dropBannerController = new DropBannerController(settings);
             _settings = settings;
 
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
@@ -101,7 +103,7 @@ namespace BearMyBanner
                 && _controller.AgentGetsBanner(battleAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
-                agent.AddComponent(new DropBannerComponent(agent));
+                agent.AddComponent(new DropBannerComponent(agent, _settings, _dropBannerController));
                 agent.EquipBanner();
             }
 
