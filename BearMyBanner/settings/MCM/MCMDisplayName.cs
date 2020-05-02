@@ -25,6 +25,9 @@
 
         public const string AllowSoldiers = "Allow soldiers";
         public const string AllowCaravanGuards = "Allow caravan guards";
+        public const string AllowCaravanGuardsNotAllowed = "Not allowed";
+        public const string AllowCaravanGuardsMastersOnly = "Caravan masters only";
+        public const string AllowCaravanGuardsAllowed = "Allowed";
         public const string AllowMercenaries = "Allow mercenaries";
         public const string AllowBandits = "Allow bandits";
         public const string AllowBanditsNotAllowed = "Not allowed";

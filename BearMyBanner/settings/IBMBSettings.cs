@@ -16,7 +16,7 @@
         int BearerToTroopRatio { get; set; }
         UnitCountMode UnitCountMode { get; set; }
         bool AllowSoldiers { get; set; }
-        bool AllowCaravanGuards { get; set; }
+        CaravanAssignMode AllowCaravanGuards { get; set; }
         bool AllowMercenaries { get; set; }
         BanditAssignMode AllowBandits { get; set; }
         bool AllowInfantry { get; set; }

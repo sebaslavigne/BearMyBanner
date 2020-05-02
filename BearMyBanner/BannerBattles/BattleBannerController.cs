@@ -42,6 +42,11 @@ namespace BearMyBanner
                     }
                 }
 
+                if (_settings.AllowCaravanGuards == CaravanAssignMode.OnlyMasters && agent.IsInCaravanParty)
+                {
+                    if (agent.IsCaravanPartyLeader) return true;
+                }
+
                 if (_missionType == MissionType.FieldBattle || _missionType == MissionType.CustomBattle)
                 {
                     return true;
@@ -71,6 +76,17 @@ namespace BearMyBanner
             IBMBCharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
 
+            /* Caravan masters bypass count if they lead caravans */
+            if (_settings.AllowCaravanGuards == CaravanAssignMode.OnlyMasters && agent.IsInCaravanParty)
+            {
+                if (agent.IsCaravanPartyLeader)
+                {
+                    CountBannerGivenToParty(agentParty);
+                    return true;
+                }
+                return false;//Other caravan guards in the caravan party don't get banner
+            }
+
             /* Add to maps */
             if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
             if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IBMBAgent>());
@@ -86,11 +102,16 @@ namespace BearMyBanner
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
-                _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
-                _equippedBannersByParty[agentParty] = equippedCount + 1;
+                CountBannerGivenToParty(agentParty);
                 return true;
             }
             return false;
+        }
+
+        private void CountBannerGivenToParty(string agentParty)
+        {
+            _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
+            _equippedBannersByParty[agentParty] = equippedCount + 1;
         }
 
         public bool AgentGetsFancyBanner(IBMBAgent agent)
@@ -137,7 +158,7 @@ namespace BearMyBanner
 
             /* Add troops */
             if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
-            if (_settings.AllowCaravanGuards) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
+            if (_settings.AllowCaravanGuards != CaravanAssignMode.NotAllowed) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
             if (_settings.AllowMercenaries) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
             if (_settings.AllowBandits != BanditAssignMode.NotAllowed) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
 

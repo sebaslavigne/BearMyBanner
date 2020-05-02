@@ -5,9 +5,10 @@
         public static IBMBSettings SetDefaultSettings(this IBMBSettings settings)
         {
             settings.AllowSoldiers = true;
-            settings.AllowCaravanGuards = false;
+            settings.AllowCaravanGuards = CaravanAssignMode.OnlyMasters;
             settings.AllowMercenaries = false;
             settings.AllowBandits = BanditAssignMode.RecruitedOnly;
+
             settings.AllowInfantry = true;
             settings.AllowMounted = true;
             settings.AllowRanged = false;

@@ -29,5 +29,7 @@ namespace BearMyBanner.Wrapper
         public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
         public uint PartyColor { get; }
         public bool ServesUnderLord => true;
+        public bool IsInCaravanParty => false;
+        public bool IsCaravanPartyLeader => false;
     }
 }

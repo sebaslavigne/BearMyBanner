@@ -27,7 +27,7 @@ namespace BearMyBanner.Settings
         public const string UnitCountMode = "How the units will be grouped to give them banners.";
 
         public const string AllowSoldiers = "Allow soldiers to bear banners. Most units are of this type.";
-        public const string AllowCaravanGuards = "Allow caravan guards to bear banners.";
+        public const string AllowCaravanGuards = "Allow caravan guards to bear banners. \"Caravan masters only\" gives a banner only to the master of a caravan, caravan guards in the service of a lord also get banners.";
         public const string AllowMercenaries = "Allow mercenaries to bear banners (i.e.Watchmen, Hired Blades, etc.).";
         public const string AllowBandits = "Allow bandits to bear banners (i.e.Looters, Bandits, Raiders, etc.). \"Recruited bandits only\" gives banners to bandits that are in the service of a lord.";
 

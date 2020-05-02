@@ -9,5 +9,7 @@
         bool IsInPlayerParty { get; }
         bool HasRangedWeapons { get; }
         bool ServesUnderLord { get; }
+        bool IsInCaravanParty { get; }
+        bool IsCaravanPartyLeader { get; }
     }
 }

@@ -17,4 +17,9 @@ namespace BearMyBanner.Settings
         NotAllowed, RecruitedOnly, Allowed
     }
 
+    public enum CaravanAssignMode
+    {
+        NotAllowed, OnlyMasters, Allowed
+    }
+
 }

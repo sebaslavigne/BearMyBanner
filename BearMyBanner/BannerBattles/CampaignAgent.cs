@@ -9,27 +9,43 @@ namespace BearMyBanner.Wrapper
         {
             WrappedAgent = wrappedAgent;
             Character = new CampaignCharacter((CharacterObject)WrappedAgent.Character);
-            var partyToWrap = ((PartyGroupAgentOrigin)WrappedAgent.Origin)?.Party;
-            if (partyToWrap != null)
+            _wrappedParty = ((PartyGroupAgentOrigin)WrappedAgent.Origin)?.Party;
+            if (_wrappedParty != null)
             {
-                PartyName = partyToWrap.Name.ToString();
-                PartyColor = partyToWrap.PrimaryColorPair.Item1;
-                IsInPlayerParty = false;
-                IsInPlayerParty = partyToWrap.Leader != null ? partyToWrap.Leader.IsPlayerCharacter : false;
-                ServesUnderLord = partyToWrap.Leader != null ? new CampaignCharacter(partyToWrap.Leader).IsHero : false;
+                PartyName = _wrappedParty.Name.ToString();
+                PartyColor = _wrappedParty.PrimaryColorPair.Item1;
             }
             Formation = wrappedAgent.Formation != null ? (FormationGroup)(int)wrappedAgent.Formation.FormationIndex : FormationGroup.Unset;
         }
 
         public Agent WrappedAgent { get; }
+
+        private const string CaravanMasterPartialID = "caravan_master";
+
+        private PartyBase _wrappedParty;
         public bool IsAttacker => WrappedAgent.Team.IsAttacker;
         public bool IsDefender => WrappedAgent.Team.IsDefender;
         public IBMBCharacter Character { get; }
         public string PartyName { get; }
         public uint PartyColor { get; }
-        public bool IsInPlayerParty { get; }
+        public bool IsInPlayerParty => _wrappedParty.Leader != null ? _wrappedParty.Leader.IsPlayerCharacter : false;
         public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
         public FormationGroup Formation { get; }
-        public bool ServesUnderLord { get; }
+        public bool ServesUnderLord => _wrappedParty.Leader != null ? new CampaignCharacter(_wrappedParty.Leader).IsHero : false;
+
+        public bool IsInCaravanParty => _wrappedParty.Leader != null ? _wrappedParty.Leader.OriginCharacterStringId.Contains(CaravanMasterPartialID) : false;
+        public bool IsCaravanPartyLeader => CheckIsCaravanPartyLeader();
+
+        private bool CheckIsCaravanPartyLeader()
+        {
+            if (IsInCaravanParty)
+            {
+                return Character.Equals(new CampaignCharacter(_wrappedParty.Leader));
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

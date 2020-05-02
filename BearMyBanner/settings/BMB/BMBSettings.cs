@@ -42,7 +42,7 @@ namespace BearMyBanner.Settings
         public int BearerToTroopRatio { get; set; }
         public UnitCountMode UnitCountMode { get; set; }
         public bool AllowSoldiers { get; set; }
-        public bool AllowCaravanGuards { get; set; }
+        public CaravanAssignMode AllowCaravanGuards { get; set; }
         public bool AllowMercenaries { get; set; }
         public BanditAssignMode AllowBandits { get; set; }
         public bool AllowInfantry { get; set; }

@@ -24,10 +24,11 @@ namespace BearMyBanner.Wrapper
         public Agent WrappedAgent { get; }
         public bool HasMount => WrappedAgent.HasMount;
         public bool HasRangedWeapons => CheckForRangedWeapons();
+        public bool IsInCaravanParty => false;
+        public bool IsCaravanPartyLeader => false;
 
         public bool IsInPlayerParty => false;
-
-        public bool ServesUnderLord => throw new NotImplementedException();
+        public bool ServesUnderLord => false;
 
         private bool CheckForRangedWeapons()
         {

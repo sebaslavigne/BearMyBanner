@@ -105,9 +105,15 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g011)]
         public bool AllowSoldiers { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowCaravanGuards, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
+        [SettingPropertyDropdown(displayName: MCMDisplayName.AllowCaravanGuards, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
         [SettingPropertyGroup(g011)]
-        public bool AllowCaravanGuards { get; set; }
+        public DefaultDropdown<string> AllowCaravanGuardsSetting { get; set; } = new DefaultDropdown<string>(new string[]
+        {
+            MCMDisplayName.AllowCaravanGuardsNotAllowed,
+            MCMDisplayName.AllowCaravanGuardsMastersOnly,
+            MCMDisplayName.AllowCaravanGuardsAllowed
+        }, 1);
+        public CaravanAssignMode AllowCaravanGuards { get => (CaravanAssignMode)AllowCaravanGuardsSetting.SelectedIndex; set => AllowCaravanGuardsSetting.SelectedIndex = (int)value; }
 
         [SettingPropertyBool(displayName: MCMDisplayName.AllowMercenaries, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMercenaries)]
         [SettingPropertyGroup(g011)]
