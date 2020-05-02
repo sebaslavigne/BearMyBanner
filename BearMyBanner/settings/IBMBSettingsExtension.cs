@@ -7,7 +7,7 @@
             settings.AllowSoldiers = true;
             settings.AllowCaravanGuards = false;
             settings.AllowMercenaries = false;
-            settings.AllowBandits = false;
+            settings.AllowBandits = BanditAssignMode.RecruitedOnly;
             settings.AllowInfantry = true;
             settings.AllowMounted = true;
             settings.AllowRanged = false;

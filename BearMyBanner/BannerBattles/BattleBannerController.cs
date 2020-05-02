@@ -34,6 +34,14 @@ namespace BearMyBanner
         {
             if (_allowedBearerTypes.Contains(agent.Character))
             {
+                if (_settings.AllowBandits == BanditAssignMode.RecruitedOnly)
+                {
+                    if (agent.Character.Occupation == CharacterOccupation.Bandit && !agent.ServesUnderLord)
+                    {
+                        return false;
+                    }
+                }
+
                 if (_missionType == MissionType.FieldBattle || _missionType == MissionType.CustomBattle)
                 {
                     return true;
@@ -131,7 +139,7 @@ namespace BearMyBanner
             if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
             if (_settings.AllowCaravanGuards) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
             if (_settings.AllowMercenaries) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
-            if (_settings.AllowBandits) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
+            if (_settings.AllowBandits != BanditAssignMode.NotAllowed) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
 
             /* Filter by formation */
             _allowedBearerTypes = _allowedBearerTypes

@@ -12,4 +12,9 @@ namespace BearMyBanner.Settings
         Disabled, Weighted, Fixed
     }
 
+    public enum BanditAssignMode
+    {
+        NotAllowed, RecruitedOnly, Allowed
+    }
+
 }

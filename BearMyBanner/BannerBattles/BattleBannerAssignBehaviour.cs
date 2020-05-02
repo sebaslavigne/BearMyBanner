@@ -115,7 +115,6 @@ namespace BearMyBanner
         private void AfterAgentSpawned(Agent agent)
         {
             var campaignAgent = new CampaignAgent(agent);
-            var missionType = this.Mission.GetMissionType();
 
             if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyShield(campaignAgent))
             {

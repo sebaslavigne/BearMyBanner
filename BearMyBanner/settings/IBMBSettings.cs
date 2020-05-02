@@ -18,7 +18,7 @@
         bool AllowSoldiers { get; set; }
         bool AllowCaravanGuards { get; set; }
         bool AllowMercenaries { get; set; }
-        bool AllowBandits { get; set; }
+        BanditAssignMode AllowBandits { get; set; }
         bool AllowInfantry { get; set; }
         bool AllowRanged { get; set; }
         bool AllowMounted { get; set; }

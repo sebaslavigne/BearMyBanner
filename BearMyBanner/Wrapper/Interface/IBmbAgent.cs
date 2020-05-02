@@ -8,5 +8,6 @@
         string PartyName { get; }
         bool IsInPlayerParty { get; }
         bool HasRangedWeapons { get; }
+        bool ServesUnderLord { get; }
     }
 }

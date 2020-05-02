@@ -113,9 +113,15 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g011)]
         public bool AllowMercenaries { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowBandits, Order = 3, RequireRestart = false, HintText = MCMHint.AllowBandits)]
+        [SettingPropertyDropdown(displayName: MCMDisplayName.AllowBandits, Order = 3, RequireRestart = false, HintText = MCMHint.AllowBandits)]
         [SettingPropertyGroup(g011)]
-        public bool AllowBandits { get; set; }
+        public DefaultDropdown<string> AllowBanditsSetting { get; set; } = new DefaultDropdown<string>(new string[]
+        {
+            MCMDisplayName.AllowBanditsNotAllowed,
+            MCMDisplayName.AllowBanditsRecruitedOnly,
+            MCMDisplayName.AllowBanditsAllowed
+        }, 1);
+        public BanditAssignMode AllowBandits { get => (BanditAssignMode)AllowBanditsSetting.SelectedIndex; set => AllowBanditsSetting.SelectedIndex = (int)value; }
 
         //== Filter by type ==
         [SettingPropertyBool(displayName: MCMDisplayName.AllowInfantry, Order = 0, RequireRestart = false, HintText = MCMHint.AllowInfantry)]

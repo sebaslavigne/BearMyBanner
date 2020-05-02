@@ -16,6 +16,7 @@ namespace BearMyBanner.Wrapper
                 PartyColor = partyToWrap.PrimaryColorPair.Item1;
                 IsInPlayerParty = false;
                 IsInPlayerParty = partyToWrap.Leader != null ? partyToWrap.Leader.IsPlayerCharacter : false;
+                ServesUnderLord = partyToWrap.Leader != null ? new CampaignCharacter(partyToWrap.Leader).IsHero : false;
             }
             Formation = wrappedAgent.Formation != null ? (FormationGroup)(int)wrappedAgent.Formation.FormationIndex : FormationGroup.Unset;
         }
@@ -29,5 +30,6 @@ namespace BearMyBanner.Wrapper
         public bool IsInPlayerParty { get; }
         public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
         public FormationGroup Formation { get; }
+        public bool ServesUnderLord { get; }
     }
 }

@@ -27,6 +27,8 @@ namespace BearMyBanner.Wrapper
 
         public bool IsInPlayerParty => false;
 
+        public bool ServesUnderLord => throw new NotImplementedException();
+
         private bool CheckForRangedWeapons()
         {
             var equipment = WrappedAgent.SpawnEquipment;

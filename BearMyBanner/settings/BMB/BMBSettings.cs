@@ -44,7 +44,7 @@ namespace BearMyBanner.Settings
         public bool AllowSoldiers { get; set; }
         public bool AllowCaravanGuards { get; set; }
         public bool AllowMercenaries { get; set; }
-        public bool AllowBandits { get; set; }
+        public BanditAssignMode AllowBandits { get; set; }
         public bool AllowInfantry { get; set; }
         public bool AllowRanged { get; set; }
         public bool AllowMounted { get; set; }
