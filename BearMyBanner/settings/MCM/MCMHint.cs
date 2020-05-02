@@ -31,10 +31,19 @@ namespace BearMyBanner.Settings
         public const string AllowMercenaries = "Allow mercenaries to bear banners (i.e.Watchmen, Hired Blades, etc.).";
         public const string AllowBandits = "Allow bandits to bear banners (i.e.Looters, Bandits, Raiders, etc.). \"Recruited bandits only\" gives banners to bandits that are in the service of a lord.";
 
-        public const string AllowInfantry = "Allow infantry units to bear banners.";
+        public const string AllowInfantry = "Allow infantry type units to bear banners.";
         public const string AllowRanged = "Allow archers and crossbowmen to bear banners. NOTE: bearers will lose their bow or crossbow, but still use their melee weapons. If ordered to \"Charge\" they will rush the enemy, order them to \"Advance\" and they will stay in formation.";
-        public const string AllowMounted = "Allow cavalry units to bear banners.";
-        public const string AllowMountedRanged = "Allow horse archers to bear banners. NOTE: same as with the archers.";
+        public const string AllowMounted = "Allow cavalry type units to bear banners.";
+        public const string AllowMountedRanged = "Allow horse archer type units to bear banners. NOTE: same as with the archers.";
+
+        public const string AllowFormationInfantry = "Give banners among units assigned to formation I Infantry";
+        public const string AllowFormationRanged = "Give banners among units assigned to formation II Ranged";
+        public const string AllowFormationCavalry = "Give banners among units assigned to formation III Cavalry";
+        public const string AllowFormationHorseArcher = "Give banners among units assigned to formation IV Horse Archer";
+        public const string AllowFormationSkirmisher = "Give banners among units assigned to formation V Skirmisher";
+        public const string AllowFormationHeavyInfantry = "Give banners among units assigned to formation VI Heavy Infantry";
+        public const string AllowFormationLightCavalry = "Give banners among units assigned to formation VII Light Cavalry";
+        public const string AllowFormationHeavyCavalry = "Give banners among units assigned to formation VIII Heavy Cavalry";
 
         public const string FilterTiers = "Use tier filters. If disabled, all tiers get banners.";
         public const string AllowedTiers = "The tiers that will get banners, separated by commas. Some troop tree mods include tiers higher than 6, just add them to the list to enable them(e.g. 8,9,10,11).";

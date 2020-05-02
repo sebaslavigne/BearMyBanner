@@ -9,13 +9,22 @@
             settings.AllowMercenaries = false;
             settings.AllowBandits = BanditAssignMode.RecruitedOnly;
 
-            settings.AllowInfantry = true;
-            settings.AllowMounted = true;
-            settings.AllowRanged = false;
-            settings.AllowMountedRanged = false;
+            settings.AllowTypeInfantry = true;
+            settings.AllowTypeMounted = true;
+            settings.AllowTypeRanged = false;
+            settings.AllowTypeMountedRanged = false;
 
             settings.FilterTiers = true;
             settings.AllowedTiers = "4,5,6";
+
+            settings.AllowFormationInfantry = true;
+            settings.AllowFormationRanged = true;
+            settings.AllowFormationCavalry = true;
+            settings.AllowFormationHorseArcher = true;
+            settings.AllowFormationSkirmisher = true;
+            settings.AllowFormationHeavyInfantry = true;
+            settings.AllowFormationLightCavalry = true;
+            settings.AllowFormationHeavyCavalry = true;
 
             settings.AllowPlayer = false;
             settings.AllowCompanions = false;

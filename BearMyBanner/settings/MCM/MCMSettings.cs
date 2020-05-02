@@ -16,9 +16,10 @@ namespace BearMyBanner.Settings
         private const string g01 = g0 + "/II. Banner Ratios and Filters";
         //private const string g010 = g01 + "/i. Ratios";
         private const string g011 = g01 + "/i. Filter by Occupation";
-        private const string g012 = g01 + "/ii. Filter by Type";
+        private const string g012 = g01 + "/ii. Filter by General type";
         private const string g013 = g01 + "/iii. Filter by Tier";
-        private const string g014 = g01 + "/iv. Heroe filters";
+        private const string g014 = g01 + "/iv. Give banners to Formations";
+        private const string g015 = g01 + "/v. Give to Heroes";
         private const string g02 = g0 + "/III. Banner Dropping";
         private const string g03 = g0 + "/IV. Miscellaneous";
         private const string g1 = "B. Formation Banners Settings";
@@ -106,7 +107,11 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g011)]
         public bool AllowSoldiers { get; set; }
 
-        [SettingPropertyDropdown(displayName: MCMDisplayName.AllowCaravanGuards, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowMercenaries, Order = 1, RequireRestart = false, HintText = MCMHint.AllowMercenaries)]
+        [SettingPropertyGroup(g011)]
+        public bool AllowMercenaries { get; set; }
+
+        [SettingPropertyDropdown(displayName: MCMDisplayName.AllowCaravanGuards, Order = 2, RequireRestart = false, HintText = MCMHint.AllowCaravanGuards)]
         [SettingPropertyGroup(g011)]
         public DefaultDropdown<string> AllowCaravanGuardsSetting { get; set; } = new DefaultDropdown<string>(new string[]
         {
@@ -115,10 +120,6 @@ namespace BearMyBanner.Settings
             MCMDisplayName.AllowCaravanGuardsAllowed
         }, 1);
         public CaravanAssignMode AllowCaravanGuards { get => (CaravanAssignMode)AllowCaravanGuardsSetting.SelectedIndex; set => AllowCaravanGuardsSetting.SelectedIndex = (int)value; }
-
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMercenaries, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMercenaries)]
-        [SettingPropertyGroup(g011)]
-        public bool AllowMercenaries { get; set; }
 
         [SettingPropertyDropdown(displayName: MCMDisplayName.AllowBandits, Order = 3, RequireRestart = false, HintText = MCMHint.AllowBandits)]
         [SettingPropertyGroup(g011)]
@@ -131,21 +132,21 @@ namespace BearMyBanner.Settings
         public BanditAssignMode AllowBandits { get => (BanditAssignMode)AllowBanditsSetting.SelectedIndex; set => AllowBanditsSetting.SelectedIndex = (int)value; }
 
         //== Filter by type ==
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowInfantry, Order = 0, RequireRestart = false, HintText = MCMHint.AllowInfantry)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowTypeInfantry, Order = 0, RequireRestart = false, HintText = MCMHint.AllowInfantry)]
         [SettingPropertyGroup(g012)]
-        public bool AllowInfantry { get; set; }
+        public bool AllowTypeInfantry { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowRanged, Order = 1, RequireRestart = false, HintText = MCMHint.AllowRanged)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowTypeRanged, Order = 1, RequireRestart = false, HintText = MCMHint.AllowRanged)]
         [SettingPropertyGroup(g012)]
-        public bool AllowRanged { get; set; }
+        public bool AllowTypeRanged { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMounted, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMounted)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowTypeMounted, Order = 2, RequireRestart = false, HintText = MCMHint.AllowMounted)]
         [SettingPropertyGroup(g012)]
-        public bool AllowMounted { get; set; }
+        public bool AllowTypeMounted { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.AllowMountedRanged, Order = 3, RequireRestart = false, HintText = MCMHint.AllowMountedRanged)]
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowTypeMountedRanged, Order = 3, RequireRestart = false, HintText = MCMHint.AllowMountedRanged)]
         [SettingPropertyGroup(g012)]
-        public bool AllowMountedRanged { get; set; }
+        public bool AllowTypeMountedRanged { get; set; }
 
         //== Filter by tier ==
         [SettingPropertyBool(displayName: MCMDisplayName.FilterTiers, Order = 0, RequireRestart = false, HintText = MCMHint.FilterTiers)]
@@ -156,17 +157,50 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g013)]
         public string AllowedTiers { get; set; }
 
+        //== Filter by formation
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationInfantry, Order = 0, RequireRestart = false, HintText = MCMHint.AllowFormationInfantry)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationInfantry { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationRanged, Order = 1, RequireRestart = false, HintText = MCMHint.AllowFormationRanged)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationRanged { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationCavalry, Order = 2, RequireRestart = false, HintText = MCMHint.AllowFormationCavalry)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationCavalry { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationHorseArcher, Order = 3, RequireRestart = false, HintText = MCMHint.AllowFormationHorseArcher)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationHorseArcher { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationSkirmisher, Order = 4, RequireRestart = false, HintText = MCMHint.AllowFormationSkirmisher)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationSkirmisher { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationHeavyInfantry, Order = 5, RequireRestart = false, HintText = MCMHint.AllowFormationHeavyInfantry)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationHeavyInfantry { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationLightCavalry, Order = 6, RequireRestart = false, HintText = MCMHint.AllowFormationLightCavalry)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationLightCavalry { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.AllowFormationHeavyCavalry, Order = 7, RequireRestart = false, HintText = MCMHint.AllowFormationHeavyCavalry)]
+        [SettingPropertyGroup(g014)]
+        public bool AllowFormationHeavyCavalry { get; set; }
+
         //== Heroes ==
         [SettingPropertyBool(displayName: MCMDisplayName.AllowPlayer, Order = 0, RequireRestart = false, HintText = MCMHint.AllowPlayer)]
-        [SettingPropertyGroup(g014)]
+        [SettingPropertyGroup(g015)]
         public bool AllowPlayer { get; set; }
 
         [SettingPropertyBool(displayName: MCMDisplayName.AllowCompanions, Order = 1, RequireRestart = false, HintText = MCMHint.AllowCompanions)]
-        [SettingPropertyGroup(g014)]
+        [SettingPropertyGroup(g015)]
         public bool AllowCompanions { get; set; }
 
         [SettingPropertyBool(displayName: MCMDisplayName.AllowNobles, Order = 2, RequireRestart = false, HintText = MCMHint.AllowNobles)]
-        [SettingPropertyGroup(g014)]
+        [SettingPropertyGroup(g015)]
         public bool AllowNobles { get; set; }
 
 

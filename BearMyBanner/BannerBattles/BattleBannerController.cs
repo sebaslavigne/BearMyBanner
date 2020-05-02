@@ -3,6 +3,7 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 using System;
+using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner
 {
@@ -16,6 +17,7 @@ namespace BearMyBanner
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedBySpec;
         private Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>> _processedByFormation;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedByTroop;
+        private HashSet<FormationGroup> _allowedFormations;
 
         private MissionType _missionType;
 
@@ -29,6 +31,7 @@ namespace BearMyBanner
             _processedByFormation = new Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>>();
             _processedByTroop = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
             _equippedBannersByParty = new Dictionary<string, int>();
+            PopulateAllowedFormations();
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace BearMyBanner
         /// <returns></returns>
         public bool AgentIsEligible(IBMBAgent agent)
         {
-            if (_allowedBearerTypes.Contains(agent.Character))
+            if (_allowedBearerTypes.Contains(agent.Character) && _allowedFormations.Contains(agent.Formation))
             {
                 if (_settings.AllowBandits == BanditAssignMode.RecruitedOnly)
                 {
@@ -186,10 +189,10 @@ namespace BearMyBanner
 
             /* Filter by formation */
             _allowedBearerTypes = _allowedBearerTypes
-                .Where(t => (_settings.AllowInfantry && t.Type == TroopSpecialization.Infantry)
-                            || (_settings.AllowMounted && t.Type == TroopSpecialization.Cavalry)
-                            || (_settings.AllowRanged && t.Type == TroopSpecialization.Archer)
-                            || (_settings.AllowMountedRanged && t.Type == TroopSpecialization.HorseArcher))
+                .Where(t => (_settings.AllowTypeInfantry && t.Type == TroopSpecialization.Infantry)
+                            || (_settings.AllowTypeMounted && t.Type == TroopSpecialization.Cavalry)
+                            || (_settings.AllowTypeRanged && t.Type == TroopSpecialization.Archer)
+                            || (_settings.AllowTypeMountedRanged && t.Type == TroopSpecialization.HorseArcher))
                 .ToList();
 
             /* Filter by tier */
@@ -215,6 +218,20 @@ namespace BearMyBanner
             {
                 _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
             }
+        }
+
+        private void PopulateAllowedFormations()
+        {
+            _allowedFormations = new HashSet<FormationGroup>();
+            if (_settings.AllowFormationInfantry) _allowedFormations.Add(FormationGroup.Infantry);
+            if (_settings.AllowFormationRanged) _allowedFormations.Add(FormationGroup.Ranged);
+            if (_settings.AllowFormationCavalry) _allowedFormations.Add(FormationGroup.Cavalry);
+            if (_settings.AllowFormationHorseArcher) _allowedFormations.Add(FormationGroup.HorseArcher);
+            if (_settings.AllowFormationSkirmisher) _allowedFormations.Add(FormationGroup.Skirmisher);
+            if (_settings.AllowFormationHeavyInfantry) _allowedFormations.Add(FormationGroup.HeavyInfantry);
+            if (_settings.AllowFormationLightCavalry) _allowedFormations.Add(FormationGroup.LightCavalry);
+            if (_settings.AllowFormationHeavyCavalry) _allowedFormations.Add(FormationGroup.HeavyCavalry);
+            _allowedFormations.Add(FormationGroup.Unset);
         }
     }
 }
