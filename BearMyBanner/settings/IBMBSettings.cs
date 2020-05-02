@@ -30,9 +30,8 @@
         bool AllowNobles { get; set; }
         bool DropOnLowHealth { get; set; }
         int DropHealthThreshold { get; set; }
-        bool DropOnRetreat { get; set; }
-        int DropRetreatChance { get; set; }
-        bool DropWeightedRetreat { get; set; }
+        DropRetreatMode DropRetreatMode { get; set; }
+        float DropRetreatChance { get; set; }
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }

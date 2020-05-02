@@ -22,10 +22,20 @@ namespace BearMyBanner
 
         public bool DropsOnRetreat(float power)
         {
-            if (!_settings.DropOnRetreat) return false;
-
-            float chance = _settings.DropRetreatChance / 100f;
-            if (_settings.DropWeightedRetreat) chance = chance * 2 / power - 0.5f;
+            float chance = 0f;
+            switch (_settings.DropRetreatMode)
+            {
+                case DropRetreatMode.Disabled:
+                    return false;
+                case DropRetreatMode.Fixed:
+                    chance = _settings.DropRetreatChance;
+                    break;
+                case DropRetreatMode.Weighted:
+                    chance = _settings.DropRetreatChance * 2 / power - 0.5f;
+                    break;
+                default:
+                    break;
+            }
 
             return (float)_rd.NextDouble() < chance;
         }

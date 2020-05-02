@@ -13,13 +13,14 @@ namespace BearMyBanner.Settings
         private const string g001 = g00 + "/ii. Hideout Attacks";
         private const string g002 = g00 + "/iii. Tournaments";
         private const string g003 = g00 + "/iv. Towns and villages";
-        private const string g01 = g0 + "/II. Filters";
-        private const string g010 = g01 + "/i. Ratios";
-        private const string g011 = g01 + "/ii. Occupation";
-        private const string g012 = g01 + "/iii. Type";
-        private const string g013 = g01 + "/iv. Tier";
-        private const string g014 = g01 + "/v. Heroes";
-        private const string g02 = g0 + "/III. Miscellaneous";
+        private const string g01 = g0 + "/II. Banner Ratios and Filters";
+        //private const string g010 = g01 + "/i. Ratios";
+        private const string g011 = g01 + "/i. Filter by Occupation";
+        private const string g012 = g01 + "/ii. Filter by Type";
+        private const string g013 = g01 + "/iii. Filter by Tier";
+        private const string g014 = g01 + "/iv. Heroe filters";
+        private const string g02 = g0 + "/III. Banner Dropping";
+        private const string g03 = g0 + "/IV. Miscellaneous";
         private const string g1 = "B. Formation Banners Settings";
 
         public MCMSettings()
@@ -87,11 +88,11 @@ namespace BearMyBanner.Settings
 
         //== Banner ratios ==
         [SettingPropertyInteger(displayName: MCMDisplayName.BearerToTroopRatio, minValue: 1, maxValue: 50, valueFormat: MCMDisplayName.BearerToTroopRatioFormat, Order = 0, RequireRestart = false, HintText = MCMHint.BearerToTroopRatio)]
-        [SettingPropertyGroup(g010)]
+        [SettingPropertyGroup(g01)]
         public int BearerToTroopRatio { get; set; }
 
         [SettingPropertyDropdown(displayName: MCMDisplayName.UnitCountMode, Order = 1, RequireRestart = false, HintText = MCMHint.UnitCountMode)]
-        [SettingPropertyGroup(g010)]
+        [SettingPropertyGroup(g01)]
         public DefaultDropdown<string> UnitCountModeSetting { get; set; } = new DefaultDropdown<string>(new string[]
         {
             MCMDisplayName.UnitCountModeType,
@@ -157,20 +158,35 @@ namespace BearMyBanner.Settings
 
 
         //==== Drop banners ========================================================================================
+        [SettingPropertyBool(displayName: MCMDisplayName.DropOnLowHealth, Order = 0, RequireRestart = false, HintText = MCMHint.DropOnLowHealth)]
+        [SettingPropertyGroup(g02)]
         public bool DropOnLowHealth { get; set; }
-        public int DropHealthThreshold { get; set; }
-        public bool DropOnRetreat { get; set; }
-        public int DropRetreatChance { get; set; }
-        public bool DropWeightedRetreat { get; set; }
 
+        [SettingPropertyInteger(displayName: MCMDisplayName.DropHealthThreshold, minValue: 0, maxValue: 70, valueFormat: MCMDisplayName.DropHealthThresholdFormat, Order = 1, RequireRestart = false, HintText = MCMHint.DropHealthThreshold)]
+        [SettingPropertyGroup(g02)]
+        public int DropHealthThreshold { get; set; }
+
+        [SettingPropertyDropdown(displayName: MCMDisplayName.DropRetreatModeSetting, Order = 2, RequireRestart = false, HintText = MCMHint.DropRetreatModeSetting)]
+        [SettingPropertyGroup(g02)]
+        public DefaultDropdown<string> DropRetreatModeSetting { get; set; } = new DefaultDropdown<string>(new string[]
+        {
+            MCMDisplayName.DropRetreatModeDisabled,
+            MCMDisplayName.DropRetreatModeWeighted,
+            MCMDisplayName.DropRetreatModeFixed
+        }, 1);
+        public DropRetreatMode DropRetreatMode { get => (DropRetreatMode)DropRetreatModeSetting.SelectedIndex; set => DropRetreatModeSetting.SelectedIndex = (int)value; }
+
+        [SettingPropertyFloatingInteger(displayName: MCMDisplayName.DropRetreatChance, minValue: 0, maxValue: 1, valueFormat: MCMDisplayName.DropRetreatChanceFormat, Order = 3, RequireRestart = false, HintText = MCMHint.DropRetreatChance)]
+        [SettingPropertyGroup(g02)]
+        public float DropRetreatChance { get; set; }
 
         //==== Miscellaneous ========================================================================================
         [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 0, RequireRestart = false, HintText = MCMHint.ShowMessages)]
-        [SettingPropertyGroup(g02)]
+        [SettingPropertyGroup(g03)]
         public bool ShowMessages { get; set; }
 
         [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 1, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
-        [SettingPropertyGroup(g02)]
+        [SettingPropertyGroup(g03)]
         public bool WhiteMessages { get; set; }
 
         public bool ReloadFiles { get { return false; } set { } }

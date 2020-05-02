@@ -57,9 +57,8 @@ namespace BearMyBanner.Settings
         public bool ShowMessages { get; set; }
         public bool DropOnLowHealth { get; set; }
         public int DropHealthThreshold { get; set; }
-        public bool DropOnRetreat { get; set; }
-        public int DropRetreatChance { get; set; }
-        public bool DropWeightedRetreat { get; set; }
+        public DropRetreatMode DropRetreatMode { get; set; }
+        public float DropRetreatChance { get; set; }
         public bool WhiteMessages { get; set; }
         public bool ReloadFiles { get; set; }
     }

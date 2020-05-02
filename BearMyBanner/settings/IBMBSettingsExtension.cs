@@ -39,8 +39,9 @@
             settings.VillageVisitBanner = false;
 
             settings.DropOnLowHealth = true;
-            settings.DropOnRetreat = true;
-            settings.DropRetreatChance = 100;
+            settings.DropHealthThreshold = 20;
+            settings.DropRetreatMode = DropRetreatMode.Weighted;
+            settings.DropRetreatChance = 0.6f;
 
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
