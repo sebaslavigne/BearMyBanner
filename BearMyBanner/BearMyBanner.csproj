@@ -262,12 +262,12 @@
   <ItemGroup>
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
+    <Compile Include="DropBanner\DropBannerController.cs" />
     <Compile Include="Settings\MCM\MCMDisplayName.cs" />
     <Compile Include="Settings\MCM\MCMSettings.cs" />
     <Compile Include="Settings\MCM\MCMHint.cs" />
-    <Compile Include="Utils\DropBannerComponent.cs" />
+    <Compile Include="DropBanner\DropBannerComponent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
-    <Compile Include="BannerCustomBattles\CustomBattleBannerController.cs" />
     <Compile Include="Utils\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Utils\RandomUtils.cs" />

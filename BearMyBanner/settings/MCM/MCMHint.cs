@@ -43,6 +43,11 @@ namespace BearMyBanner.Settings
         public const string AllowCompanions = "Give a banner to every companion.";
         public const string AllowNobles = "Give a banner to every noble. Might confuse nobles with ranged weapons.";
 
+        public const string DropOnLowHealth = "Units will drop their banner when their health is below the threshold.";
+        public const string DropHealthThreshold = "Units will drop their banner when their health is below the threshold.";
+        public const string DropRetreatModeSetting = "Units have a chance of dropping their banner when retreating. If \"Weighted by experience\", more experienced units have less chance of dropping the banner.";
+        public const string DropRetreatChance = "Base chance of units dropping their banner when retreating.";
+
         public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
         public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
 

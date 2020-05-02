@@ -15,12 +15,14 @@ namespace BearMyBanner
 
         private readonly IBMBSettings _settings;
         private readonly TournamentBannerController _controller;
+        private readonly DropBannerController _dropBannerController;
 
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
 
         public TournamentBannerAssignBehaviour(IBMBSettings settings)
         {
             _controller = new TournamentBannerController(settings);
+            _dropBannerController = new DropBannerController(settings);
             _settings = settings;
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
             {
@@ -79,7 +81,7 @@ namespace BearMyBanner
                     }
                     agent.RemoveFromSpawnEquipment(_forbiddenWeapons);
                     agent.AddBannerToSpawnEquipment();
-                    agent.AddComponent(new DropBannerComponent(agent));
+                    agent.AddComponent(new DropBannerComponent(agent, _settings, _dropBannerController));
                 }
             }
             catch (Exception ex)

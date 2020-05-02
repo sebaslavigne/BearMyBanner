@@ -13,6 +13,7 @@ namespace BearMyBanner
     public class BattleBannerAssignBehaviour : MissionLogic
     {
         private readonly BattleBannerController _controller;
+        private readonly DropBannerController _dropBannerController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
         private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
@@ -21,10 +22,12 @@ namespace BearMyBanner
 
         private List<Agent> _spawnedAgents = new List<Agent>();
         private bool _initialUnitsSpawned = false;
+        private bool _unprocessedUnits = false;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings, MissionType missionType)
         {
             _controller = new BattleBannerController(settings, formationBannerSettings, missionType);
+            _dropBannerController = new DropBannerController(settings);
             _settings = settings;
             _formationBannerSettings = formationBannerSettings;
 
@@ -73,7 +76,8 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
-                _spawnedAgents.Add(agent);
+                _unprocessedUnits = true;
+                if (agent.IsHuman) _spawnedAgents.Add(agent);
             }
             catch (Exception ex)
             {
@@ -86,19 +90,21 @@ namespace BearMyBanner
             base.OnPreMissionTick(dt);
             try
             {
-                if (_spawnedAgents.IsEmpty()) return;
+                if (!_unprocessedUnits) return;
 
                 foreach (Agent agent in _spawnedAgents)
                 {
                     AfterAgentSpawned(agent);
                 }
                 _spawnedAgents.Clear();
+                _unprocessedUnits = false;
                 OnInitialUnitsSpawned();
             }
             catch (Exception ex)
             {
                 Main.LogError(ex);
                 _spawnedAgents.Clear();
+                _unprocessedUnits = false;
             }
         }
 
@@ -120,7 +126,7 @@ namespace BearMyBanner
                 && _controller.AgentGetsBanner(campaignAgent))
             {
                 agent.RemoveFromEquipment(_forbiddenWeapons);
-                agent.AddComponent(new DropBannerComponent(agent));
+                agent.AddComponent(new DropBannerComponent(agent, _settings, _dropBannerController));
 
                 if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
                 {

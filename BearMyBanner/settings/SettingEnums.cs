@@ -2,10 +2,14 @@
 
 namespace BearMyBanner.Settings
 {
-    [Serializable]
     public enum UnitCountMode
     {
         Type, Troop
+    }
+
+    public enum DropRetreatMode
+    {
+        Disabled, Weighted, Fixed
     }
 
 }

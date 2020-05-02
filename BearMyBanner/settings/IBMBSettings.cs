@@ -28,6 +28,10 @@
         bool AllowPlayer { get; set; }
         bool AllowCompanions { get; set; }
         bool AllowNobles { get; set; }
+        bool DropOnLowHealth { get; set; }
+        int DropHealthThreshold { get; set; }
+        DropRetreatMode DropRetreatMode { get; set; }
+        float DropRetreatChance { get; set; }
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }
