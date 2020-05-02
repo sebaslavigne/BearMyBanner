@@ -6,13 +6,13 @@
         {
             settings.AllowSoldiers = true;
             settings.AllowCaravanGuards = CaravanAssignMode.OnlyMasters;
-            settings.AllowMercenaries = false;
+            settings.AllowMercenaries = true;
             settings.AllowBandits = BanditAssignMode.RecruitedOnly;
 
             settings.AllowTypeInfantry = true;
+            settings.AllowTypeRanged = true;
             settings.AllowTypeMounted = true;
-            settings.AllowTypeRanged = false;
-            settings.AllowTypeMountedRanged = false;
+            settings.AllowTypeMountedRanged = true;
 
             settings.FilterTiers = true;
             settings.AllowedTiers = "4,5,6";
@@ -21,7 +21,7 @@
             settings.AllowFormationRanged = true;
             settings.AllowFormationCavalry = true;
             settings.AllowFormationHorseArcher = true;
-            settings.AllowFormationSkirmisher = true;
+            settings.AllowFormationSkirmisher = false;
             settings.AllowFormationHeavyInfantry = true;
             settings.AllowFormationLightCavalry = true;
             settings.AllowFormationHeavyCavalry = true;
@@ -46,7 +46,7 @@
             settings.TournamentBannersInShields = false;
 
             settings.TownCastleVisitBanner = false;
-            settings.VillageVisitBanner = false;
+            settings.VillageVisitBanner = true;
 
             settings.DropOnLowHealth = true;
             settings.DropHealthThreshold = 20;
