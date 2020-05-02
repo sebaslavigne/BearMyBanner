@@ -22,6 +22,7 @@ namespace BearMyBanner
 
         private List<Agent> _spawnedAgents = new List<Agent>();
         private bool _initialUnitsSpawned = false;
+        private bool _unprocessedUnits = false;
 
         public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings, MissionType missionType)
         {
@@ -75,8 +76,8 @@ namespace BearMyBanner
             base.OnAgentBuild(agent, banner);
             try
             {
+                _unprocessedUnits = true;
                 if (agent.IsHuman) _spawnedAgents.Add(agent);
-                if (agent.IsHuman) Main.PrintInMessageLog(agent.Character.GetPower() + " - " + agent.Name);
             }
             catch (Exception ex)
             {
@@ -89,19 +90,21 @@ namespace BearMyBanner
             base.OnPreMissionTick(dt);
             try
             {
-                if (_spawnedAgents.IsEmpty()) return;
+                if (!_unprocessedUnits) return;
 
                 foreach (Agent agent in _spawnedAgents)
                 {
                     AfterAgentSpawned(agent);
                 }
                 _spawnedAgents.Clear();
+                _unprocessedUnits = false;
                 OnInitialUnitsSpawned();
             }
             catch (Exception ex)
             {
                 Main.LogError(ex);
                 _spawnedAgents.Clear();
+                _unprocessedUnits = false;
             }
         }
 
