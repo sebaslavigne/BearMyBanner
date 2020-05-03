@@ -14,23 +14,14 @@
             settings.AllowTypeMounted = true;
             settings.AllowTypeMountedRanged = true;
 
-            settings.FilterTiers = true;
+            settings.FilterTiers = false;
             settings.AllowedTiers = "4,5,6";
-
-            settings.AllowFormationInfantry = true;
-            settings.AllowFormationRanged = true;
-            settings.AllowFormationCavalry = true;
-            settings.AllowFormationHorseArcher = true;
-            settings.AllowFormationSkirmisher = false;
-            settings.AllowFormationHeavyInfantry = true;
-            settings.AllowFormationLightCavalry = true;
-            settings.AllowFormationHeavyCavalry = true;
 
             settings.AllowPlayer = false;
             settings.AllowCompanions = false;
             settings.AllowNobles = false;
 
-            settings.BearerToTroopRatio = 7;
+            settings.BearerToTroopRatio = 1;
             settings.UnitCountMode = UnitCountMode.Spec;
 
             settings.AllowSieges = true;
@@ -41,13 +32,6 @@
             settings.HideoutAttackersUseBanners = false;
             settings.HideoutBanditsUseBanners = false;
 
-            settings.TournamentBanners = true;
-            settings.TournamentThemes = true;
-            settings.TournamentBannersInShields = false;
-
-            settings.TownCastleVisitBanner = false;
-            settings.VillageVisitBanner = true;
-
             settings.DropOnLowHealth = true;
             settings.DropHealthThreshold = 20;
             settings.DropRetreatMode = DropRetreatMode.Weighted;
@@ -56,7 +40,6 @@
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
-            settings.KonamiCode = false;
 
             return settings;
         }

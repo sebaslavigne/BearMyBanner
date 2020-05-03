@@ -15,21 +15,20 @@ namespace BearMyBanner
         private readonly BattleBannerController _controller;
         private readonly DropBannerController _dropBannerController;
         private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
-        private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
         private readonly IBMBSettings _settings;
-        private readonly IBMBFormationBanners _formationBannerSettings;
+        private readonly IPolybianConfig _polybianConfig;
 
         private List<Agent> _spawnedAgents = new List<Agent>();
         private bool _initialUnitsSpawned = false;
         private bool _unprocessedUnits = false;
 
-        public BattleBannerAssignBehaviour(IBMBSettings settings, IBMBFormationBanners formationBannerSettings, MissionType missionType)
+        public BattleBannerAssignBehaviour(IBMBSettings settings, IPolybianConfig polybianConfig, MissionType missionType)
         {
-            _controller = new BattleBannerController(settings, formationBannerSettings, missionType);
+            _controller = new BattleBannerController(settings, polybianConfig, missionType);
             _dropBannerController = new DropBannerController(settings);
             _settings = settings;
-            _formationBannerSettings = formationBannerSettings;
+            _polybianConfig = polybianConfig;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
             _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
@@ -40,17 +39,6 @@ namespace BearMyBanner
                 ItemObject.ItemTypeEnum.Crossbow
             };
 
-            _formationBanners = new Dictionary<FormationGroup, Banner>()
-            {
-                { FormationGroup.Infantry, new Banner(_formationBannerSettings.Infantry) },
-                { FormationGroup.Ranged, new Banner(_formationBannerSettings.Ranged) },
-                { FormationGroup.Cavalry, new Banner(_formationBannerSettings.Cavalry) },
-                { FormationGroup.HorseArcher, new Banner(_formationBannerSettings.HorseArcher) },
-                { FormationGroup.Skirmisher, new Banner(_formationBannerSettings.Skirmisher) },
-                { FormationGroup.HeavyInfantry, new Banner(_formationBannerSettings.HeavyInfantry) },
-                { FormationGroup.LightCavalry, new Banner(_formationBannerSettings.LightCavalry) },
-                { FormationGroup.HeavyCavalry, new Banner(_formationBannerSettings.HeavyCavalry) }
-            };
         }
 
         public override void OnCreated()
@@ -116,9 +104,10 @@ namespace BearMyBanner
         {
             var campaignAgent = new CampaignAgent(agent);
 
-            if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyShield(campaignAgent))
+            if (_controller.PolybianUnitExists(campaignAgent))
             {
-                agent.SwitchShieldBanner(_formationBanners[campaignAgent.Formation]);
+                _controller.CountAgentForPolybian(campaignAgent);
+                agent.SwitchShieldBanner(_controller.GetPolybianBannerForAgent(campaignAgent));
             }
 
             if (_controller.AgentIsEligible(campaignAgent)
@@ -127,9 +116,9 @@ namespace BearMyBanner
                 agent.RemoveFromEquipment(_forbiddenWeapons);
                 agent.AddComponent(new DropBannerComponent(agent, _settings, _dropBannerController));
 
-                if (_formationBanners.ContainsKey(campaignAgent.Formation) && _controller.AgentGetsFancyBanner(campaignAgent))
+                if (_controller.PolybianUnitExists(campaignAgent))
                 {
-                    agent.EquipBanner(_formationBanners[campaignAgent.Formation]);
+                    agent.EquipBanner(_controller.GetPolybianBannerForAgent(campaignAgent));
                 }
                 else
                 {

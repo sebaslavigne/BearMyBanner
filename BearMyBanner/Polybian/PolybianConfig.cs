@@ -28,17 +28,17 @@ namespace BearMyBanner.Settings
 
         internal PolybianConfig() { }
 
-        public List<PolybianBanner> PolybianBanners { get; set; }
+        public List<PolybianUnit> PolybianUnits { get; set; }
 
         [XmlIgnore]
-        public Dictionary<string, PolybianBanner> PolybianDict => CreateDictionary();
+        public Dictionary<string, PolybianUnit> PolybianDict => CreateDictionary();
 
-        private Dictionary<string, PolybianBanner> CreateDictionary()
+        private Dictionary<string, PolybianUnit> CreateDictionary()
         {
-            Dictionary<string, PolybianBanner> dict = new Dictionary<string, PolybianBanner>();
-            foreach (PolybianBanner polybianBanner in PolybianBanners)
+            Dictionary<string, PolybianUnit> dict = new Dictionary<string, PolybianUnit>();
+            foreach (PolybianUnit polybianUnit in PolybianUnits)
             {
-                dict.Add(polybianBanner.TroopId, polybianBanner);
+                dict.Add(polybianUnit.TroopId, polybianUnit);
             }
             return dict;
         }

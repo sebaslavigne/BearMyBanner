@@ -10,28 +10,30 @@ namespace BearMyBanner
     public class BattleBannerController
     {
         private readonly IBMBSettings _settings;
-        private readonly IBMBFormationBanners _formationBanners;
+        private readonly IPolybianConfig _polybianConfig;
 
         private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
         private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedBySpec;
         private Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>> _processedByFormation;
         private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedByTroop;
-        private HashSet<FormationGroup> _allowedFormations;
+        private Dictionary<string, int> _polybianIdCount;
+        private Dictionary<string, PolybianUnit> _polybianDict;
 
         private MissionType _missionType;
 
-        public BattleBannerController(IBMBSettings settings, IBMBFormationBanners formationBanners, MissionType missionType)
+        public BattleBannerController(IBMBSettings settings, IPolybianConfig polybianConfig, MissionType missionType)
         {
             _settings = settings;
-            _formationBanners = formationBanners;
+            _polybianConfig = polybianConfig;
             _missionType = missionType;
 
             _processedBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
             _processedByFormation = new Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>>();
             _processedByTroop = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
             _equippedBannersByParty = new Dictionary<string, int>();
-            PopulateAllowedFormations();
+            _polybianDict = _polybianConfig.PolybianDict;
+            _polybianIdCount = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace BearMyBanner
         /// <returns></returns>
         public bool AgentIsEligible(IBMBAgent agent)
         {
-            if (_allowedBearerTypes.Contains(agent.Character) && _allowedFormations.Contains(agent.Formation))
+            if (_allowedBearerTypes.Contains(agent.Character))
             {
                 if (_settings.AllowBandits == BanditAssignMode.RecruitedOnly)
                 {
@@ -143,18 +145,24 @@ namespace BearMyBanner
             _equippedBannersByParty[agentParty] = equippedCount + 1;
         }
 
-        public bool AgentGetsFancyBanner(IBMBAgent agent)
+        public bool PolybianUnitExists(IBMBAgent agent)
         {
-            if (!_formationBanners.EnableFormationBanners || !agent.IsInPlayerParty) return false;
-            if (agent.Character.IsPlayerCharacter) return false;
-            if (_settings.AllowCompanions && _formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
-            if (agent.Character.IsHero) return false;
-            return true;
+            return _polybianDict.ContainsKey(agent.Character.Id);
         }
 
-        public bool AgentGetsFancyShield(IBMBAgent agent)
+        public void CountAgentForPolybian(IBMBAgent agent)
         {
-            return (_formationBanners.UseInShields && AgentGetsFancyBanner(agent));
+            string id = agent.Character.Id;
+            if (!_polybianIdCount.ContainsKey(id)) _polybianIdCount.Add(id, 0);
+            _polybianIdCount[id]++;
+        }
+
+        public string GetPolybianBannerForAgent(IBMBAgent agent)
+        {
+            string id = agent.Character.Id;
+            List<string> troopBanners = _polybianDict[id].BannerCodes;
+            int rotatedBanner = _polybianIdCount[id] % troopBanners.Count;
+            return troopBanners[rotatedBanner];
         }
 
         /// <summary>
@@ -220,18 +228,5 @@ namespace BearMyBanner
             }
         }
 
-        private void PopulateAllowedFormations()
-        {
-            _allowedFormations = new HashSet<FormationGroup>();
-            if (_settings.AllowFormationInfantry) _allowedFormations.Add(FormationGroup.Infantry);
-            if (_settings.AllowFormationRanged) _allowedFormations.Add(FormationGroup.Ranged);
-            if (_settings.AllowFormationCavalry) _allowedFormations.Add(FormationGroup.Cavalry);
-            if (_settings.AllowFormationHorseArcher) _allowedFormations.Add(FormationGroup.HorseArcher);
-            if (_settings.AllowFormationSkirmisher) _allowedFormations.Add(FormationGroup.Skirmisher);
-            if (_settings.AllowFormationHeavyInfantry) _allowedFormations.Add(FormationGroup.HeavyInfantry);
-            if (_settings.AllowFormationLightCavalry) _allowedFormations.Add(FormationGroup.LightCavalry);
-            if (_settings.AllowFormationHeavyCavalry) _allowedFormations.Add(FormationGroup.HeavyCavalry);
-            _allowedFormations.Add(FormationGroup.Unset);
-        }
     }
 }

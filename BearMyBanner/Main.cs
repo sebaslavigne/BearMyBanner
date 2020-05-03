@@ -17,8 +17,6 @@ namespace BearMyBanner
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 
         private IBMBSettings _settings;
-        private IBMBFormationBanners _formationBanners;
-        private IBMBFormationBanners _configFileBanners;
         private IPolybianConfig _polybianConfig;
 
         protected override void OnSubModuleLoad()
@@ -26,8 +24,6 @@ namespace BearMyBanner
             base.OnSubModuleLoad();
             try
             {
-                _configFileBanners = BMBFormationBanners.Instance;
-                _polybianConfig = PolybianConfig.Instance;
 
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
@@ -42,16 +38,8 @@ namespace BearMyBanner
             base.OnBeforeInitialModuleScreenSetAsRoot();
             try
             {
-                try
-                {
-                    _settings = MCMSettings.Instance;
-                    _formationBanners = MCMSettings.Instance;
-                    _configFileBanners.CopyCodesTo(_formationBanners);
-                }
-                catch (Exception)
-                {
-                    throw new InvalidOperationException("There was an error with MCM");
-                }
+                _polybianConfig = PolybianConfig.Instance;
+                _settings = BMBSettings.Instance;
 
                 foreach ((string content, bool isError) message in LoadingMessages)
                 {
@@ -75,37 +63,19 @@ namespace BearMyBanner
                     throw new InvalidOperationException("Settings were not initialized");
                 }
 
-                if (_settings.ReloadFiles)
-                {
-                    //_settings = BMBSettings.Reload();
-                    _formationBanners = BMBFormationBanners.Reload();
-                    _configFileBanners.CopyCodesTo(_formationBanners);
-                    PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
-                }
-
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
                     MissionType missionType = mission.GetMissionType();
                     switch (missionType)
                     {
                         case MissionType.FieldBattle:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
-                            if (_settings.KonamiCode) mission.AddMissionBehaviour(new KCBehaviour());
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _polybianConfig, missionType));
                             break;
                         case MissionType.Siege:
-                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
+                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _polybianConfig, missionType));
                             break;
                         case MissionType.Hideout:
-                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
-                            break;
-                        case MissionType.Tournament:
-                            if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
-                            break;
-                        case MissionType.TownVisit:
-                            if(_settings.TownCastleVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
-                            break;
-                        case MissionType.VillageVisit:
-                            if (_settings.VillageVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
+                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _polybianConfig, missionType));
                             break;
                         case MissionType.CustomBattle:
                             mission.AddMissionBehaviour(new CustomBattleBannerBehaviour(_settings));

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace BearMyBanner.Settings
 {
     [Serializable]
-    public class PolybianBanner
+    public class PolybianUnit
     {
 
-        public PolybianBanner() { }
+        public PolybianUnit() { }
 
-        public PolybianBanner(string troopId, List<string> bannerCodes)
+        public PolybianUnit(string troopId, List<string> bannerCodes)
         {
             TroopId = troopId;
             BannerCodes = bannerCodes;

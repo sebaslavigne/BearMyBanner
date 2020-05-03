@@ -260,37 +260,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
     <Compile Include="DropBanner\DropBannerController.cs" />
-    <Compile Include="PolybianConfig.cs" />
+    <Compile Include="Polybian\PolybianConfig.cs" />
     <Compile Include="Polybian\IPolybianConfigExtension.cs" />
     <Compile Include="Polybian\PolybianBanner.cs" />
     <Compile Include="Polybian\IPolybianConfig.cs" />
-    <Compile Include="KCBehaviour.cs" />
-    <Compile Include="Settings\MCM\MCMDisplayName.cs" />
-    <Compile Include="Settings\MCM\MCMSettings.cs" />
-    <Compile Include="Settings\MCM\MCMHint.cs" />
     <Compile Include="DropBanner\DropBannerComponent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
     <Compile Include="Utils\GameObjectEditor.cs" />
-    <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Settings\BMB\BMBSettings.cs" />
-    <Compile Include="Settings\BMB\BMBFormationBanners.cs" />
-    <Compile Include="Settings\IBMBFormationBanners.cs" />
-    <Compile Include="Settings\IBMBFormationBannersExtension.cs" />
     <Compile Include="Settings\SettingEnums.cs" />
     <Compile Include="Settings\BMB\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
-    <Compile Include="BannerVisits\VisitBannerBehaviour.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleAgent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleCharacter.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
-    <Compile Include="BannerTournaments\TournamentThemes.cs" />
     <Compile Include="Wrapper\Enum\FormationGroup.cs" />
     <Compile Include="Wrapper\Interface\IBMBBanner.cs" />
-    <Compile Include="BannerTournaments\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="BannerBattles\BattleBannerAssignBehaviour.cs" />
@@ -305,8 +293,6 @@
     <Compile Include="Wrapper\Interface\IBMBCharacter.cs" />
     <Compile Include="BannerBattles\CampaignAgent.cs" />
     <Compile Include="BannerBattles\CampaignCharacter.cs" />
-    <Compile Include="BannerTournaments\TournamentAgent.cs" />
-    <Compile Include="BannerTournaments\TournamentBanner.cs" />
     <Compile Include="Utils\MissionUtils.cs" />
   </ItemGroup>
   <ItemGroup>

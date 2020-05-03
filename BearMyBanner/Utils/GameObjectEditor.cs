@@ -81,6 +81,11 @@ namespace BearMyBanner
             agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
         }
 
+        public static void SwitchShieldBanner(this Agent agent, string key)
+        {
+            SwitchShieldBanner(agent, new Banner(key));
+        }
+
         public static void SwitchShieldBanner(this Agent agent, Banner banner)
         {
             for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)

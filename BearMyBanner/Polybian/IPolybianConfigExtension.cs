@@ -7,9 +7,9 @@ namespace BearMyBanner.Settings
     {
         public static IPolybianConfig InitializeTemplateList(this IPolybianConfig config)
         {
-            config.PolybianBanners = new List<PolybianBanner>()
+            config.PolybianUnits = new List<PolybianUnit>()
             {
-                new PolybianBanner("imperial_infantryman", new List<string>()
+                new PolybianUnit("imperial_infantryman", new List<string>()
                 {
                     "3.0.111.1536.1536.756.764.0.0.0",
                     "3.1.111.1536.1536.756.764.0.0.0",
@@ -17,7 +17,7 @@ namespace BearMyBanner.Settings
                     "3.3.111.1536.1536.756.764.0.0.0",
                     "3.4.111.1536.1536.756.764.0.0.0"
                 }),
-                new PolybianBanner("imperial_equite", new List<string>()
+                new PolybianUnit("imperial_equite", new List<string>()
                 {
                     "3.5.111.1536.1536.756.764.0.0.0",
                     "3.6.111.1536.1536.756.764.0.0.0",

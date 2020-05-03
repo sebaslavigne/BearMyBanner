@@ -4,7 +4,7 @@ namespace BearMyBanner.Settings
 {
     public interface IPolybianConfig
     {
-        List<PolybianBanner> PolybianBanners { get; set; }
-        Dictionary<string, PolybianBanner> PolybianDict { get; }
+        List<PolybianUnit> PolybianUnits { get; set; }
+        Dictionary<string, PolybianUnit> PolybianDict { get; }
     }
 }
