@@ -145,11 +145,20 @@ namespace BearMyBanner
             _equippedBannersByParty[agentParty] = equippedCount + 1;
         }
 
+        /// <summary>
+        /// Checks if a given agent is present in the Polybian dictionary
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <returns></returns>
         public bool PolybianUnitExists(IBMBAgent agent)
         {
             return _polybianDict.ContainsKey(agent.Character.Id);
         }
 
+        /// <summary>
+        /// Counts an agent in for the Polybian banner rotation
+        /// </summary>
+        /// <param name="agent"></param>
         public void CountAgentForPolybian(IBMBAgent agent)
         {
             string id = agent.Character.Id;
@@ -157,6 +166,11 @@ namespace BearMyBanner
             _polybianIdCount[id]++;
         }
 
+        /// <summary>
+        /// Returns the banner key for a Polybian unit according to the rotation
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <returns></returns>
         public string GetPolybianBannerForAgent(IBMBAgent agent)
         {
             string id = agent.Character.Id;
