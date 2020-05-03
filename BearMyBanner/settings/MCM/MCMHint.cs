@@ -59,6 +59,8 @@ namespace BearMyBanner.Settings
 
         public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
         public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
+        public const string ReloadFiles = "Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.";
+        public const string KonamiCode = "Leftover code from an old game.";
 
         public const string EnableFormationBanners = "Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.";
         public const string CompanionsUseFormationBanners = "Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.";

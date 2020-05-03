@@ -236,7 +236,13 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g03)]
         public bool WhiteMessages { get; set; }
 
-        public bool ReloadFiles { get { return false; } set { } }
+        [SettingPropertyBool(displayName: MCMDisplayName.ReloadFiles, Order = 2, RequireRestart = false, HintText = MCMHint.ReloadFiles)]
+        [SettingPropertyGroup(g03)]
+        public bool ReloadFiles { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.KonamiCode, Order = 3, RequireRestart = false, HintText = MCMHint.KonamiCode)]
+        [SettingPropertyGroup(g03)]
+        public bool KonamiCode { get; set; }
 
         //======== FORMATIONS =======================================================================================================================
         //===========================================================================================================================================

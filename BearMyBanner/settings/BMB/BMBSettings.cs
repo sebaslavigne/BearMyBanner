@@ -69,5 +69,6 @@ namespace BearMyBanner.Settings
         public float DropRetreatChance { get; set; }
         public bool WhiteMessages { get; set; }
         public bool ReloadFiles { get; set; }
+        public bool KonamiCode { get; set; }
     }
 }

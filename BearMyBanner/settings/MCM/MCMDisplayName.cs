@@ -68,6 +68,8 @@
 
         public const string ShowMessages = "Show messages";
         public const string WhiteMessages = "White messages";
+        public const string ReloadFiles = "Reload manual config files";
+        public const string KonamiCode = "Old code";
 
         public const string EnableFormationBanners = "Use formation banners (from config file)";
         public const string CompanionsUseFormationBanners = "Companions use formation banners";

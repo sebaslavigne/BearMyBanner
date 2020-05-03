@@ -75,8 +75,9 @@ namespace BearMyBanner
 
                 if (_settings.ReloadFiles)
                 {
-                    _settings = BMBSettings.Reload();
+                    //_settings = BMBSettings.Reload();
                     _formationBanners = BMBFormationBanners.Reload();
+                    _configFileBanners.CopyCodesTo(_formationBanners);
                     PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
                 }
 
@@ -87,6 +88,7 @@ namespace BearMyBanner
                     {
                         case MissionType.FieldBattle:
                             mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
+                            if (_settings.KonamiCode) mission.AddMissionBehaviour(new KCBehaviour());
                             break;
                         case MissionType.Siege:
                             if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));

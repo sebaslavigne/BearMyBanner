@@ -10,6 +10,7 @@ namespace BearMyBanner
     public static class GameObjectEditor
     {
         public const string CampaignBannerID = "campaign_banner_small";
+        public const string ThrowingStonesID = "throwing_stone";
 
         /// <summary>
         /// Alters the equipment this an Agent will spawn with.
@@ -107,6 +108,21 @@ namespace BearMyBanner
                 }
             }
             return false;
+        }
+
+        public static void UnequipAllAndEquipStones(this Agent agent)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots - 1; i++)
+            {
+                if (!agent.Equipment[i].IsEmpty)
+                {
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                }
+            }
+
+            MissionWeapon rockWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(ThrowingStonesID), null);
+            agent.EquipWeaponWithNewEntity(EquipmentIndex.Weapon0, ref rockWeapon);
+            agent.WieldNextWeapon(Agent.HandIndex.MainHand);
         }
 
         public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)

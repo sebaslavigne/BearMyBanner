@@ -33,7 +33,7 @@ namespace BearMyBanner.Settings
                 Main.LoadingMessages.Add(("Bear my Banner will use default settings", true));
 
                 //Use when adding new settings to easily create new file
-                SerializeSettings<BMBSettings>(settingsPath, (BMBSettings)settings);
+                //SerializeSettings<BMBSettings>(settingsPath, (BMBSettings)settings);
 
             }
             return settings;

@@ -43,5 +43,6 @@
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }
+        bool KonamiCode { get; set; }
     }
 }

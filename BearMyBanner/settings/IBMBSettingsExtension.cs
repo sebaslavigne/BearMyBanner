@@ -56,6 +56,7 @@
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
+            settings.KonamiCode = false;
 
             return settings;
         }
