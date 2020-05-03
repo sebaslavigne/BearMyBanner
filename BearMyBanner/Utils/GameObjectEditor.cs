@@ -45,13 +45,15 @@ namespace BearMyBanner
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
         }
 
-        public static void DropBanner(this Agent agent)
+        public static bool DropBanner(this Agent agent)
         {
             MissionWeapon extraSlot = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
             if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+                return true;
             }
+            return false;
         }
 
         public static void RemoveFromEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
@@ -103,6 +105,18 @@ namespace BearMyBanner
                 if (!equipment[i].IsEmpty
                     && (equipment[i].Item.Type == ItemObject.ItemTypeEnum.Bow
                     || equipment[i].Item.Type == ItemObject.ItemTypeEnum.Crossbow))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool HasWeaponOfType(this Agent agent, ItemObject.ItemTypeEnum itemType)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == itemType)
                 {
                     return true;
                 }

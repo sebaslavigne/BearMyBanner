@@ -1,5 +1,6 @@
 ﻿using BearMyBanner.Settings;
 using System;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner
@@ -33,7 +34,7 @@ namespace BearMyBanner
             {
                 if (mount.Health <= 0f)
                 {
-                    this.Agent.DropBanner();
+                    DropBannerAndEquipShield();
                 }
             }
             catch (Exception ex)
@@ -48,7 +49,7 @@ namespace BearMyBanner
             {
                 if (_dropsOnLowHealth && Agent.Health < _settings.DropHealthThreshold)
                 {
-                    Agent.DropBanner();
+                    DropBannerAndEquipShield();
                 }
             }
             catch (Exception ex)
@@ -63,12 +64,20 @@ namespace BearMyBanner
             {
                 if (_dropsOnRetreat)
                 {
-                    Agent.DropBanner();
+                    DropBannerAndEquipShield();
                 }
             }
             catch (Exception ex)
             {
                 Main.LogError(ex);
+            }
+        }
+
+        private void DropBannerAndEquipShield()
+        {
+            if (Agent.DropBanner())
+            {
+                if (Agent.HasWeaponOfType(ItemObject.ItemTypeEnum.Shield)) Agent.WieldNextWeapon(Agent.HandIndex.OffHand);
             }
         }
 
