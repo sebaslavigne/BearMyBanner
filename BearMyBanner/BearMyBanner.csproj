@@ -263,6 +263,10 @@
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
     <Compile Include="DropBanner\DropBannerController.cs" />
+    <Compile Include="PolybianConfig.cs" />
+    <Compile Include="Polybian\IPolybianConfigExtension.cs" />
+    <Compile Include="Polybian\PolybianBanner.cs" />
+    <Compile Include="Polybian\IPolybianConfig.cs" />
     <Compile Include="KCBehaviour.cs" />
     <Compile Include="Settings\MCM\MCMDisplayName.cs" />
     <Compile Include="Settings\MCM\MCMSettings.cs" />

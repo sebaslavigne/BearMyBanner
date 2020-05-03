@@ -71,6 +71,37 @@ namespace BearMyBanner.Settings
             return formationBanners;
         }
 
+        internal static IPolybianConfig LoadPolybianConfig()
+        {
+            string modulePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", ".."));
+            string settingsPath = Path.Combine(
+                modulePath,
+                "ModuleData",
+                "PolybianConfig.xml"
+            );
+
+            IPolybianConfig polybianConfig;
+            try
+            {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(PolybianConfig));
+                using (StreamReader streamReader = new StreamReader(settingsPath))
+                {
+                    polybianConfig = (PolybianConfig)xmlSerializer.Deserialize(streamReader);
+                }
+            }
+            catch (Exception)
+            {
+                Main.LoadingMessages.Add(("Polybian Error loading settings: config file not found or is corrupt", true));
+                IPolybianConfig config = new PolybianConfig();
+                polybianConfig = config.InitializeTemplateList();
+                Main.LoadingMessages.Add(("Polybian will use default banners", true));
+
+                //Use when adding new settings to easily create new file
+                //SerializeSettings<PolybianConfig>(settingsPath, (PolybianConfig)polybianConfig);
+            }
+            return polybianConfig;
+        }
+
         private static void SerializeSettings<T>(string settingsPath, T settings)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));

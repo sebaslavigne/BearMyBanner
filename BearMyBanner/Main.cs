@@ -19,6 +19,7 @@ namespace BearMyBanner
         private IBMBSettings _settings;
         private IBMBFormationBanners _formationBanners;
         private IBMBFormationBanners _configFileBanners;
+        private IPolybianConfig _polybianConfig;
 
         protected override void OnSubModuleLoad()
         {
@@ -26,6 +27,7 @@ namespace BearMyBanner
             try
             {
                 _configFileBanners = BMBFormationBanners.Instance;
+                _polybianConfig = PolybianConfig.Instance;
 
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
