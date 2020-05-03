@@ -27,14 +27,23 @@ namespace BearMyBanner.Settings
         public const string UnitCountMode = "How the units will be grouped to give them banners.";
 
         public const string AllowSoldiers = "Allow soldiers to bear banners. Most units are of this type.";
-        public const string AllowCaravanGuards = "Allow caravan guards to bear banners.";
+        public const string AllowCaravanGuards = "Allow caravan guards to bear banners. \"Caravan masters only\" gives a banner only to the master of a caravan, caravan guards in the service of a lord also get banners.";
         public const string AllowMercenaries = "Allow mercenaries to bear banners (i.e.Watchmen, Hired Blades, etc.).";
-        public const string AllowBandits = "Allow bandits to bear banners (i.e.Looters, Bandits, Raiders, etc.).";
+        public const string AllowBandits = "Allow bandits to bear banners (i.e.Looters, Bandits, Raiders, etc.). \"Recruited bandits only\" gives banners to bandits that are in the service of a lord.";
 
-        public const string AllowInfantry = "Allow infantry units to bear banners.";
+        public const string AllowInfantry = "Allow infantry type units to bear banners.";
         public const string AllowRanged = "Allow archers and crossbowmen to bear banners. NOTE: bearers will lose their bow or crossbow, but still use their melee weapons. If ordered to \"Charge\" they will rush the enemy, order them to \"Advance\" and they will stay in formation.";
-        public const string AllowMounted = "Allow cavalry units to bear banners.";
-        public const string AllowMountedRanged = "Allow horse archers to bear banners. NOTE: same as with the archers.";
+        public const string AllowMounted = "Allow cavalry type units to bear banners.";
+        public const string AllowMountedRanged = "Allow horse archer type units to bear banners. NOTE: same as with the archers.";
+
+        public const string AllowFormationInfantry = "Give banners among units assigned to formation I Infantry";
+        public const string AllowFormationRanged = "Give banners among units assigned to formation II Ranged";
+        public const string AllowFormationCavalry = "Give banners among units assigned to formation III Cavalry";
+        public const string AllowFormationHorseArcher = "Give banners among units assigned to formation IV Horse Archer";
+        public const string AllowFormationSkirmisher = "Give banners among units assigned to formation V Skirmisher";
+        public const string AllowFormationHeavyInfantry = "Give banners among units assigned to formation VI Heavy Infantry";
+        public const string AllowFormationLightCavalry = "Give banners among units assigned to formation VII Light Cavalry";
+        public const string AllowFormationHeavyCavalry = "Give banners among units assigned to formation VIII Heavy Cavalry";
 
         public const string FilterTiers = "Use tier filters. If disabled, all tiers get banners.";
         public const string AllowedTiers = "The tiers that will get banners, separated by commas. Some troop tree mods include tiers higher than 6, just add them to the list to enable them(e.g. 8,9,10,11).";
@@ -50,6 +59,8 @@ namespace BearMyBanner.Settings
 
         public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
         public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
+        public const string ReloadFiles = "Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.";
+        public const string KonamiCode = "Leftover code from an old game.";
 
         public const string EnableFormationBanners = "Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.";
         public const string CompanionsUseFormationBanners = "Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.";

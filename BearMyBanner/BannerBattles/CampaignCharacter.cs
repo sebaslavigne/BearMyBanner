@@ -9,11 +9,12 @@ namespace BearMyBanner.Wrapper
         public CampaignCharacter(CharacterObject wrappedCharacter)
         {
             _wrappedCharacter = wrappedCharacter;
+            Occupation = DetermineOccupation();
         }
 
         public bool IsHero => _wrappedCharacter.IsHero;
         public TroopSpecialization Type => DetermineAgentSpec();
-        public CharacterOccupation Occupation => DetermineOccupation();
+        public CharacterOccupation Occupation { get; set; }
         public int Tier => _wrappedCharacter.Tier;
         public bool IsPlayerCharacter => _wrappedCharacter.IsPlayerCharacter;
 

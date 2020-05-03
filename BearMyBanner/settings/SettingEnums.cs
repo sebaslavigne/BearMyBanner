@@ -4,12 +4,22 @@ namespace BearMyBanner.Settings
 {
     public enum UnitCountMode
     {
-        Type, Troop
+        Spec, Formation, Troop
     }
 
     public enum DropRetreatMode
     {
         Disabled, Weighted, Fixed
+    }
+
+    public enum BanditAssignMode
+    {
+        NotAllowed, RecruitedOnly, Allowed
+    }
+
+    public enum CaravanAssignMode
+    {
+        NotAllowed, OnlyMasters, Allowed
     }
 
 }

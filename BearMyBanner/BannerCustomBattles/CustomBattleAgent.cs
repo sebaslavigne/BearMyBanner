@@ -28,5 +28,26 @@ namespace BearMyBanner.Wrapper
         public bool IsInPlayerParty { get; }
         public bool HasRangedWeapons => Character.Type == TroopSpecialization.Archer || Character.Type == TroopSpecialization.Cavalry;
         public uint PartyColor { get; }
+        public bool ServesUnderLord => true;
+        public bool IsInCaravanParty => false;
+        public bool IsCaravanPartyLeader => false;
+        public FormationGroup Formation => GetFormationGroup();
+
+        private FormationGroup GetFormationGroup()
+        {
+            switch (Character.Type)
+            {
+                case TroopSpecialization.Infantry:
+                    return FormationGroup.Infantry;
+                case TroopSpecialization.Archer:
+                    return FormationGroup.Ranged;
+                case TroopSpecialization.Cavalry:
+                    return FormationGroup.Cavalry;
+                case TroopSpecialization.HorseArcher:
+                    return FormationGroup.HorseArcher;
+                default:
+                    return FormationGroup.Unset;
+            }
+        }
     }
 }

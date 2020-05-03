@@ -42,15 +42,23 @@ namespace BearMyBanner.Settings
         public int BearerToTroopRatio { get; set; }
         public UnitCountMode UnitCountMode { get; set; }
         public bool AllowSoldiers { get; set; }
-        public bool AllowCaravanGuards { get; set; }
+        public CaravanAssignMode AllowCaravanGuards { get; set; }
         public bool AllowMercenaries { get; set; }
-        public bool AllowBandits { get; set; }
-        public bool AllowInfantry { get; set; }
-        public bool AllowRanged { get; set; }
-        public bool AllowMounted { get; set; }
-        public bool AllowMountedRanged { get; set; }
+        public BanditAssignMode AllowBandits { get; set; }
         public bool FilterTiers { get; set; }
         public string AllowedTiers { get; set; }
+        public bool AllowTypeInfantry { get; set; }
+        public bool AllowTypeRanged { get; set; }
+        public bool AllowTypeMounted { get; set; }
+        public bool AllowTypeMountedRanged { get; set; }
+        public bool AllowFormationInfantry { get; set; }
+        public bool AllowFormationRanged { get; set; }
+        public bool AllowFormationCavalry { get; set; }
+        public bool AllowFormationHorseArcher { get; set; }
+        public bool AllowFormationSkirmisher { get; set; }
+        public bool AllowFormationHeavyInfantry { get; set; }
+        public bool AllowFormationLightCavalry { get; set; }
+        public bool AllowFormationHeavyCavalry { get; set; }
         public bool AllowPlayer { get; set; }
         public bool AllowCompanions { get; set; }
         public bool AllowNobles { get; set; }
@@ -61,5 +69,6 @@ namespace BearMyBanner.Settings
         public float DropRetreatChance { get; set; }
         public bool WhiteMessages { get; set; }
         public bool ReloadFiles { get; set; }
+        public bool KonamiCode { get; set; }
     }
 }

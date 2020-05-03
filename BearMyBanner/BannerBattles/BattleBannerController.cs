@@ -3,6 +3,7 @@ using System.Linq;
 using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 using System;
+using TaleWorlds.MountAndBlade;
 
 namespace BearMyBanner
 {
@@ -13,8 +14,10 @@ namespace BearMyBanner
 
         private List<IBMBCharacter> _allowedBearerTypes { get; set; }
         private Dictionary<string, int> _equippedBannersByParty;
-        private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedTroopsByType;
-        private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedTroopsBySpec;
+        private Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>> _processedBySpec;
+        private Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>> _processedByFormation;
+        private Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>> _processedByTroop;
+        private HashSet<FormationGroup> _allowedFormations;
 
         private MissionType _missionType;
 
@@ -23,6 +26,12 @@ namespace BearMyBanner
             _settings = settings;
             _formationBanners = formationBanners;
             _missionType = missionType;
+
+            _processedBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
+            _processedByFormation = new Dictionary<string, Dictionary<FormationGroup, List<IBMBAgent>>>();
+            _processedByTroop = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
+            _equippedBannersByParty = new Dictionary<string, int>();
+            PopulateAllowedFormations();
         }
 
         /// <summary>
@@ -32,8 +41,21 @@ namespace BearMyBanner
         /// <returns></returns>
         public bool AgentIsEligible(IBMBAgent agent)
         {
-            if (_allowedBearerTypes.Contains(agent.Character))
+            if (_allowedBearerTypes.Contains(agent.Character) && _allowedFormations.Contains(agent.Formation))
             {
+                if (_settings.AllowBandits == BanditAssignMode.RecruitedOnly)
+                {
+                    if (agent.Character.Occupation == CharacterOccupation.Bandit && !agent.ServesUnderLord)
+                    {
+                        return false;
+                    }
+                }
+
+                if (_settings.AllowCaravanGuards == CaravanAssignMode.OnlyMasters && agent.IsInCaravanParty)
+                {
+                    if (agent.IsCaravanPartyLeader) return true;
+                }
+
                 if (_missionType == MissionType.FieldBattle || _missionType == MissionType.CustomBattle)
                 {
                     return true;
@@ -62,27 +84,63 @@ namespace BearMyBanner
             string agentParty = agent.PartyName;
             IBMBCharacter agentCharacter = agent.Character;
             TroopSpecialization agentSpec = agent.Character.Type;
+            FormationGroup agentFormation = agent.Formation;
+
+            /* Caravan masters bypass count if they lead caravans */
+            if (_settings.AllowCaravanGuards == CaravanAssignMode.OnlyMasters && agent.IsInCaravanParty)
+            {
+                if (agent.IsCaravanPartyLeader)
+                {
+                    CountBannerGivenToParty(agentParty);
+                    return true;
+                }
+                return false;//Other caravan guards in the caravan party don't get banner
+            }
 
             /* Add to maps */
-            if (!_processedTroopsByType.ContainsKey(agentParty)) _processedTroopsByType.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
-            if (!_processedTroopsByType[agentParty].ContainsKey(agentCharacter)) _processedTroopsByType[agentParty].Add(agentCharacter, new List<IBMBAgent>());
+            if (!_processedByTroop.ContainsKey(agentParty)) _processedByTroop.Add(agentParty, new Dictionary<IBMBCharacter, List<IBMBAgent>>());
+            if (!_processedByTroop[agentParty].ContainsKey(agentCharacter)) _processedByTroop[agentParty].Add(agentCharacter, new List<IBMBAgent>());
 
-            if (!_processedTroopsBySpec.ContainsKey(agentParty)) _processedTroopsBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBMBAgent>>());
-            if (!_processedTroopsBySpec[agentParty].ContainsKey(agentSpec)) _processedTroopsBySpec[agentParty].Add(agentSpec, new List<IBMBAgent>());
+            if (!_processedByFormation.ContainsKey(agentParty)) _processedByFormation.Add(agentParty, new Dictionary<FormationGroup, List<IBMBAgent>>());
+            if (!_processedByFormation[agentParty].ContainsKey(agentFormation)) _processedByFormation[agentParty].Add(agentFormation, new List<IBMBAgent>());
 
-            _processedTroopsByType[agentParty][agentCharacter].Add(agent);
-            _processedTroopsBySpec[agentParty][agentSpec].Add(agent);
+            if (!_processedBySpec.ContainsKey(agentParty)) _processedBySpec.Add(agentParty, new Dictionary<TroopSpecialization, List<IBMBAgent>>());
+            if (!_processedBySpec[agentParty].ContainsKey(agentSpec)) _processedBySpec[agentParty].Add(agentSpec, new List<IBMBAgent>());
+
+            _processedBySpec[agentParty][agentSpec].Add(agent);
+            _processedByFormation[agentParty][agentFormation].Add(agent);
+            _processedByTroop[agentParty][agentCharacter].Add(agent);
 
             /* Give banner or skip */
-            int processedTroops = _settings.UnitCountMode == UnitCountMode.Type ? _processedTroopsBySpec[agentParty][agentSpec].Count : _processedTroopsByType[agentParty][agentCharacter].Count;
+            //int processedTroops = _settings.UnitCountMode == UnitCountMode.Type ? _processedByType[agentParty][agentSpec].Count : _processedByTroop[agentParty][agentCharacter].Count;
+            int processedTroops = GetProcessedTroopsByMode(agentParty, agentSpec, agentFormation, agentCharacter);
 
             if (agentCharacter.IsHero || processedTroops % _settings.BearerToTroopRatio == 0)
             {
-                _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
-                _equippedBannersByParty[agentParty] = equippedCount + 1;
+                CountBannerGivenToParty(agentParty);
                 return true;
             }
             return false;
+        }
+
+        private int GetProcessedTroopsByMode(string agentParty, TroopSpecialization agentSpec, FormationGroup agentFormation, IBMBCharacter agentCharacter)
+        {
+            switch (_settings.UnitCountMode)
+            {
+                case UnitCountMode.Spec:
+                default:
+                    return _processedBySpec[agentParty][agentSpec].Count;
+                case UnitCountMode.Formation:
+                    return _processedByFormation[agentParty][agentFormation].Count;
+                case UnitCountMode.Troop:
+                    return _processedByTroop[agentParty][agentCharacter].Count;
+            }
+        }
+
+        private void CountBannerGivenToParty(string agentParty)
+        {
+            _equippedBannersByParty.TryGetValue(agentParty, out var equippedCount);
+            _equippedBannersByParty[agentParty] = equippedCount + 1;
         }
 
         public bool AgentGetsFancyBanner(IBMBAgent agent)
@@ -120,25 +178,21 @@ namespace BearMyBanner
         /// <param name="characterTypes"></param>
         public void FilterAllowedBearerTypes(IReadOnlyList<IBMBCharacter> characterTypes)
         {
-            _processedTroopsByType = new Dictionary<string, Dictionary<IBMBCharacter, List<IBMBAgent>>>();
-            _processedTroopsBySpec = new Dictionary<string, Dictionary<TroopSpecialization, List<IBMBAgent>>>();
-            _equippedBannersByParty = new Dictionary<string, int>();
-
             /* Add types to a list of allowed troops to carry a banner */
             _allowedBearerTypes = new List<IBMBCharacter>();
 
             /* Add troops */
             if (_settings.AllowSoldiers) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Soldier)); }
-            if (_settings.AllowCaravanGuards) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
+            if (_settings.AllowCaravanGuards != CaravanAssignMode.NotAllowed) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.CaravanGuard)); }
             if (_settings.AllowMercenaries) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Mercenary)); }
-            if (_settings.AllowBandits) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
+            if (_settings.AllowBandits != BanditAssignMode.NotAllowed) { _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit)); }
 
             /* Filter by formation */
             _allowedBearerTypes = _allowedBearerTypes
-                .Where(t => (_settings.AllowInfantry && t.Type == TroopSpecialization.Infantry)
-                            || (_settings.AllowMounted && t.Type == TroopSpecialization.Cavalry)
-                            || (_settings.AllowRanged && t.Type == TroopSpecialization.Archer)
-                            || (_settings.AllowMountedRanged && t.Type == TroopSpecialization.HorseArcher))
+                .Where(t => (_settings.AllowTypeInfantry && t.Type == TroopSpecialization.Infantry)
+                            || (_settings.AllowTypeMounted && t.Type == TroopSpecialization.Cavalry)
+                            || (_settings.AllowTypeRanged && t.Type == TroopSpecialization.Archer)
+                            || (_settings.AllowTypeMountedRanged && t.Type == TroopSpecialization.HorseArcher))
                 .ToList();
 
             /* Filter by tier */
@@ -164,6 +218,20 @@ namespace BearMyBanner
             {
                 _allowedBearerTypes.AddRange(characterTypes.Where(character => character.Occupation == CharacterOccupation.Bandit));
             }
+        }
+
+        private void PopulateAllowedFormations()
+        {
+            _allowedFormations = new HashSet<FormationGroup>();
+            if (_settings.AllowFormationInfantry) _allowedFormations.Add(FormationGroup.Infantry);
+            if (_settings.AllowFormationRanged) _allowedFormations.Add(FormationGroup.Ranged);
+            if (_settings.AllowFormationCavalry) _allowedFormations.Add(FormationGroup.Cavalry);
+            if (_settings.AllowFormationHorseArcher) _allowedFormations.Add(FormationGroup.HorseArcher);
+            if (_settings.AllowFormationSkirmisher) _allowedFormations.Add(FormationGroup.Skirmisher);
+            if (_settings.AllowFormationHeavyInfantry) _allowedFormations.Add(FormationGroup.HeavyInfantry);
+            if (_settings.AllowFormationLightCavalry) _allowedFormations.Add(FormationGroup.LightCavalry);
+            if (_settings.AllowFormationHeavyCavalry) _allowedFormations.Add(FormationGroup.HeavyCavalry);
+            _allowedFormations.Add(FormationGroup.Unset);
         }
     }
 }

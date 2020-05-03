@@ -20,18 +20,34 @@
         public const string BearerToTroopRatio = "Bearer to troop ratio";
         public const string BearerToTroopRatioFormat = "1 banner per 0 troops";
         public const string UnitCountMode = "Bearers grouping mode";
-        public const string UnitCountModeType = "General type";
+        public const string UnitCountModeSpec = "General type";
+        public const string UnitCountModeFormation = "Formation";
         public const string UnitCountModeTroop = "Specific troop type";
 
-        public const string AllowSoldiers = "Allow soldiers";
-        public const string AllowCaravanGuards = "Allow caravan guards";
-        public const string AllowMercenaries = "Allow mercenaries";
-        public const string AllowBandits = "Allow bandits";
+        public const string AllowSoldiers = "Soldiers";
+        public const string AllowMercenaries = "Mercenaries";
+        public const string AllowCaravanGuards = "Caravan guards";
+        public const string AllowCaravanGuardsNotAllowed = "Not allowed";
+        public const string AllowCaravanGuardsMastersOnly = "Caravan masters only";
+        public const string AllowCaravanGuardsAllowed = "Allowed";
+        public const string AllowBandits = "Bandits";
+        public const string AllowBanditsNotAllowed = "Not allowed";
+        public const string AllowBanditsRecruitedOnly = "Recruited bandits only";
+        public const string AllowBanditsAllowed = "Allowed";
 
-        public const string AllowInfantry = "Allow infantry";
-        public const string AllowRanged = "Allow ranged";
-        public const string AllowMounted = "Allow cavalry";
-        public const string AllowMountedRanged = "Allow horse archers";
+        public const string AllowTypeInfantry = "Infantry type units";
+        public const string AllowTypeRanged = "Ranged type units";
+        public const string AllowTypeMounted = "Cavalry type units";
+        public const string AllowTypeMountedRanged = "Horse Archer units";
+
+        public const string AllowFormationInfantry = "I Infantry";
+        public const string AllowFormationRanged = "II Ranged";
+        public const string AllowFormationCavalry = "III Cavalry";
+        public const string AllowFormationHorseArcher = "IV Horse Archer";
+        public const string AllowFormationSkirmisher = "V Skirmisher";
+        public const string AllowFormationHeavyInfantry = "VI Heavy Infantry";
+        public const string AllowFormationLightCavalry = "VII Light Cavalry";
+        public const string AllowFormationHeavyCavalry = "VIII Heavy Cavalry";
 
         public const string FilterTiers = "Filter by tier";
         public const string AllowedTiers = "Allowed tiers";
@@ -52,6 +68,8 @@
 
         public const string ShowMessages = "Show messages";
         public const string WhiteMessages = "White messages";
+        public const string ReloadFiles = "Reload manual config files";
+        public const string KonamiCode = "Old code";
 
         public const string EnableFormationBanners = "Use formation banners (from config file)";
         public const string CompanionsUseFormationBanners = "Companions use formation banners";

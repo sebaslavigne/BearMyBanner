@@ -16,15 +16,23 @@
         int BearerToTroopRatio { get; set; }
         UnitCountMode UnitCountMode { get; set; }
         bool AllowSoldiers { get; set; }
-        bool AllowCaravanGuards { get; set; }
+        CaravanAssignMode AllowCaravanGuards { get; set; }
         bool AllowMercenaries { get; set; }
-        bool AllowBandits { get; set; }
-        bool AllowInfantry { get; set; }
-        bool AllowRanged { get; set; }
-        bool AllowMounted { get; set; }
-        bool AllowMountedRanged { get; set; }
+        BanditAssignMode AllowBandits { get; set; }
+        bool AllowTypeInfantry { get; set; }
+        bool AllowTypeRanged { get; set; }
+        bool AllowTypeMounted { get; set; }
+        bool AllowTypeMountedRanged { get; set; }
         bool FilterTiers { get; set; }
         string AllowedTiers { get; set; }
+        bool AllowFormationInfantry { get; set; }
+        bool AllowFormationRanged { get; set; }
+        bool AllowFormationCavalry { get; set; }
+        bool AllowFormationHorseArcher { get; set; }
+        bool AllowFormationSkirmisher { get; set; }
+        bool AllowFormationHeavyInfantry { get; set; }
+        bool AllowFormationLightCavalry { get; set; }
+        bool AllowFormationHeavyCavalry { get; set; }
         bool AllowPlayer { get; set; }
         bool AllowCompanions { get; set; }
         bool AllowNobles { get; set; }
@@ -35,5 +43,6 @@
         bool ShowMessages { get; set; }
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }
+        bool KonamiCode { get; set; }
     }
 }
