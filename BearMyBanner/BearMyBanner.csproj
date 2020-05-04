@@ -260,16 +260,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\AgentExtension.cs" />
+    <Compile Include="Utils\BannerExtension.cs" />
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
     <Compile Include="DropBanner\DropBannerController.cs" />
-    <Compile Include="KCBehaviour.cs" />
+    <Compile Include="Utils\KCBehaviour.cs" />
     <Compile Include="Settings\MCM\MCMDisplayName.cs" />
     <Compile Include="Settings\MCM\MCMSettings.cs" />
     <Compile Include="Settings\MCM\MCMHint.cs" />
     <Compile Include="DropBanner\DropBannerComponent.cs" />
     <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
-    <Compile Include="Utils\GameObjectEditor.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
     <Compile Include="Settings\BMB\BMBSettings.cs" />
@@ -303,7 +304,7 @@
     <Compile Include="BannerBattles\CampaignCharacter.cs" />
     <Compile Include="BannerTournaments\TournamentAgent.cs" />
     <Compile Include="BannerTournaments\TournamentBanner.cs" />
-    <Compile Include="Utils\MissionUtils.cs" />
+    <Compile Include="Utils\MissionExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wrapper\Implementation\" />

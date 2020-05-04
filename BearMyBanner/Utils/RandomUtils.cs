@@ -8,7 +8,7 @@ namespace BearMyBanner
 {
     public static class RandomUtils
     {
-        private static Random rng = new Random();
+        private readonly static Random rng = new Random();
 
         public static void Shuffle<T>(this IList<T> list)
         {

@@ -1,13 +1,11 @@
-﻿using BearMyBanner.Settings;
-using System.Collections.Generic;
-using BearMyBanner.Wrapper;
+﻿using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
 namespace BearMyBanner
 {
-    public static class GameObjectEditor
+    public static class AgentExtension
     {
         public const string CampaignBannerID = "campaign_banner_small";
         public const string ThrowingStonesID = "throwing_stone";
@@ -98,20 +96,6 @@ namespace BearMyBanner
             }
         }
 
-        public static bool HasRangedWeapon(this Equipment equipment)
-        {
-            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
-            {
-                if (!equipment[i].IsEmpty
-                    && (equipment[i].Item.Type == ItemObject.ItemTypeEnum.Bow
-                    || equipment[i].Item.Type == ItemObject.ItemTypeEnum.Crossbow))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public static bool HasWeaponOfType(this Agent agent, ItemObject.ItemTypeEnum itemType)
         {
             for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
@@ -139,31 +123,19 @@ namespace BearMyBanner
             agent.WieldNextWeapon(Agent.HandIndex.MainHand);
         }
 
-        public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)
-        {
-            banner.Deserialize(newBanner.Key);
-        }
 
-        public static void ChangeBaseColors(this Banner banner, int colorId, int colorId2)
+        public static bool HasRangedWeapon(this Equipment equipment)
         {
-            banner.BannerDataList[0].ColorId = colorId;
-            banner.BannerDataList[0].ColorId2 = colorId2;
-        }
-
-        public static void ChangeIconColor(this Banner banner, int colorId)
-        {
-            for (int i = 1; i < banner.BannerDataList.Count; i++)
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
-                banner.BannerDataList[i].ColorId = colorId;
+                if (!equipment[i].IsEmpty
+                    && (equipment[i].Item.Type == ItemObject.ItemTypeEnum.Bow
+                    || equipment[i].Item.Type == ItemObject.ItemTypeEnum.Crossbow))
+                {
+                    return true;
+                }
             }
-        }
-
-        public static void ChangeIconMesh(this Banner banner, int meshId)
-        {
-            for (int i = 1; i < banner.BannerDataList.Count; i++)
-            {
-                banner.BannerDataList[i].MeshId = meshId;
-            }
+            return false;
         }
     }
 }
