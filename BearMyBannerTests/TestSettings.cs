@@ -8,10 +8,10 @@ namespace BearMyBannerTests
         public bool AllowCaravanGuards { get; set; }
         public bool AllowMercenaries { get; set; }
         public bool AllowBandits { get; set; }
-        public bool AllowInfantry { get; set; }
-        public bool AllowMounted { get; set; }
-        public bool AllowRanged { get; set; }
-        public bool AllowMountedRanged { get; set; }
+        public bool AllowTypeInfantry { get; set; }
+        public bool AllowTypeMounted { get; set; }
+        public bool AllowTypeRanged { get; set; }
+        public bool AllowTypeMountedRanged { get; set; }
         public bool FilterTiers { get; set; }
         public bool AllowTier1 { get; set; }
         public bool AllowTier2 { get; set; }
@@ -37,5 +37,9 @@ namespace BearMyBannerTests
         public bool TournamentThemes { get; set; }
         public bool TournamentBannersInShields { get; set; }
         public bool ReloadFiles { get; set; }
+        public bool TownCastleVisitBanner { get; set; }
+        public bool VillageVisitBanner { get; set; }
+        public UnitCountMode UnitCountMode { get; set; }
+        public string AllowedTiers { get; set; }
     }
 }

@@ -25,15 +25,15 @@ namespace BearMyBanner.Settings
                     settings = (BMBSettings)xmlSerializer.Deserialize(streamReader);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Main.LoadingMessages.Add(("BMB Error loading settings: settings file not found or is corrupt", true));
                 IBMBSettings BMBSettings = new BMBSettings();
-                settings = BMBSettings.SetDefaults();
+                settings = BMBSettings.SetDefaultSettings();
                 Main.LoadingMessages.Add(("Bear my Banner will use default settings", true));
 
                 //Use when adding new settings to easily create new file
-                SerializeSettings<BMBSettings>(settingsPath, (BMBSettings)settings);
+                //SerializeSettings<BMBSettings>(settingsPath, (BMBSettings)settings);
 
             }
             return settings;
@@ -57,11 +57,11 @@ namespace BearMyBanner.Settings
                     formationBanners = (BMBFormationBanners)xmlSerializer.Deserialize(streamReader);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Main.LoadingMessages.Add(("BMB Error loading settings: formation banners file not found or is corrupt", true));
                 IBMBFormationBanners BMBFormationBanners = new BMBFormationBanners();
-                formationBanners = BMBFormationBanners.SetDefaults();
+                formationBanners = BMBFormationBanners.SetDefaultFormationSettings();
                 Main.LoadingMessages.Add(("Bear my Banner will use default formation banners", true));
 
                 //Use when adding new settings to easily create new file

@@ -12,19 +12,21 @@ namespace BearMyBanner
     {
 
         public const string ModuleFolderName = "BearMyBanner";
+        public const string ModName = "Bear my Banner";
 
         public static List<(string content, bool isError)> LoadingMessages = new List<(string, bool)>();
 
         private IBMBSettings _settings;
         private IBMBFormationBanners _formationBanners;
+        private IBMBFormationBanners _configFileBanners;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
             try
             {
-                _settings = BMBSettings.Instance;
-                _formationBanners = BMBFormationBanners.Instance;
+                _configFileBanners = BMBFormationBanners.Instance;
+
                 LoadingMessages.Add(("Loaded Bear my Banner", false));
             }
             catch (Exception ex)
@@ -36,11 +38,29 @@ namespace BearMyBanner
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
-            foreach ((string content, bool isError) message in LoadingMessages)
+            try
             {
-                PrintWhileLoading(message.content, message.isError);
+                try
+                {
+                    _settings = MCMSettings.Instance;
+                    _formationBanners = MCMSettings.Instance;
+                    _configFileBanners.CopyCodesTo(_formationBanners);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidOperationException("There was an error with MCM");
+                }
+
+                foreach ((string content, bool isError) message in LoadingMessages)
+                {
+                    PrintWhileLoading(message.content, message.isError);
+                }
+                LoadingMessages.Clear();
             }
-            LoadingMessages.Clear();
+            catch (Exception ex)
+            {
+                LogError(ex);
+            }
         }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
@@ -55,30 +75,42 @@ namespace BearMyBanner
 
                 if (_settings.ReloadFiles)
                 {
-                    _settings = BMBSettings.Reload();
+                    //_settings = BMBSettings.Reload();
                     _formationBanners = BMBFormationBanners.Reload();
+                    _configFileBanners.CopyCodesTo(_formationBanners);
                     PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
                 }
 
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
                 {
-                    switch (mission.GetMissionType())
+                    MissionType missionType = mission.GetMissionType();
+                    switch (missionType)
                     {
                         case MissionType.FieldBattle:
+                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
+                            if (_settings.KonamiCode) mission.AddMissionBehaviour(new KCBehaviour());
+                            break;
                         case MissionType.Siege:
+                            if (_settings.AllowSieges) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
+                            break;
                         case MissionType.Hideout:
-                            mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners));
+                            if (_settings.AllowHideouts) mission.AddMissionBehaviour(new BattleBannerAssignBehaviour(_settings, _formationBanners, missionType));
                             break;
                         case MissionType.Tournament:
                             if(_settings.TournamentBanners) mission.AddMissionBehaviour(new TournamentBannerAssignBehaviour(_settings));
                             break;
+                        case MissionType.TownVisit:
+                            if(_settings.TownCastleVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
+                            break;
+                        case MissionType.VillageVisit:
+                            if (_settings.VillageVisitBanner) mission.AddMissionBehaviour(new VisitBannerBehaviour());
+                            break;
+                        case MissionType.CustomBattle:
+                            mission.AddMissionBehaviour(new CustomBattleBannerBehaviour(_settings));
+                            break;
                         default:
                             break;
                     }
-                }
-                else if (Mission.Current.CombatType == Mission.MissionCombatType.NoCombat)
-                {
-                    //TODO add behaviour for town and village visits
                 }
             }
             catch (Exception ex)

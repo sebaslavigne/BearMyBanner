@@ -1,14 +1,14 @@
-﻿using BearMyBanner.Settings;
-using System.Collections.Generic;
-using BearMyBanner.Wrapper;
+﻿using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 
 namespace BearMyBanner
 {
-    public static class GameObjectEditor
+    public static class AgentExtension
     {
         public const string CampaignBannerID = "campaign_banner_small";
+        public const string ThrowingStonesID = "throwing_stone";
 
         /// <summary>
         /// Alters the equipment this an Agent will spawn with.
@@ -19,7 +19,7 @@ namespace BearMyBanner
         {
             Equipment clonedEquipment = agent.SpawnEquipment.Clone(false);
 
-            for (int i = 0; i < (int) EquipmentIndex.NumAllWeaponSlots; i++)
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
                 if (clonedEquipment[i].Item != null && forbiddenWeapons.Contains(clonedEquipment[i].Item.Type))
                 {
@@ -43,13 +43,15 @@ namespace BearMyBanner
             agent.UpdateSpawnEquipmentAndRefreshVisuals(clonedEquipment);
         }
 
-        public static void DropBanner(this Agent agent)
+        public static bool DropBanner(this Agent agent)
         {
             MissionWeapon extraSlot = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
             if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
+                return true;
             }
+            return false;
         }
 
         public static void RemoveFromEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
@@ -88,53 +90,52 @@ namespace BearMyBanner
                 {
                     string shieldId = agent.Equipment[i].PrimaryItem.StringId;
                     agent.RemoveEquippedWeapon((EquipmentIndex)i);
-                    try
-                    {
-                        paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
-                    }
-                    catch (System.Exception)
-                    {
-
-                        ;
-                    }
-                    try
-                    {
-                        agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
-                    }
-                    catch (System.Exception)
-                    {
-
-                        ;
-                    }
+                    paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
+                    agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
                 }
             }
         }
 
-        public static void ChangeBanner(this Banner banner, IBMBBanner newBanner)
+        public static bool HasWeaponOfType(this Agent agent, ItemObject.ItemTypeEnum itemType)
         {
-            banner.Deserialize(newBanner.Key);
-        }
-
-        public static void ChangeBaseColors(this Banner banner, int colorId, int colorId2)
-        {
-            banner.BannerDataList[0].ColorId = colorId;
-            banner.BannerDataList[0].ColorId2 = colorId2;
-        }
-
-        public static void ChangeIconColor(this Banner banner, int colorId)
-        {
-            for (int i = 1; i < banner.BannerDataList.Count; i++)
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
-                banner.BannerDataList[i].ColorId = colorId;
+                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == itemType)
+                {
+                    return true;
+                }
             }
+            return false;
         }
 
-        public static void ChangeIconMesh(this Banner banner, int meshId)
+        public static void UnequipAllAndEquipStones(this Agent agent)
         {
-            for (int i = 1; i < banner.BannerDataList.Count; i++)
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots - 1; i++)
             {
-                banner.BannerDataList[i].MeshId = meshId;
+                if (!agent.Equipment[i].IsEmpty)
+                {
+                    agent.RemoveEquippedWeapon((EquipmentIndex)i);
+                }
             }
+
+            MissionWeapon rockWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(ThrowingStonesID), null);
+            agent.EquipWeaponWithNewEntity(EquipmentIndex.Weapon0, ref rockWeapon);
+            agent.WieldNextWeapon(Agent.HandIndex.MainHand);
+        }
+
+
+        public static bool HasRangedWeapon(this Equipment equipment)
+        {
+            for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
+            {
+                if (!equipment[i].IsEmpty
+                    && (equipment[i].Item.Type == ItemObject.ItemTypeEnum.Bow
+                    || equipment[i].Item.Type == ItemObject.ItemTypeEnum.Crossbow))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

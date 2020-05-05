@@ -2,27 +2,36 @@
 <Module>
 	<Name value="Bear My Banner"/>
 	<Id value="BearMyBanner"/>
-	<Version value="v0.6.2"/>
+	<Version value="v0.7.0"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
-  <Official value ="false"/>
-    <DependedModules>
-        <DependedModule Id="Native"/>
-        <DependedModule Id="SandBoxCore"/>
-        <DependedModule Id="Sandbox"/>
-        <DependedModule Id="CustomBattle"/>
-        <DependedModule Id="StoryMode" />
-  </DependedModules>
+	<Official value ="false"/>
+	<DependedModules>
+		<DependedModule Id="Native"/>
+		<DependedModule Id="SandBoxCore"/>
+		<DependedModule Id="Sandbox"/>
+		<DependedModule Id="CustomBattle"/>
+		<DependedModule Id="StoryMode" />
+	</DependedModules>
 	<SubModules>
-         <SubModule>
-             <Name value="BearMyBanner"/>
-             <DLLName value="BearMyBanner.dll"/>
-             <SubModuleClassType value="BearMyBanner.Main"/>
-             <Tags>
-                 <Tag key="DedicatedServerType" value="none" />
-                 <Tag key="IsNoRenderModeElement" value="false" />
-             </Tags>
-         </SubModule>
-     </SubModules>
+		<SubModule>
+			<Name value="BearMyBanner"/>
+			<DLLName value="BearMyBanner.dll"/>
+			<SubModuleClassType value="BearMyBanner.Main"/>
+			<Tags>
+				<Tag key="DedicatedServerType" value="none" />
+				<Tag key="IsNoRenderModeElement" value="false" />
+			</Tags>
+		</SubModule>
+		<SubModule>
+			<Name value="MBOptionScreen" />
+			<DLLName value="MBOptionScreen.v2.0.10.dll" />
+			<SubModuleClassType value="MBOptionScreen.MBOptionScreenSubModuleV2010" />
+			<Tags>
+				<Tag key="DedicatedServerType" value="none" />
+				<Tag key="IsNoRenderModeElement" value="false" />
+			</Tags>
+		</SubModule>
+	</SubModules>
 	<Xmls />
 </Module>

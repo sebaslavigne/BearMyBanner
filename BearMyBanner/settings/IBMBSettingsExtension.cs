@@ -2,26 +2,36 @@
 {
     public static class IBMBSettingsExtension
     {
-        public static IBMBSettings SetDefaults(this IBMBSettings settings)
+        public static IBMBSettings SetDefaultSettings(this IBMBSettings settings)
         {
             settings.AllowSoldiers = true;
-            settings.AllowCaravanGuards = false;
-            settings.AllowMercenaries = false;
-            settings.AllowBandits = false;
-            settings.AllowInfantry = true;
-            settings.AllowMounted = true;
-            settings.AllowRanged = false;
-            settings.AllowMountedRanged = false;
+            settings.AllowMercenaries = true;
+            settings.AllowCaravanGuards = CaravanAssignMode.OnlyMasters;
+            settings.AllowBandits = BanditAssignMode.RecruitedOnly;
+
+            settings.AllowTypeInfantry = true;
+            settings.AllowTypeRanged = true;
+            settings.AllowTypeMounted = true;
+            settings.AllowTypeMountedRanged = true;
 
             settings.FilterTiers = true;
-            settings.AllowedTiers = "4,5,6";
+            settings.AllowedTiers = "3,4,5,6";
+
+            settings.AllowFormationInfantry = true;
+            settings.AllowFormationRanged = true;
+            settings.AllowFormationCavalry = true;
+            settings.AllowFormationHorseArcher = true;
+            settings.AllowFormationSkirmisher = true;
+            settings.AllowFormationHeavyInfantry = true;
+            settings.AllowFormationLightCavalry = true;
+            settings.AllowFormationHeavyCavalry = true;
 
             settings.AllowPlayer = false;
             settings.AllowCompanions = false;
             settings.AllowNobles = false;
 
-            settings.BearerToTroopRatio = 7;
-            settings.UnitCountMode = UnitCountMode.type;
+            settings.BearerToTroopRatio = 10;
+            settings.UnitCountMode = UnitCountMode.Spec;
 
             settings.AllowSieges = true;
             settings.SiegeAttackersUseBanners = true;
@@ -35,9 +45,18 @@
             settings.TournamentThemes = true;
             settings.TournamentBannersInShields = false;
 
+            settings.TownCastleVisitBanner = false;
+            settings.VillageVisitBanner = true;
+
+            settings.DropOnLowHealth = true;
+            settings.DropHealthThreshold = 35;
+            settings.DropRetreatMode = DropRetreatMode.Weighted;
+            settings.DropRetreatChance = 0.6f;
+
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
+            settings.KonamiCode = false;
 
             return settings;
         }

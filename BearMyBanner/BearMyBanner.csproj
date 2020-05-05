@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="MBOptionScreen.v2.0.10, Version=2.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Bannerlord.MBOptionScreen.2.0.10\lib\net472\MBOptionScreen.v2.0.10.dll</HintPath>
+    </Reference>
     <Reference Include="SandBox">
       <HintPath>$(GameDir)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
       <Private>False</Private>
@@ -69,6 +75,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -207,6 +214,10 @@
       <HintPath>$(GameDir)\bin\Win64_Shipping_Client\TaleWorlds.Network.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="TaleWorlds.PlatformService">
       <HintPath>$(GameDir)\bin\Win64_Shipping_Client\TaleWorlds.PlatformService.dll</HintPath>
       <Private>False</Private>
@@ -249,23 +260,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\AgentExtension.cs" />
+    <Compile Include="Utils\BannerExtension.cs" />
     <Compile Include="BannerTournaments\TournamentBannerAssignBehaviour.cs" />
     <Compile Include="BannerBattles\BattleBannerController.cs" />
-    <Compile Include="BannerTournaments\DropBannerComponent.cs" />
-    <Compile Include="Editor\GameObjectEditor.cs" />
+    <Compile Include="DropBanner\DropBannerController.cs" />
+    <Compile Include="Utils\KCBehaviour.cs" />
+    <Compile Include="Settings\MCM\MCMDisplayName.cs" />
+    <Compile Include="Settings\MCM\MCMSettings.cs" />
+    <Compile Include="Settings\MCM\MCMHint.cs" />
+    <Compile Include="DropBanner\DropBannerComponent.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleBannerBehaviour.cs" />
     <Compile Include="BannerTournaments\TournamentBannerController.cs" />
-    <Compile Include="Settings\BMBSettings.cs" />
-    <Compile Include="Settings\BMBFormationBanners.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
+    <Compile Include="Settings\BMB\BMBSettings.cs" />
+    <Compile Include="Settings\BMB\BMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBanners.cs" />
     <Compile Include="Settings\IBMBFormationBannersExtension.cs" />
     <Compile Include="Settings\SettingEnums.cs" />
-    <Compile Include="Settings\SettingsLoader.cs" />
+    <Compile Include="Settings\BMB\SettingsLoader.cs" />
     <Compile Include="Utils\MissionDebugBehaviour.cs" />
+    <Compile Include="BannerVisits\VisitBannerBehaviour.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleAgent.cs" />
+    <Compile Include="BannerCustomBattles\CustomBattleCharacter.cs" />
     <Compile Include="Wrapper\Enum\Culture.cs" />
-    <Compile Include="Utils\TournamentThemes.cs" />
+    <Compile Include="BannerTournaments\TournamentThemes.cs" />
     <Compile Include="Wrapper\Enum\FormationGroup.cs" />
     <Compile Include="Wrapper\Interface\IBMBBanner.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentTeam.cs" />
+    <Compile Include="BannerTournaments\TournamentTeam.cs" />
     <Compile Include="Wrapper\Enum\TeamColor.cs" />
     <Compile Include="Wrapper\Enum\MissionType.cs" />
     <Compile Include="BannerBattles\BattleBannerAssignBehaviour.cs" />
@@ -278,12 +300,17 @@
     <Compile Include="Wrapper\Interface\IBMBTeam.cs" />
     <Compile Include="Wrapper\Interface\IBMBAgent.cs" />
     <Compile Include="Wrapper\Interface\IBMBCharacter.cs" />
-    <Compile Include="Wrapper\Implementation\CampaignAgent.cs" />
-    <Compile Include="Wrapper\Implementation\CampaignCharacter.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentAgent.cs" />
-    <Compile Include="Wrapper\Implementation\TournamentBanner.cs" />
-    <Compile Include="Utils\MissionUtils.cs" />
+    <Compile Include="BannerBattles\CampaignAgent.cs" />
+    <Compile Include="BannerBattles\CampaignCharacter.cs" />
+    <Compile Include="BannerTournaments\TournamentAgent.cs" />
+    <Compile Include="BannerTournaments\TournamentBanner.cs" />
+    <Compile Include="Utils\MissionExtension.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Wrapper\Implementation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@ namespace BearMyBanner.Settings
     public static class IBMBFormationBannersExtension
     {
 
-        public static IBMBFormationBanners SetDefaults(this IBMBFormationBanners formationBanners)
+        public static IBMBFormationBanners SetDefaultFormationSettings(this IBMBFormationBanners formationBanners)
         {
             formationBanners.EnableFormationBanners = false;
             formationBanners.CompanionsUseFormationBanners = false;
@@ -26,6 +26,18 @@ namespace BearMyBanner.Settings
             formationBanners.HeavyCavalry = "1.111.111.1536.1536.756.764.0.0.0.124.116.116.500.500.784.864.0.0.0.318.111.116.300.300.764.564.1.0.0.301.116.116.300.300.764.564.0.0.225";
 
             return formationBanners;
+        }
+
+        public static void CopyCodesTo(this IBMBFormationBanners from, IBMBFormationBanners to)
+        {
+            to.Infantry = from.Infantry;
+            to.Ranged = from.Ranged;
+            to.Cavalry = from.Cavalry;
+            to.HorseArcher = from.HorseArcher;
+            to.Skirmisher = from.Skirmisher;
+            to.HeavyInfantry = from.HeavyInfantry;
+            to.LightCavalry = from.LightCavalry;
+            to.HeavyCavalry = from.HeavyCavalry;
         }
     }
 }
