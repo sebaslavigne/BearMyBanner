@@ -17,6 +17,7 @@ namespace BearMyBanner.Wrapper
         public CharacterOccupation Occupation { get; set; }
         public int Tier => _wrappedCharacter.Tier;
         public bool IsPlayerCharacter => _wrappedCharacter.IsPlayerCharacter;
+        public string Name => _wrappedCharacter.Name.ToString();
 
 
         private TroopSpecialization DetermineAgentSpec()

@@ -7,5 +7,6 @@
         CharacterOccupation Occupation { get; }
         int Tier { get; }
         bool IsPlayerCharacter { get; }
+        string Name { get; }
     }
 }

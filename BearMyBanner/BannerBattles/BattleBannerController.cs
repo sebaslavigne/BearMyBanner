@@ -4,6 +4,7 @@ using BearMyBanner.Wrapper;
 using BearMyBanner.Settings;
 using System;
 using TaleWorlds.MountAndBlade;
+using System.Text;
 
 namespace BearMyBanner
 {
@@ -170,6 +171,87 @@ namespace BearMyBanner
                     Main.PrintInMessageLog(count + " banners given to " + entry.Key, entry.Value);
                 }
             }
+        }
+
+        public void DebugController()
+        {
+            // Character \t isn't recognized. StringBuilder.AppendLine() shows unrecognized characters in-game
+            StringBuilder sb = new StringBuilder();
+
+            Main.PrintInMessageLog("=== BMB Debug ===", 4282569842U);
+
+            sb.Append("Current settings:");
+            sb.Append("\n    Banner ratio: " + _settings.BearerToTroopRatio);
+            Main.PrintInMessageLog(sb.ToString());
+            sb.Clear();
+
+            Main.PrintInMessageLog("    Grouping by: " + _settings.UnitCountMode, 4282569842U);
+
+            string allowedTiers = _settings.FilterTiers ? _settings.AllowedTiers : "All tiers";
+            sb.Append("    Allowed tiers: " + allowedTiers);
+            sb.Append("\nGrouping results (Total group count -> banners given)");
+            sb.Append("\nFinal amounts may differ slightly in special cases");
+            Main.PrintInMessageLog(sb.ToString());
+            sb.Clear();
+
+            sb.Append("Grouped by spec:");
+            foreach (var party in _processedBySpec)
+            {
+                sb.Append("\n    " + party.Key);
+                foreach (var group in party.Value)
+                {
+                    sb.Append("\n      " + group.Key + ": " + group.Value.Count + " -> " + group.Value.Count / _settings.BearerToTroopRatio);
+                }
+            }
+            if (_settings.UnitCountMode == UnitCountMode.Spec)
+            {
+                Main.PrintInMessageLog(sb.ToString(), 4282569842U);
+            }
+            else
+            {
+                Main.PrintInMessageLog(sb.ToString());
+            }
+            sb.Clear();
+
+            sb.Append("\nGrouped by formation:");
+            foreach (var party in _processedByFormation)
+            {
+                sb.Append("\n    " + party.Key);
+                foreach (var group in party.Value)
+                {
+                    sb.Append("\n      " + group.Key + ": " + group.Value.Count + " -> " + group.Value.Count / _settings.BearerToTroopRatio);
+                }
+            }
+            if (_settings.UnitCountMode == UnitCountMode.Formation)
+            {
+                Main.PrintInMessageLog(sb.ToString(), 4282569842U);
+            }
+            else
+            {
+                Main.PrintInMessageLog(sb.ToString());
+            }
+            sb.Clear();
+
+            sb.Append("\nGrouped by troop type:");
+            foreach (var party in _processedByTroop)
+            {
+                sb.Append("\n    " + party.Key);
+                foreach (var group in party.Value)
+                {
+                    sb.Append("\n      " + group.Key.Name + ": " + group.Value.Count + " -> " + group.Value.Count / _settings.BearerToTroopRatio);
+                }
+            }
+            if (_settings.UnitCountMode == UnitCountMode.Troop)
+            {
+                Main.PrintInMessageLog(sb.ToString(), 4282569842U);
+            }
+            else
+            {
+                Main.PrintInMessageLog(sb.ToString());
+            }
+            sb.Clear();
+
+            Main.PrintInMessageLog("=== Finished BMB Debug ===", 4282569842U);
         }
 
         /// <summary>
