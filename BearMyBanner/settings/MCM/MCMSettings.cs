@@ -209,7 +209,7 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g02)]
         public bool DropOnLowHealth { get; set; }
 
-        [SettingPropertyInteger(displayName: MCMDisplayName.DropHealthThreshold, minValue: 0, maxValue: 70, valueFormat: MCMDisplayName.DropHealthThresholdFormat, Order = 1, RequireRestart = false, HintText = MCMHint.DropHealthThreshold)]
+        [SettingPropertyInteger(displayName: MCMDisplayName.DropHealthThreshold, minValue: 0, maxValue: 100, valueFormat: MCMDisplayName.DropHealthThresholdFormat, Order = 1, RequireRestart = false, HintText = MCMHint.DropHealthThreshold)]
         [SettingPropertyGroup(g02)]
         public int DropHealthThreshold { get; set; }
 

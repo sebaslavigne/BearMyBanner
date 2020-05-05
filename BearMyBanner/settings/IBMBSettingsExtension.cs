@@ -5,8 +5,8 @@
         public static IBMBSettings SetDefaultSettings(this IBMBSettings settings)
         {
             settings.AllowSoldiers = true;
-            settings.AllowCaravanGuards = CaravanAssignMode.OnlyMasters;
             settings.AllowMercenaries = true;
+            settings.AllowCaravanGuards = CaravanAssignMode.OnlyMasters;
             settings.AllowBandits = BanditAssignMode.RecruitedOnly;
 
             settings.AllowTypeInfantry = true;
@@ -15,13 +15,13 @@
             settings.AllowTypeMountedRanged = true;
 
             settings.FilterTiers = true;
-            settings.AllowedTiers = "4,5,6";
+            settings.AllowedTiers = "3,4,5,6";
 
             settings.AllowFormationInfantry = true;
             settings.AllowFormationRanged = true;
             settings.AllowFormationCavalry = true;
             settings.AllowFormationHorseArcher = true;
-            settings.AllowFormationSkirmisher = false;
+            settings.AllowFormationSkirmisher = true;
             settings.AllowFormationHeavyInfantry = true;
             settings.AllowFormationLightCavalry = true;
             settings.AllowFormationHeavyCavalry = true;
@@ -30,7 +30,7 @@
             settings.AllowCompanions = false;
             settings.AllowNobles = false;
 
-            settings.BearerToTroopRatio = 7;
+            settings.BearerToTroopRatio = 10;
             settings.UnitCountMode = UnitCountMode.Spec;
 
             settings.AllowSieges = true;
@@ -49,7 +49,7 @@
             settings.VillageVisitBanner = true;
 
             settings.DropOnLowHealth = true;
-            settings.DropHealthThreshold = 20;
+            settings.DropHealthThreshold = 35;
             settings.DropRetreatMode = DropRetreatMode.Weighted;
             settings.DropRetreatChance = 0.6f;
 
