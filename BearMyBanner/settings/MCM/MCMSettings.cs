@@ -255,9 +255,9 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g1)]
         public bool CompanionsUseFormationBanners { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.UseInShields, Order = 3, RequireRestart = false, HintText = MCMHint.UseInShields)]
+        [SettingPropertyBool(displayName: MCMDisplayName.FormationBannersUseInShields, Order = 3, RequireRestart = false, HintText = MCMHint.FormationBannersUseInShields)]
         [SettingPropertyGroup(g1)]
-        public bool UseInShields { get; set; }
+        public bool FormationBannersUseInShields { get; set; }
 
         //== Banner codes ==
 

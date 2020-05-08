@@ -64,7 +64,7 @@ namespace BearMyBanner.Settings
 
         public const string EnableFormationBanners = "Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.";
         public const string CompanionsUseFormationBanners = "Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.";
-        public const string UseInShields = "The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers).";
+        public const string FormationBannersUseInShields = "The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers).";
         //public const string BannerCodeHint = "Use online editor at https://bannerlord.party/banner/ then copy the code here. An invalid code might cause problems.";
     }
 
