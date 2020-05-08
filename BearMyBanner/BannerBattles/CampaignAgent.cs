@@ -33,7 +33,7 @@ namespace BearMyBanner.Wrapper
         public FormationGroup Formation { get; }
         public bool ServesUnderLord => _wrappedParty.Leader != null ? new CampaignCharacter(_wrappedParty.Leader).IsHero : false;
 
-        public bool IsInCaravanParty => _wrappedParty.Leader != null ? _wrappedParty.Leader.OriginCharacterStringId.Contains(CaravanMasterPartialID) : false;
+        public bool IsInCaravanParty => _wrappedParty.Leader != null ? _wrappedParty.Leader.StringId.Contains(CaravanMasterPartialID) : false;
         public bool IsCaravanPartyLeader => CheckIsCaravanPartyLeader();
 
         private bool CheckIsCaravanPartyLeader()

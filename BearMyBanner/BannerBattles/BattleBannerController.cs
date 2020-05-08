@@ -145,16 +145,16 @@ namespace BearMyBanner
 
         public bool AgentGetsFancyBanner(IBMBAgent agent)
         {
-            if (!_formationBanners.EnableFormationBanners || !agent.IsInPlayerParty) return false;
+            if (!_settings.EnableFormationBanners || !agent.IsInPlayerParty) return false;
             if (agent.Character.IsPlayerCharacter) return false;
-            if (_settings.AllowCompanions && _formationBanners.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
+            if (_settings.AllowCompanions && _settings.CompanionsUseFormationBanners && agent.Character.Occupation == CharacterOccupation.Wanderer) return true;
             if (agent.Character.IsHero) return false;
             return true;
         }
 
         public bool AgentGetsFancyShield(IBMBAgent agent)
         {
-            return (_formationBanners.UseInShields && AgentGetsFancyBanner(agent));
+            return (_settings.FormationBannersUseInShields && AgentGetsFancyBanner(agent));
         }
 
         /// <summary>

@@ -73,7 +73,7 @@
 
         public const string EnableFormationBanners = "Use formation banners (from config file)";
         public const string CompanionsUseFormationBanners = "Companions use formation banners";
-        public const string UseInShields = "Apply to shields";
+        public const string FormationBannersUseInShields = "Apply to shields";
         //public const string Infantry = "Infantry";
         //public const string Ranged = "Ranged";
         //public const string Cavalry = "Cavalry";

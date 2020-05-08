@@ -28,10 +28,6 @@ namespace BearMyBanner.Settings
         {
         }
 
-        public bool EnableFormationBanners { get; set; }
-        public bool CompanionsUseFormationBanners { get; set; }
-        public bool UseInShields { get; set; }
-
         public string Infantry { get; set; }
         public string Ranged { get; set; }
         public string Cavalry { get; set; }

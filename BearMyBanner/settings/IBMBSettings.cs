@@ -44,5 +44,9 @@
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }
         bool KonamiCode { get; set; }
+
+        bool EnableFormationBanners { get; set; }
+        bool CompanionsUseFormationBanners { get; set; }
+        bool FormationBannersUseInShields { get; set; }
     }
 }

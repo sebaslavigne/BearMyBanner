@@ -58,6 +58,10 @@
             settings.ReloadFiles = false;
             settings.KonamiCode = false;
 
+            settings.EnableFormationBanners = false;
+            settings.CompanionsUseFormationBanners = false;
+            settings.FormationBannersUseInShields = true;
+
             return settings;
         }
     }

@@ -76,7 +76,7 @@ namespace BearMyBanner
                 if (_settings.ReloadFiles)
                 {
                     //_settings = BMBSettings.Reload();
-                    _formationBanners = BMBFormationBanners.Reload();
+                    _configFileBanners = BMBFormationBanners.Reload();
                     _configFileBanners.CopyCodesTo(_formationBanners);
                     PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
                 }
@@ -133,7 +133,7 @@ namespace BearMyBanner
         {
             if (BMBSettings.Instance.ShowMessages)
             {
-                if (BMBSettings.Instance.WhiteMessages) color = TaleWorlds.Library.Color.White;
+                if (MCMSettings.Instance.WhiteMessages) color = TaleWorlds.Library.Color.White;
                 InformationManager.DisplayMessage(new InformationMessage(message, color));
             }
         }
