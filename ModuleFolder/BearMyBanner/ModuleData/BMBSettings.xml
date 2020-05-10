@@ -85,6 +85,7 @@
 	<EnableFormationBanners>false</EnableFormationBanners>
 	<CompanionsUseFormationBanners>false</CompanionsUseFormationBanners>
 	<FormationBannersUseInShields>true</FormationBannersUseInShields>
+	<!--Change the banner codes in file "BMBFormationBanners.xml" to have customized banners for each formation.-->
 
 	<!--======== MISCELLANEOUS ===================================================================================
 	=====================================-->
@@ -92,6 +93,5 @@
 	<ShowMessages>true</ShowMessages>
 	<WhiteMessages>false</WhiteMessages>
 	<ReloadFiles>false</ReloadFiles>
-	<KonamiCode>false</KonamiCode>
 	
 </BMBSettings>
