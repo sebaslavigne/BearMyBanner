@@ -27,7 +27,17 @@ namespace BearMyBanner
             {
                 _configFileBanners = BMBFormationBanners.Instance;
 
-                LoadingMessages.Add(("Loaded Bear my Banner", false));
+                string loadedMessage = "Loaded Bear my Banner";
+
+#if MCMCONFIG
+                loadedMessage += ", using MCM";
+#elif BMBCONFIG
+                _settings = BMBSettings.Instance;
+                _formationBanners = BMBFormationBanners.Instance;
+                loadedMessage += ", using config files";
+#endif
+
+                LoadingMessages.Add((loadedMessage, false));
             }
             catch (Exception ex)
             {
@@ -40,6 +50,7 @@ namespace BearMyBanner
             base.OnBeforeInitialModuleScreenSetAsRoot();
             try
             {
+#if MCMSETTINGS
                 try
                 {
                     _settings = MCMSettings.Instance;
@@ -50,6 +61,7 @@ namespace BearMyBanner
                 {
                     throw new InvalidOperationException("There was an error with MCM");
                 }
+#endif
 
                 foreach ((string content, bool isError) message in LoadingMessages)
                 {
@@ -75,7 +87,9 @@ namespace BearMyBanner
 
                 if (_settings.ReloadFiles)
                 {
-                    //_settings = BMBSettings.Reload();
+#if BMBCONFIG
+                    _settings = BMBSettings.Reload();
+#endif
                     _configFileBanners = BMBFormationBanners.Reload();
                     _configFileBanners.CopyCodesTo(_formationBanners);
                     PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
@@ -121,19 +135,24 @@ namespace BearMyBanner
 
         public static void PrintInMessageLog(string message)
         {
-            PrintInMessageLog(message, TaleWorlds.Library.Color.White);
+            PrintInMessageLog(message, Color.White);
         }
 
         public static void PrintInMessageLog(string message, uint color)
         {
-            PrintInMessageLog(message, TaleWorlds.Library.Color.FromUint(color));
+            PrintInMessageLog(message, Color.FromUint(color));
         }
 
-        public static void PrintInMessageLog(string message, TaleWorlds.Library.Color color)
+        public static void PrintInMessageLog(string message, Color color)
         {
             if (BMBSettings.Instance.ShowMessages)
             {
-                if (MCMSettings.Instance.WhiteMessages) color = TaleWorlds.Library.Color.White;
+#if MCMCONFIG
+                if (MCMSettings.Instance.WhiteMessages) color = Color.White;
+#elif BMBCONFIG
+                if (BMBSettings.Instance.WhiteMessages) color = Color.White;
+#endif
+
                 InformationManager.DisplayMessage(new InformationMessage(message, color));
             }
         }
@@ -144,9 +163,9 @@ namespace BearMyBanner
             {
                 PrintInMessageLog("BMB Error: " + ex.Message);
             }
-            catch (Exception) //If there's an exception because settings were not loaded
+            catch (Exception)
             {
-                InformationManager.DisplayMessage(new InformationMessage("BMB Error loading settings"));
+                InformationManager.DisplayMessage(new InformationMessage("BMB unexpected error"));
             }
         }
 

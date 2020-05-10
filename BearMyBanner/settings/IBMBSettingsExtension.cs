@@ -53,14 +53,14 @@
             settings.DropRetreatMode = DropRetreatMode.Weighted;
             settings.DropRetreatChance = 0.6f;
 
+            settings.EnableFormationBanners = false;
+            settings.CompanionsUseFormationBanners = false;
+            settings.FormationBannersUseInShields = true;
+
             settings.ShowMessages = true;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
             settings.KonamiCode = false;
-
-            settings.EnableFormationBanners = false;
-            settings.CompanionsUseFormationBanners = false;
-            settings.FormationBannersUseInShields = true;
 
             return settings;
         }

@@ -62,17 +62,18 @@ namespace BearMyBanner.Settings
         public bool AllowPlayer { get; set; }
         public bool AllowCompanions { get; set; }
         public bool AllowNobles { get; set; }
-        public bool ShowMessages { get; set; }
         public bool DropOnLowHealth { get; set; }
         public int DropHealthThreshold { get; set; }
         public DropRetreatMode DropRetreatMode { get; set; }
         public float DropRetreatChance { get; set; }
-        public bool WhiteMessages { get; set; }
-        public bool ReloadFiles { get; set; }
-        public bool KonamiCode { get; set; }
 
         public bool EnableFormationBanners { get; set; }
         public bool CompanionsUseFormationBanners { get; set; }
         public bool FormationBannersUseInShields { get; set; }
+
+        public bool ShowMessages { get; set; }
+        public bool WhiteMessages { get; set; }
+        public bool ReloadFiles { get; set; }
+        public bool KonamiCode { get; set; }
     }
 }

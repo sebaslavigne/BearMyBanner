@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BMBSettings>
+
+	<!--======== MAIN SETTINGS ===================================================================================
+	=====================================-->
+
+	<!--==== Battle Types ========================================================================================-->
+
+	<!--== Sieges ==-->
+
+	<AllowSieges>true</AllowSieges>
+	<SiegeAttackersUseBanners>true</SiegeAttackersUseBanners>
+	<SiegeDefendersUseBanners>false</SiegeDefendersUseBanners>
+
+	<!--==== Hideout attacks ==-->
+	
+	<AllowHideouts>false</AllowHideouts>
+	<HideoutAttackersUseBanners>false</HideoutAttackersUseBanners>
+	<HideoutBanditsUseBanners>false</HideoutBanditsUseBanners>
+
+	<!--== Tournaments ==-->
+	
+	<TournamentBanners>true</TournamentBanners>
+	<TournamentThemes>true</TournamentThemes>
+	<TournamentBannersInShields>false</TournamentBannersInShields>
+
+	<!--== Towns and villages ==-->
+
+	<TownCastleVisitBanner>false</TownCastleVisitBanner>
+	<VillageVisitBanner>true</VillageVisitBanner>
+
+	<!--==== Banner Ratios and Filters ========================================================================================-->
+
+	<!--== Banner ratios ==-->
+
+	<BearerToTroopRatio>10</BearerToTroopRatio>
+	<UnitCountMode>Spec</UnitCountMode>
+
+	<!--== Filter by occupation ==-->
+
+	<AllowSoldiers>true</AllowSoldiers>
+	<AllowCaravanGuards>OnlyMasters</AllowCaravanGuards>
+	<AllowMercenaries>true</AllowMercenaries>
+	<AllowBandits>RecruitedOnly</AllowBandits>
+
+	<!--== Filter by type ==-->
+
+	<AllowTypeInfantry>true</AllowTypeInfantry>
+	<AllowTypeRanged>true</AllowTypeRanged>
+	<AllowTypeMounted>true</AllowTypeMounted>
+	<AllowTypeMountedRanged>true</AllowTypeMountedRanged>
+
+	<!--== Filter by tier ==-->
+
+	<FilterTiers>true</FilterTiers>
+	<AllowedTiers>3,4,5,6</AllowedTiers>
+
+	<!--== Give banners to Formations-->
+
+	<AllowFormationInfantry>true</AllowFormationInfantry>
+	<AllowFormationRanged>true</AllowFormationRanged>
+	<AllowFormationCavalry>true</AllowFormationCavalry>
+	<AllowFormationHorseArcher>true</AllowFormationHorseArcher>
+	<AllowFormationSkirmisher>true</AllowFormationSkirmisher>
+	<AllowFormationHeavyInfantry>true</AllowFormationHeavyInfantry>
+	<AllowFormationLightCavalry>true</AllowFormationLightCavalry>
+	<AllowFormationHeavyCavalry>true</AllowFormationHeavyCavalry>
+
+	<!--== Give to Heroes ==-->
+
+	<AllowPlayer>false</AllowPlayer>
+	<AllowCompanions>false</AllowCompanions>
+	<AllowNobles>false</AllowNobles>
+
+	<!--==== Banner Dropping ========================================================================================-->
+
+	<DropOnLowHealth>true</DropOnLowHealth>
+	<DropHealthThreshold>35</DropHealthThreshold>
+	<DropRetreatMode>Weighted</DropRetreatMode>
+	<DropRetreatChance>0.6</DropRetreatChance>
+
+	<!--======== FORMATION BANNERS ===============================================================================
+	=====================================-->
+
+	<EnableFormationBanners>false</EnableFormationBanners>
+	<CompanionsUseFormationBanners>false</CompanionsUseFormationBanners>
+	<FormationBannersUseInShields>true</FormationBannersUseInShields>
+
+	<!--======== MISCELLANEOUS ===================================================================================
+	=====================================-->
+
+	<ShowMessages>true</ShowMessages>
+	<WhiteMessages>false</WhiteMessages>
+	<ReloadFiles>false</ReloadFiles>
+	<KonamiCode>false</KonamiCode>
+	
+</BMBSettings>
