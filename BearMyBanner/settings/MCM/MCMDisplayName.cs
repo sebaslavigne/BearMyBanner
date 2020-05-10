@@ -66,14 +66,15 @@
         public const string DropRetreatChance = "Chance of dropping when retreating";
         public const string DropRetreatChanceFormat = "#0%";
 
-        public const string ShowMessages = "Show messages";
-        public const string WhiteMessages = "White messages";
-        public const string ReloadFiles = "Reload manual config files";
-        public const string KonamiCode = "Old code";
-
         public const string EnableFormationBanners = "Use formation banners (from config file)";
         public const string CompanionsUseFormationBanners = "Companions use formation banners";
         public const string FormationBannersUseInShields = "Apply to shields";
+
+        public const string ShowMessages = "Show messages";
+        public const string DebugMessages = "Show debug messages";
+        public const string WhiteMessages = "White messages";
+        public const string ReloadFiles = "Reload manual config files";
+        public const string KonamiCode = "Old code";
         //public const string Infantry = "Infantry";
         //public const string Ranged = "Ranged";
         //public const string Cavalry = "Cavalry";
