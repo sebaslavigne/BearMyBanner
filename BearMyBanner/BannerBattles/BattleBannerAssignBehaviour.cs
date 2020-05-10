@@ -99,6 +99,7 @@ namespace BearMyBanner
                 _spawnedAgents.Clear();
                 _unprocessedUnits = false;
                 OnInitialUnitsSpawned();
+                if (_settings.DebugMessages) _controller.DebugController();
             }
             catch (Exception ex)
             {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BearMyBanner.Settings
+﻿namespace BearMyBanner.Settings
 {
     public class MCMHint
     {
@@ -57,15 +51,17 @@ namespace BearMyBanner.Settings
         public const string DropRetreatModeSetting = "Units have a chance of dropping their banner when retreating. If \"Weighted by experience\", more experienced units have less chance of dropping the banner.";
         public const string DropRetreatChance = "Base chance of units dropping their banner when retreating.";
 
-        public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
-        public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
-        public const string ReloadFiles = "Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.";
-        public const string KonamiCode = "Leftover code from an old game.";
-
         public const string EnableFormationBanners = "Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.";
         public const string CompanionsUseFormationBanners = "Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.";
         public const string FormationBannersUseInShields = "The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers).";
         //public const string BannerCodeHint = "Use online editor at https://bannerlord.party/banner/ then copy the code here. An invalid code might cause problems.";
+
+        public const string ShowMessages = "Show messages in the lower left corner. For example, how many banners are given to each party in a battle.";
+        public const string DebugMessages = "Shows details of banner assignments in each battle. Useful for understanding how different settings behave.";
+        public const string WhiteMessages = "Messages are always displayed in white. Useful if some party colors are hard to read.";
+        public const string ReloadFiles = "Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.";
+        public const string KonamiCode = "Leftover code from an old game.";
+
     }
 
     

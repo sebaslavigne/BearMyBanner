@@ -40,13 +40,15 @@
         int DropHealthThreshold { get; set; }
         DropRetreatMode DropRetreatMode { get; set; }
         float DropRetreatChance { get; set; }
-        bool ShowMessages { get; set; }
-        bool WhiteMessages { get; set; }
-        bool ReloadFiles { get; set; }
-        bool KonamiCode { get; set; }
 
         bool EnableFormationBanners { get; set; }
         bool CompanionsUseFormationBanners { get; set; }
         bool FormationBannersUseInShields { get; set; }
+
+        bool ShowMessages { get; set; }
+        bool DebugMessages { get; set; }
+        bool WhiteMessages { get; set; }
+        bool ReloadFiles { get; set; }
+        bool KonamiCode { get; set; }
     }
 }

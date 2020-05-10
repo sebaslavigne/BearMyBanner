@@ -1,4 +1,5 @@
-﻿using MBOptionScreen.Attributes;
+﻿#if MCMCONFIG
+using MBOptionScreen.Attributes;
 using MBOptionScreen.Attributes.v2;
 using MBOptionScreen.Data;
 using MBOptionScreen.Settings;
@@ -21,8 +22,8 @@ namespace BearMyBanner.Settings
         private const string g014 = g01 + "/iv. Give banners to Formations";
         private const string g015 = g01 + "/v. Give to Heroes";
         private const string g02 = g0 + "/III. Banner Dropping";
-        private const string g03 = g0 + "/IV. Miscellaneous";
         private const string g1 = "B. Formation Banners Settings";
+        private const string g2 = "C. Miscellaneous";
 
         public MCMSettings()
         {
@@ -227,23 +228,6 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g02)]
         public float DropRetreatChance { get; set; }
 
-        //==== Miscellaneous ========================================================================================
-        [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 0, RequireRestart = false, HintText = MCMHint.ShowMessages)]
-        [SettingPropertyGroup(g03)]
-        public bool ShowMessages { get; set; }
-
-        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 1, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
-        [SettingPropertyGroup(g03)]
-        public bool WhiteMessages { get; set; }
-
-        [SettingPropertyBool(displayName: MCMDisplayName.ReloadFiles, Order = 2, RequireRestart = false, HintText = MCMHint.ReloadFiles)]
-        [SettingPropertyGroup(g03)]
-        public bool ReloadFiles { get; set; }
-
-        [SettingPropertyBool(displayName: MCMDisplayName.KonamiCode, Order = 3, RequireRestart = false, HintText = MCMHint.KonamiCode)]
-        [SettingPropertyGroup(g03)]
-        public bool KonamiCode { get; set; }
-
         //======== FORMATIONS =======================================================================================================================
         //===========================================================================================================================================
 
@@ -258,6 +242,29 @@ namespace BearMyBanner.Settings
         [SettingPropertyBool(displayName: MCMDisplayName.FormationBannersUseInShields, Order = 3, RequireRestart = false, HintText = MCMHint.FormationBannersUseInShields)]
         [SettingPropertyGroup(g1)]
         public bool FormationBannersUseInShields { get; set; }
+
+        //==== MISCELLANEOUS =======================================================================================================================
+        //==========================================================================================================================================
+
+        [SettingPropertyBool(displayName: MCMDisplayName.ShowMessages, Order = 0, RequireRestart = false, HintText = MCMHint.ShowMessages)]
+        [SettingPropertyGroup(g2)]
+        public bool ShowMessages { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.DebugMessages, Order = 1, RequireRestart = false, HintText = MCMHint.DebugMessages)]
+        [SettingPropertyGroup(g2)]
+        public bool DebugMessages { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 2, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
+        [SettingPropertyGroup(g2)]
+        public bool WhiteMessages { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.ReloadFiles, Order = 3, RequireRestart = false, HintText = MCMHint.ReloadFiles)]
+        [SettingPropertyGroup(g2)]
+        public bool ReloadFiles { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.KonamiCode, Order = 4, RequireRestart = false, HintText = MCMHint.KonamiCode)]
+        [SettingPropertyGroup(g2)]
+        public bool KonamiCode { get; set; }
 
         //== Banner codes ==
 
@@ -294,3 +301,4 @@ namespace BearMyBanner.Settings
         public string HeavyCavalry { get; set; }
     }
 }
+#endif
