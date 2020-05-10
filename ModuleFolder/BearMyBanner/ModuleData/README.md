@@ -94,7 +94,6 @@ From `1` to `50`
 **AllowMountedRanged** - Allow horse archer type units to bear banners. **NOTE:** same as with the archers.  
 `true` or `false`
 
-
 ### Filter by Tier
 
 **FilterTiers** - Use tier filters. If disabled, all tiers get banners.  
@@ -105,28 +104,28 @@ From `1` to `50`
 
 ### Give banners to Formations
 
-**AllowFormationInfantry** - Give banners among units assigned to formation I Infantry
+**AllowFormationInfantry** - Give banners among units assigned to formation I Infantry  
 `true` or `false`
 
-**AllowFormationRanged** - Give banners among units assigned to formation II Ranged
+**AllowFormationRanged** - Give banners among units assigned to formation II Ranged  
 `true` or `false`
 
-**AllowFormationCavalry** - Give banners among units assigned to formation III Cavalry
+**AllowFormationCavalry** - Give banners among units assigned to formation III Cavalry  
 `true` or `false`
 
-**AllowFormationHorseArcher** - Give banners among units assigned to formation IV Horse Archer
+**AllowFormationHorseArcher** - Give banners among units assigned to formation IV Horse Archer  
 `true` or `false`
 
-**AllowFormationSkirmisher** - Give banners among units assigned to formation V Skirmisher
+**AllowFormationSkirmisher** - Give banners among units assigned to formation V Skirmisher  
 `true` or `false`
 
-**AllowFormationHeavyInfantry** - Give banners among units assigned to formation VI Heavy Infantry
+**AllowFormationHeavyInfantry** - Give banners among units assigned to formation VI Heavy Infantry  
 `true` or `false`
 
-**AllowFormationLightCavalry** - Give banners among units assigned to formation VII Light Cavalry
+**AllowFormationLightCavalry** - Give banners among units assigned to formation VII Light Cavalry  
 `true` or `false`
 
-**AllowFormationHeavyCavalry** - Give banners among units assigned to formation VIII Heavy Cavalry
+**AllowFormationHeavyCavalry** - Give banners among units assigned to formation VIII Heavy Cavalry  
 `true` or `false`
 
 ### Give to Heroes
