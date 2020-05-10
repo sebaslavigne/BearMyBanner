@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <BMBSettings>
+	
+	<!--======== Welcome to the Bear my Banner configuration file ========-->
+	
+	<!--Read the configuration guide at
+	https://github.com/SebLavK/BearMyBanner/tree/master/ModuleFolder/BearMyBanner/ModuleData
+	to get descriptions for each setting-->
 
 	<!--======== MAIN SETTINGS ===================================================================================
 	=====================================-->
