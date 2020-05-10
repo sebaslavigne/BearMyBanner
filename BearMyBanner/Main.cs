@@ -50,7 +50,7 @@ namespace BearMyBanner
             base.OnBeforeInitialModuleScreenSetAsRoot();
             try
             {
-#if MCMSETTINGS
+#if MCMCONFIG
                 try
                 {
                     _settings = MCMSettings.Instance;
