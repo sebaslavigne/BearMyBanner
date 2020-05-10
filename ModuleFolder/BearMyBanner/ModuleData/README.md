@@ -178,5 +178,5 @@ The design also applies to the shields of all the troops in each formation (all 
 **WhiteMessages** - Messages are always displayed in white. Useful if some party colors are hard to read.  
 `true` or `false`
 
-**ReloadFiles** - Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.  
+**ReloadFiles** - Reloads config files before every battle, without needing to restart the game. Useful to quickly tweak the settings, disable after you're happy with the results.  
 `true` or `false`
