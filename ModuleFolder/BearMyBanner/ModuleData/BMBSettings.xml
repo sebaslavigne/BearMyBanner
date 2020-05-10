@@ -97,7 +97,9 @@
 	=====================================-->
 
 	<ShowMessages>true</ShowMessages>
+	<DebugMessages>false</DebugMessages>
 	<WhiteMessages>false</WhiteMessages>
 	<ReloadFiles>false</ReloadFiles>
+	<KonamiCode>false</KonamiCode>
 	
 </BMBSettings>

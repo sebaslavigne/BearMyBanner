@@ -46,6 +46,7 @@
         bool FormationBannersUseInShields { get; set; }
 
         bool ShowMessages { get; set; }
+        bool DebugMessages { get; set; }
         bool WhiteMessages { get; set; }
         bool ReloadFiles { get; set; }
         bool KonamiCode { get; set; }

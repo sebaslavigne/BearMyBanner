@@ -3,7 +3,7 @@ https://github.com/SebLavK/BearMyBanner/tree/master/ModuleFolder/BearMyBanner/Mo
 
 There are two configuration files for Bear my Banner:
 * `BMBSettings.xml` with all of the settings described below.
-* `BMBFormationBanners.xml` with the codes for the custom formation banners.
+* `BMBFormationBanners.xml` with the codes for the custom formation banners. Use the [Online Banner Editor](https://bannerlord.party/banner/) to create your designs and copy the code into the file.
 
 # Main Settings
 
@@ -175,8 +175,14 @@ The design also applies to the shields of all the troops in each formation (all 
 **ShowMessages** - Show messages in the lower left corner. For example, how many banners are given to each party in a battle.  
 `true` or `false`
 
+ **DebugMessages** - Shows details of banner assignments in each battle. Useful for understanding how different settings behave.  
+ `true` or `false`
+
 **WhiteMessages** - Messages are always displayed in white. Useful if some party colors are hard to read.  
 `true` or `false`
 
 **ReloadFiles** - Reloads config files before every battle, without needing to restart the game. Useful to quickly tweak the settings, disable after you're happy with the results.  
+`true` or `false`
+
+**KonamiCode** - Leftover code from an old game.  
 `true` or `false`

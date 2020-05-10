@@ -250,15 +250,19 @@ namespace BearMyBanner.Settings
         [SettingPropertyGroup(g2)]
         public bool ShowMessages { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 1, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
+        [SettingPropertyBool(displayName: MCMDisplayName.DebugMessages, Order = 1, RequireRestart = false, HintText = MCMHint.DebugMessages)]
+        [SettingPropertyGroup(g2)]
+        public bool DebugMessages { get; set; }
+
+        [SettingPropertyBool(displayName: MCMDisplayName.WhiteMessages, Order = 2, RequireRestart = false, HintText = MCMHint.WhiteMessages)]
         [SettingPropertyGroup(g2)]
         public bool WhiteMessages { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.ReloadFiles, Order = 2, RequireRestart = false, HintText = MCMHint.ReloadFiles)]
+        [SettingPropertyBool(displayName: MCMDisplayName.ReloadFiles, Order = 3, RequireRestart = false, HintText = MCMHint.ReloadFiles)]
         [SettingPropertyGroup(g2)]
         public bool ReloadFiles { get; set; }
 
-        [SettingPropertyBool(displayName: MCMDisplayName.KonamiCode, Order = 3, RequireRestart = false, HintText = MCMHint.KonamiCode)]
+        [SettingPropertyBool(displayName: MCMDisplayName.KonamiCode, Order = 4, RequireRestart = false, HintText = MCMHint.KonamiCode)]
         [SettingPropertyGroup(g2)]
         public bool KonamiCode { get; set; }
 

@@ -58,6 +58,7 @@
             settings.FormationBannersUseInShields = true;
 
             settings.ShowMessages = true;
+            settings.DebugMessages = false;
             settings.WhiteMessages = false;
             settings.ReloadFiles = false;
             settings.KonamiCode = false;

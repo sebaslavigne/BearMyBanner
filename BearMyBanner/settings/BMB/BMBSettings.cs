@@ -72,6 +72,7 @@ namespace BearMyBanner.Settings
         public bool FormationBannersUseInShields { get; set; }
 
         public bool ShowMessages { get; set; }
+        public bool DebugMessages { get; set; }
         public bool WhiteMessages { get; set; }
         public bool ReloadFiles { get; set; }
         public bool KonamiCode { get; set; }
