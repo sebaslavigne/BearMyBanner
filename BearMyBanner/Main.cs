@@ -63,11 +63,7 @@ namespace BearMyBanner
                 }
 #endif
 
-                foreach ((string content, bool isError) message in LoadingMessages)
-                {
-                    PrintWhileLoading(message.content, message.isError);
-                }
-                LoadingMessages.Clear();
+                PrintLoadingMessages();
             }
             catch (Exception ex)
             {
@@ -93,6 +89,7 @@ namespace BearMyBanner
                     _configFileBanners = BMBFormationBanners.Reload();
                     _configFileBanners.CopyCodesTo(_formationBanners);
                     PrintInMessageLog("BMB Configuration files reloaded", 4282569842U);
+                    PrintLoadingMessages();
                 }
 
                 if (Mission.Current.CombatType == Mission.MissionCombatType.Combat)
@@ -167,6 +164,15 @@ namespace BearMyBanner
             {
                 InformationManager.DisplayMessage(new InformationMessage("BMB unexpected error"));
             }
+        }
+
+        private static void PrintLoadingMessages()
+        {
+            foreach ((string content, bool isError) message in LoadingMessages)
+            {
+                PrintWhileLoading(message.content, message.isError);
+            }
+            LoadingMessages.Clear();
         }
 
         public static void PrintWhileLoading(string message, bool isError)
