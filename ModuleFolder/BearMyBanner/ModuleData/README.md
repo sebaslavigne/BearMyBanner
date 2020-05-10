@@ -1,214 +1,212 @@
-# Bear my Banner configuration guide
+# Main Settings
 
-## Main Settings
+## Battle Types
 
-### Battle Types
+### Sieges
 
-#### Sieges
-
-**AllowSieges**
-Banners will appear during sieges
+**AllowSieges**  
+Banners will appear during sieges.
 * `true` or `false`
 
-**SiegeAttackersUseBanners**
+**SiegeAttackersUseBanners**  
 Attackers in a siege use banners.
 * `true` or `false`
 
-**SiegeDefendersUseBanners**
+**SiegeDefendersUseBanners**  
 Defenders in a siege use banners.
 * `true` or `false`
 
-#### Hideout Attacks
+### Hideout Attacks
 
-**AllowHideouts**
+**AllowHideouts**  
 Banners will appear during hideout attacks.
 * `true` or `false`
 
-**HideoutAttackersUseBanners**
+**HideoutAttackersUseBanners**  
 Attackers in a hideout mission use banners.
 * `true` or `false`
 
-**HideoutBanditsUseBanners**
+**HideoutBanditsUseBanners**  
 Bandits in a hideout mission use banners. **NOTE:** you also have to allow bandits in the filters below.
 * `true` or `false`
 
-#### Tournaments
+### Tournaments
 
-**TournamentBanners**
+**TournamentBanners**  
 Allow banners during tournaments. Gives only one banner per team and only to cavalry.
 * `true` or `false`
 
-**TournamentThemes**
+**TournamentThemes**  
 Use banner themes. Each culture has different patterns for team banners, selects a random theme for every team.
 * `true` or `false`
 
-**TournamentBannersInShields**
+**TournamentBannersInShields**  
 Each team's banner theme is also applied to the shields. If disabled, shields always use plain colors.
 * `true` or `false`
 
-#### Towns and villages
+### Towns and villages
 
-**TownCastleVisitBanner**
+**TownCastleVisitBanner**  
 When visiting a town or a castle, the companion that follows you carries a banner.
 * `true` or `false`
 
-**VillageVisitBanner**
+**VillageVisitBanner**  
 When visiting a village, the companion that follows you carries a banner.
 * `true` or `false`
 
-### Banner Ratios and Filters
+## Banner Ratios and Filters
 
-#### Ratios
+### Ratios
 
-**BearerToTroopRatio**
+**BearerToTroopRatio**  
 Give a banner to every 1 in X units in a group. Smaller values mean more banners.
 * `true` or `false`
 
-**UnitCountMode**
+**UnitCountMode**  
 How the units will be grouped to give them banners.
 * `true` or `false`
 
-#### Filter by Occupation
+### Filter by Occupation
 
-**AllowSoldiers**
+**AllowSoldiers**  
 Allow soldiers to bear banners. Most units are of this type.
 * `true` or `false`
 
-**AllowCaravanGuards**
+**AllowCaravanGuards**  
 Allow caravan guards to bear banners. "Caravan masters only" gives a banner only to the master of a caravan, caravan guards in the service of a lord also get banners.
 * `true` or `false`
 
-**AllowMercenaries**
+**AllowMercenaries**  
 Allow mercenaries to bear banners (i.e.Watchmen, Hired Blades, etc.).
 * `true` or `false`
 
-**AllowBandits**
+**AllowBandits**  
 Allow bandits to bear banners (i.e.Looters, Bandits, Raiders, etc.). "Recruited bandits only" gives banners to bandits that are in the service of a lord.
 * `true` or `false`
 
-#### Filter by General Type
+### Filter by General Type
 
-**AllowInfantry**
+**AllowInfantry**  
 Allow infantry type units to bear banners.
 * `true` or `false`
 
-**AllowRanged**
+**AllowRanged**  
 Allow archers and crossbowmen to bear banners. **NOTE:** bearers will lose their bow or crossbow, but still use their melee weapons. If ordered to "Charge" they will rush the enemy, order them to "Advance" and they will stay in formation.
 * `true` or `false`
 
-**AllowMounted**
-Allow cavalry type units
-to bear banners.
+**AllowMounted**  
+Allow cavalry type units to bear banners.
 * `true` or `false`
-**AllowMountedRanged**
+
+**AllowMountedRanged**  
 Allow horse archer type units to bear banners. **NOTE:** same as with the archers.
 * `true` or `false`
 
 
-#### Filter by Tier
+### Filter by Tier
 
-**FilterTiers**
+**FilterTiers**  
 Use tier filters. If disabled, all tiers get banners.
 * `true` or `false`
 
-**AllowedTiers**
+**AllowedTiers**  
 The tiers that will get banners, separated by commas. Some troop tree mods include tiers higher than 6, just add them to the list to enable them(e.g. 8,9,10,11).
 * `true` or `false`
 
-#### Give banners to Formations
+### Give banners to Formations
 
-**AllowFormationInfantry**
+**AllowFormationInfantry**  
 Give banners among units assigned to formation I Infantry
 * `true` or `false`
 
-**AllowFormationRanged**
+**AllowFormationRanged**  
 Give banners among units assigned to formation II Ranged
 * `true` or `false`
 
-**AllowFormationCavalry**
+**AllowFormationCavalry**  
 Give banners among units assigned to formation III Cavalry
 * `true` or `false`
 
-**AllowFormationHorseArcher**
+**AllowFormationHorseArcher**  
 Give banners among units assigned to formation IV Horse Archer
 * `true` or `false`
 
-**AllowFormationSkirmisher**
+**AllowFormationSkirmisher**  
 Give banners among units assigned to formation V Skirmisher
 * `true` or `false`
 
-**AllowFormationHeavyInfantry**
+**AllowFormationHeavyInfantry**  
 Give banners among units assigned to formation VI Heavy Infantry
 * `true` or `false`
 
-**AllowFormationLightCavalry**
+**AllowFormationLightCavalry**  
 Give banners among units assigned to formation VII Light Cavalry
 * `true` or `false`
 
-**AllowFormationHeavyCavalry**
+**AllowFormationHeavyCavalry**  
 Give banners among units assigned to formation VIII Heavy Cavalry
 * `true` or `false`
 
-#### Give to Heroes
+### Give to Heroes
 
-**AllowPlayer**
+**AllowPlayer**  
 Give a banner to the player. **NOTE:** you won't be able to equip your shield with the scroll wheel. Use the numpad to change to a shield or hold G to drop the banner.
 * `true` or `false`
 
-**AllowCompanions**
+**AllowCompanions**  
 Give a banner to every companion.
 * `true` or `false`
 
-**AllowNobles**
+**AllowNobles**  
 Give a banner to every noble. Might confuse nobles with ranged weapons.
 * `true` or `false`
 
-### Banner Dropping
+## Banner Dropping
 
-**DropOnLowHealth**
+**DropOnLowHealth**  
 Units will drop their banner when their health is below the threshold. If they have a shield they will equip it.
 * `true` or `false`
 
-**DropHealthThreshold**
+**DropHealthThreshold**  
 Units will drop their banner when their health is below the threshold.
 * `true` or `false`
 
-**DropRetreatModeSetting**
+**DropRetreatModeSetting**  
 Units have a chance of dropping their banner when retreating. If "Weighted by experience", more experienced units have less chance of dropping the banner.
 * `true` or `false`
 
-**DropRetreatChance**
+**DropRetreatChance**  
 Base chance of units dropping their banner when retreating.
 * `true` or `false`
 
-## Formation Banners Settings
+# Formation Banners Settings
 
-**EnableFormationBanners**
+**EnableFormationBanners**  
 Enable the use of custom banner designs for troop formations. Only applies to player's party. Codes are defined in the ModuleData folder of this mod.
 * `true` or `false`
-**CompanionsUseFormationBanners**
+**CompanionsUseFormationBanners**  
 
 Companions use the banner of the formation they're assigned to. If disabled they use the clan banner.
 * `true` or `false`
-**FormationBannersUseInShields**
+**FormationBannersUseInShields**  
 
 The design also applies to the shields of all the troops in each formation (all of them, not only the banner bearers).
 * `true` or `false`
 
-## Miscellaneous
+# Miscellaneous
 
-**ShowMessages**
+**ShowMessages**  
 Show messages in the lower left corner. For example, how many banners are given to each party in a battle.
 * `true` or `false`
 
-**WhiteMessages**
+**WhiteMessages**  
 Messages are always displayed in white. Useful if some party colors are hard to read.
 * `true` or `false`
 
-**ReloadFiles**
+**ReloadFiles**  
 Reloads config file containing formation banner codes every battle, useful to quickly test designs. Disable after you're happy with the results.
 * `true` or `false`
 
-**KonamiCode**
+**KonamiCode**  
 Leftover code from an old game.
 * `true` or `false`
