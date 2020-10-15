@@ -1,12 +1,12 @@
 ﻿#if MCMCONFIG
-using MBOptionScreen.Attributes;
-using MBOptionScreen.Attributes.v2;
-using MBOptionScreen.Data;
-using MBOptionScreen.Settings;
+using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Data;
+using MCM.Abstractions.Settings.Base.Global;
 
 namespace BearMyBanner.Settings
 {
-    public class MCMSettings : AttributeSettings<MCMSettings>, IBMBSettings, IBMBFormationBanners
+    public class MCMSettings : AttributeGlobalSettings<MCMSettings>, IBMBSettings, IBMBFormationBanners
     {
         private const string g0 = "A. Main Settings";
         private const string g00 = g0 + "/I. Battle Types";
@@ -31,9 +31,9 @@ namespace BearMyBanner.Settings
             this.SetDefaultFormationSettings();
         }
 
-        public override string Id { get; set; } = "BearMyBanner_v0_7_0";
-        public override string ModuleFolderName => Main.ModuleFolderName;
-        public override string ModName => Main.ModName;
+        public override string Id => "BearMyBanner_v0_7_0";
+        public override string FolderName => Main.ModuleFolderName;
+        public override string DisplayName => Main.ModName;
 
         //==== Main Settings ========================================================================================
 
