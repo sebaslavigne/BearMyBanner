@@ -43,7 +43,7 @@ namespace BearMyBanner
             }
         }
 
-        protected override void OnHit(Agent affectorAgent, int damage, int weaponKind, float perkEffectOnMorale)
+        protected override void OnHit(Agent affectorAgent, int damage, in MissionWeapon affectorWeapon, float perkEffectOnMorale)
         {
             try
             {
@@ -77,7 +77,10 @@ namespace BearMyBanner
         {
             if (Agent.DropBanner())
             {
-                if (Agent.HasWeaponOfType(ItemObject.ItemTypeEnum.Shield)) Agent.WieldNextWeapon(Agent.HandIndex.OffHand);
+                if (Agent.HasWeaponOfClass(WeaponClass.SmallShield) || Agent.HasWeaponOfClass(WeaponClass.LargeShield))
+                {
+                    Agent.WieldNextWeapon(Agent.HandIndex.OffHand);
+                }
             }
         }
 

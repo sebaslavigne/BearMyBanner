@@ -46,7 +46,7 @@ namespace BearMyBanner
         public static bool DropBanner(this Agent agent)
         {
             MissionWeapon extraSlot = agent.Equipment[EquipmentIndex.ExtraWeaponSlot];
-            if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.Item.Type == ItemObject.ItemTypeEnum.Banner)
+            if (!extraSlot.IsEmpty && extraSlot.CurrentUsageItem.WeaponClass == WeaponClass.Banner)
             {
                 agent.DropItem(EquipmentIndex.ExtraWeaponSlot);
                 return true;
@@ -54,11 +54,11 @@ namespace BearMyBanner
             return false;
         }
 
-        public static void RemoveFromEquipment(this Agent agent, HashSet<ItemObject.ItemTypeEnum> forbiddenWeapons)
+        public static void RemoveFromEquipment(this Agent agent, HashSet<WeaponClass> forbiddenWeapons)
         {
             for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
-                if (!agent.Equipment[i].IsEmpty && forbiddenWeapons.Contains(agent.Equipment[i].PrimaryItem.Type))
+                if (!agent.Equipment[i].IsEmpty && forbiddenWeapons.Contains(agent.Equipment[i].Item.PrimaryWeapon.WeaponClass))
                 {
                     agent.RemoveEquippedWeapon((EquipmentIndex)i);
                 }
@@ -77,7 +77,7 @@ namespace BearMyBanner
 
         public static void EquipBanner(this Agent agent, Banner banner)
         {
-            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), banner);
+            MissionWeapon bannerWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), null, banner);
             agent.EquipWeaponToExtraSlotAndWield(ref bannerWeapon);
         }
 
@@ -85,22 +85,22 @@ namespace BearMyBanner
         {
             for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
-                MissionWeapon paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), banner);
-                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == ItemObject.ItemTypeEnum.Shield)
+                MissionWeapon paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(CampaignBannerID), null, banner);
+                if (!agent.Equipment[i].IsEmpty && (agent.Equipment[i].Item.PrimaryWeapon.WeaponClass == WeaponClass.SmallShield || agent.Equipment[i].Item.PrimaryWeapon.WeaponClass == WeaponClass.LargeShield))
                 {
-                    string shieldId = agent.Equipment[i].PrimaryItem.StringId;
+                    string shieldId = agent.Equipment[i].Item.StringId;
                     agent.RemoveEquippedWeapon((EquipmentIndex)i);
-                    paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), banner);
+                    paintedShield = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(shieldId), null, banner);
                     agent.EquipWeaponWithNewEntity((EquipmentIndex)i, ref paintedShield);
                 }
             }
         }
 
-        public static bool HasWeaponOfType(this Agent agent, ItemObject.ItemTypeEnum itemType)
+        public static bool HasWeaponOfClass(this Agent agent, WeaponClass weaponClass)
         {
             for (int i = 0; i < (int)EquipmentIndex.NumAllWeaponSlots; i++)
             {
-                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].PrimaryItem.Type == itemType)
+                if (!agent.Equipment[i].IsEmpty && agent.Equipment[i].Item.PrimaryWeapon.WeaponClass == weaponClass)
                 {
                     return true;
                 }
@@ -118,7 +118,7 @@ namespace BearMyBanner
                 }
             }
 
-            MissionWeapon rockWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(ThrowingStonesID), null);
+            MissionWeapon rockWeapon = new MissionWeapon(MBObjectManager.Instance.GetObject<ItemObject>(ThrowingStonesID), null, null);
             agent.EquipWeaponWithNewEntity(EquipmentIndex.Weapon0, ref rockWeapon);
             agent.WieldNextWeapon(Agent.HandIndex.MainHand);
         }

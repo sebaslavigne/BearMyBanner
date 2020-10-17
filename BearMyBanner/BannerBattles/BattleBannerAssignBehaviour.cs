@@ -14,7 +14,7 @@ namespace BearMyBanner
     {
         private readonly BattleBannerController _controller;
         private readonly DropBannerController _dropBannerController;
-        private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
+        private readonly HashSet<WeaponClass> _forbiddenWeapons;
         private readonly Dictionary<FormationGroup, Banner> _formationBanners;
 
         private readonly IBMBSettings _settings;
@@ -32,12 +32,12 @@ namespace BearMyBanner
             _formationBannerSettings = formationBannerSettings;
 
             // For battles, we don't want ranged units dropping banners because they had a bow
-            _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
+            _forbiddenWeapons = new HashSet<WeaponClass>()
             {
-                ItemObject.ItemTypeEnum.Arrows,
-                ItemObject.ItemTypeEnum.Bolts,
-                ItemObject.ItemTypeEnum.Bow,
-                ItemObject.ItemTypeEnum.Crossbow
+                WeaponClass.Arrow,
+                WeaponClass.Bolt,
+                WeaponClass.Bow,
+                WeaponClass.Crossbow
             };
 
             _formationBanners = new Dictionary<FormationGroup, Banner>()
