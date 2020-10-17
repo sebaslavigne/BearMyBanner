@@ -16,7 +16,7 @@ namespace BearMyBanner
     {
         private readonly BattleBannerController _controller;
         private readonly DropBannerController _dropBannerController;
-        private readonly HashSet<ItemObject.ItemTypeEnum> _forbiddenWeapons;
+        private readonly HashSet<WeaponClass> _forbiddenWeapons;
 
         private readonly IBMBSettings _settings;
 
@@ -29,12 +29,12 @@ namespace BearMyBanner
             _dropBannerController = new DropBannerController(settings);
             _settings = settings;
 
-            _forbiddenWeapons = new HashSet<ItemObject.ItemTypeEnum>()
+            _forbiddenWeapons = new HashSet<WeaponClass>()
             {
-                ItemObject.ItemTypeEnum.Arrows,
-                ItemObject.ItemTypeEnum.Bolts,
-                ItemObject.ItemTypeEnum.Bow,
-                ItemObject.ItemTypeEnum.Crossbow
+                WeaponClass.Arrow,
+                WeaponClass.Bolt,
+                WeaponClass.Bow,
+                WeaponClass.Crossbow
             };
         }
 

@@ -2,7 +2,7 @@
 <Module>
 	<Name value="Bear my Banner"/>
 	<Id value="BearMyBanner"/>
-	<Version value="v0.7.2"/>
+	<Version value="v0.7.3"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
 	<Official value ="false"/>
@@ -12,7 +12,19 @@
 		<DependedModule Id="Sandbox"/>
 		<DependedModule Id="CustomBattle"/>
 		<DependedModule Id="StoryMode" />
+		<DependedModule Id="Bannerlord.MBOptionScreen.MCMv3" />
 	</DependedModules>
+	<!-- Prototype -->
+	<DependedModuleMetadatas>
+		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="e1.5.3.*" />
+		<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="e1.5.3.*" />
+		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="e1.5.3.*" />
+		<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="e1.5.3.*" optional="true" />
+		<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="e1.5.3.*" optional="true" />
+
+		<DependedModuleMetadata id="Bannerlord.MBOptionScreen.MCMv3" order="LoadBeforeThis" version="v4.0.7" />
+	</DependedModuleMetadatas>
+	<!-- Prototype -->
 	<SubModules>
 		<SubModule>
 			<Name value="BearMyBanner"/>
